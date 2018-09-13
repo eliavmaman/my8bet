@@ -1,0 +1,13 @@
+.idea
+node_modules
+.awspublish-*
+.sass-cache/
+docs
+*.map
+bower_components
+/.project
+mockSetupData.json
+/dist/
+/coverage/
+npm-debug.log
+.DS_Store
