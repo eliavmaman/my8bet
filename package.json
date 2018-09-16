@@ -35,8 +35,8 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "kambi-widget-components": "^1.19.0",
-    "kambi-widget-core-library": "^4.4.0",
+    "kambi-widget-components": "^1.21.8",
+    "kambi-widget-core-library": "^4.8.0",
     "lodash": "^4.17.10",
     "react-autosuggest": "^9.3.4",
     "react-bootstrap-typeahead": "^3.1.3",

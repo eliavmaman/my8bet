@@ -96,7 +96,7 @@ const getTeamsByNameTerm = (teamName) => {
     return kambi.getTeamsByName(teamName).then((response) => {
         var res = response.data.resultTerms;
         res.forEach((r) => {
-            if (r.id.indexOf('football') > -1 && r.type == 'PARTICIPANT') {
+            if ( r.type == 'PARTICIPANT') {//r.id.indexOf('football') > -1 &&
                 r.name = r.englishName;
                 r.fav_id = r.id + '_' + r.englishName;
                 leagues.push(r);
@@ -231,7 +231,7 @@ class Search extends Component {
         return kambi.getTeamsByName(teamName).then((response) => {
             var res = response.data.resultTerms;
             res.forEach((r) => {
-                if (r.id.indexOf('football') > -1 && r.type == 'PARTICIPANT') {
+                if (r.type == 'PARTICIPANT') {//r.id.indexOf('football') > -1 &&
                     r.name = r.englishName;
                     r.fav_id = r.id + '_' + r.englishName;
                     tempLeagues.push(r);
