@@ -73,32 +73,34 @@ class MatchOverviewWidget extends Component {
 
 
     }
-    componentWillReceiveProps(nextProps){
-        if(nextProps.events!==this.props.events){
-            this.props.userTeams.then((res) => {
 
-                let userEvents = [];
-                var userTeams = res;
+    componentWillReceiveProps(nextProps) {
+        //if(nextProps.events!==this.props.events){
+        this.props.userTeams.then((res) => {
+
+            let userEvents = [];
+            var userTeams = res;
 
 
-                this.props.events.forEach((e) => {
-                    let foundedUt = _.find(userTeams, (ut) => {
-                        return e.event.homeName == ut.englishName || e.event.awayName == ut.englishName
-                    });
-                    if (foundedUt) {
-                        userEvents.push(e)
-                    }
+            this.props.events.forEach((e) => {
+                let foundedUt = _.find(userTeams, (ut) => {
+                    return e.event.homeName == ut.englishName || e.event.awayName == ut.englishName
                 });
-
-                this.setState({userEvents: userEvents});// .state.userEvents = userEvents;
-                this.state.userEvents.forEach((e) => {
-                    this.items.push(e.event.englishName);
-                })
-
+                if (foundedUt) {
+                    userEvents.push(e)
+                }
             });
 
-        }
+            this.setState({userEvents: userEvents});// .state.userEvents = userEvents;
+            this.state.userEvents.forEach((e) => {
+                this.items.push(e.event.englishName);
+            })
+
+        });
+
+        //}
     }
+
     onEventsBinded = function () {
 
 
@@ -127,22 +129,42 @@ class MatchOverviewWidget extends Component {
     render() {
         return (
             <div className={styles.widget}>
+
+                <header className={styles.header + ' animated bounceInUp '}>
+                    <span>My Favorite</span>
+                </header>
+
                 {/*<BlendedBackground/>*/}
                 <Search onFollowHandler={this.props.onFollowHandler}/>
                 {/*<TournamentLogo logoName={this.props.tournamentLogo}/>*/}
                 {this.state.userEvents
                     .filter(event => event.betOffers.length > 0)
                     .map(event => {
-                        return (
+                        return <div className="flex-container">
+                            <div className="row">
+                                <div className="flex-item">1</div>
 
-                            <Event
-                                key={event.event.id}
-                                event={event.event}
-                                liveData={event.liveData}
-                                outcomes={event.betOffers[0].outcomes}
-                            />
+                            </div>
+                        </div>
+                        // if (this.state.userEvents.length > 0) {
+                        //     return (  <Event
+                        //             key={event.event.id}
+                        //             event={event.event}
+                        //             liveData={event.liveData}
+                        //             outcomes={event.betOffers[0].outcomes}
+                        //         />
+                        //     )
+                        // } else {
+                        //     return
+                        //     <div class="flex-container">
+                        //         <div class="row">
+                        //             <div class="flex-item">1</div>
+                        //
+                        //         </div>
+                        //     </div>
+                        // }
 
-                        )
+
                     })}
                 {/*<ScrolledList*/}
                 {/*renderPrevButton={props => <ArrowButton type="left" {...props} />}*/}

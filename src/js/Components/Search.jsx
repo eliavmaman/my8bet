@@ -1,17 +1,18 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import styles from './TournamentLogo.scss'
 import Autosuggest from 'react-autosuggest'
 import swal from 'sweetalert2'
 import kambi from '../Services/kambi'
 import _ from 'lodash';
+import styles from './Search.scss'
 
 const theme = {
     container: {
-        position: 'relative'
+        display: 'flex'
     },
     input: {
         // width: {value: '100%', important: true},
+        flex: 1,
         height: {value: 30, important: true},
         padding: '10px 20px',
         fontFamily: 'Helvetica, sans-serif',
@@ -22,10 +23,10 @@ const theme = {
         // borderTopRightRadius: 4,
         // borderBottomLeftRadius: 4,
         // borderBottomRightRadius: 4,
-        display: 'flex',
+
         margin: '0 16px',
-        width: '316px',
-        borderRadius:'1px'
+        //width: '316px',
+        borderRadius: '1px'
     },
     inputFocused: {
         outline: 'none'
@@ -40,8 +41,8 @@ const theme = {
     suggestionsContainerOpen: {
         display: 'block',
         position: 'absolute',
-        top: 51,
-        width: 280,
+        marginTop: '39px',
+        // width: 280,
         border: '1px solid #aaa',
         backgroundColor: '#fff',
         fontFamily: 'Helvetica, sans-serif',
@@ -96,7 +97,7 @@ const getTeamsByNameTerm = (teamName) => {
     return kambi.getTeamsByName(teamName).then((response) => {
         var res = response.data.resultTerms;
         res.forEach((r) => {
-            if ( r.type == 'PARTICIPANT') {//r.id.indexOf('football') > -1 &&
+            if (r.type == 'PARTICIPANT') {//r.id.indexOf('football') > -1 &&
                 r.name = r.englishName;
                 r.fav_id = r.id + '_' + r.englishName;
                 leagues.push(r);
@@ -158,7 +159,8 @@ class Search extends Component {
 
     renderSuggestion = suggestion => (
         <div>
-            <span>{suggestion.englishName}</span>
+            <span className={styles.filter_name}>{suggestion.englishName}</span><span
+            className={styles.category}>{this.getCategoryName(suggestion)}</span>
             {!this.isUserTeam(suggestion.englishName) ?
                 <i className="fas fa-thumbs-up"
                    onClick={() => this.followClicked(suggestion)}></i> : null}
@@ -169,6 +171,17 @@ class Search extends Component {
                    onClick={() => this.unFollowClicked(suggestion)}></i> : null}
         </div>
     );
+
+    getCategoryName(suggestion) {
+        var arr = suggestion.id.split('/');
+        if (arr[1] && arr[1].indexOf('___') > -1) {
+            arr[1] = arr[1].replace('___', ' & ');
+        } else if (arr[1] && arr[1].indexOf('_') > -1) {
+            arr[1] = arr[1].replace('_', ' ');
+        }
+        return arr[1];
+
+    }
 
     isUserTeam(team) {
         var exist = _.find(this.state.userTeams, (ut) => {
@@ -269,7 +282,7 @@ class Search extends Component {
 
         // Finally, render it!
         return (
-            <div>
+
                 <Autosuggest
                     suggestions={suggestions}
                     onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
@@ -280,7 +293,7 @@ class Search extends Component {
                     inputProps={inputProps}
                     theme={theme}
                 />
-            </div>
+
         );
     }
 }

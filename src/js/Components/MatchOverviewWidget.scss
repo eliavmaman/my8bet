@@ -1,5 +1,27 @@
 .widget {
-   color: white;
-   position: relative;
-   padding: 12px 0;
+  color: white;
+  //display: flex;
+  padding: 12px 0;
 }
+
+.header {
+  font-size: 18px;
+  background: none;
+  color: #fff;
+  line-height: 36px;
+  min-height: 36px;
+  overflow: hidden;
+  border-bottom: 1px solid #fa6200;
+  padding: 10px 16px;
+  display: -webkit-flex;
+  display: flex;
+  /* -webkit-justify-content: space-between; */
+  /* justify-content: space-between; */
+  -webkit-align-items: center;
+  align-items: center;
+  background: #fa6200;
+  margin: 10px 17px;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+}
+

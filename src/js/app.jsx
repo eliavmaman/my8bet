@@ -21,7 +21,7 @@ coreLibrary
     widgetTrackingName: 'gm-match-overview-widget',
     compareAgainstHighlights: false,
     filter: supportedFilters,
-    combineFilters: false,
+    combineFilters: true,
     pollingInterval: 5000,
     pollingCount: 10,
     eventsRefreshInterval: 5000,

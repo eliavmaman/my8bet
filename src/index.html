@@ -21,18 +21,23 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
           integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
     <style>
+        body{
+            background: #ECECEC;
+        }
         .fas.fa-thumbs-down, .fas.fa-thumbs-up {
             float: right !important;
-            margin-top: 5px !important;
+             margin-top: 5px !important;
             color: orange !important;
             font-size: 20px !important;
+            margin-left: 20px;
         }
 
         #react-autowhatever-1 {
-            display: block;
+            display: flex;
             position: absolute;
-            top: 45px !important;
-            width: 316px !important;
+            margin-top: 63px;
+            /*top: 45px !important;*/
+            /*width: 316px !important;*/
             border: 1px solid rgb(170, 170, 170);
             background-color: rgb(255, 255, 255);
             font-family: Helvetica, sans-serif;
@@ -44,9 +49,18 @@
             left: 16px;
 
         }
+
+        .KambiWidget-outcome, .KambiWidget-primary-background-color {
+            background: #dd5516 !important;
+        }
+
+
     </style>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+    <!--<link rel="stylesheet" href="./styles.css">-->
 </head>
 <body>
-<div id="root"></div>
+<div id="root" class="flex-container"></div>
 </body>
 </html>
