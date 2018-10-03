@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import Autosuggest from 'react-autosuggest'
-import swal from 'sweetalert2'
+//import swal from 'sweetalert2'
 import kambi from '../Services/kambi'
 import _ from 'lodash';
 import styles from './Search.scss'
@@ -197,10 +197,10 @@ class Search extends Component {
         });
         if (team) {
             kambi.unFollowTeam(team._id).then(() => {
-                swal(suggestion.englishName + ' Was removed from your favorite list.');
-                if (typeof this.props.onFollowHandler === 'function') {
-                    this.props.onFollowHandler(suggestion);
-                }
+                // swal(suggestion.englishName + ' Was removed from your favorite list.');
+                // if (typeof this.props.onFollowHandler === 'function') {
+                //     this.props.onFollowHandler(suggestion);
+                // }
                 this.init();
             })
         }
@@ -211,10 +211,10 @@ class Search extends Component {
     followClicked = (suggestion) => {
 
         kambi.followTeam(suggestion.fav_id, 123, suggestion.englishName).then(() => {
-            swal(suggestion.englishName + ' Was added to your favorite list.');
-            if (typeof this.props.onFollowHandler === 'function') {
-                this.props.onFollowHandler(suggestion);
-            }
+            // swal(suggestion.englishName + ' Was added to your favorite list.');
+            // if (typeof this.props.onFollowHandler === 'function') {
+            //     this.props.onFollowHandler(suggestion);
+            // }
             this.init();
         })
         console.log('follow ' + suggestion);
