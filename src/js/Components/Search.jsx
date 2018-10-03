@@ -162,12 +162,12 @@ class Search extends Component {
             <span className={styles.filter_name}>{suggestion.englishName}</span><span
             className={styles.category}>{this.getCategoryName(suggestion)}</span>
             {!this.isUserTeam(suggestion.englishName) ?
-                <i className="fas fa-thumbs-up"
+                <i className="fas fa-thumbs-up" title="Follow"
                    onClick={() => this.followClicked(suggestion)}></i> : null}
 
 
             {this.isUserTeam(suggestion.englishName) ?
-                <i className="fas fa-thumbs-down"
+                <i className="fas fa-thumbs-down" title="Unfollow"
                    onClick={() => this.unFollowClicked(suggestion)}></i> : null}
         </div>
     );

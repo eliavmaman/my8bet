@@ -136,14 +136,14 @@ const getTeamsByName = function (name) {
 }
 
 const getUserTeams = function (cid) {
-    return axios.get('http://localhost:3000/api/userteams/' + cid);
+    return axios.get('http://localhost:3000/api/favorites/' + cid);
 }
 
 const followTeam = function (teamId, cid, englishName) {
-    return axios.post('http://localhost:3000/api/userteams/' + cid, {team: teamId, englishName: englishName})
+    return axios.post('http://localhost:3000/api/favorites', {cid:cid,team: teamId, englishName: englishName})
 }
 const unFollowTeam = function (teamId,) {
-    return axios.delete('http://localhost:3000/api/userteams/' + teamId);
+    return axios.delete('http://localhost:3000/api/favorites/' + teamId);
 }
 
 export default {getHighlightedFilters, getEvents, getTeamsByName, followTeam, getUserTeams, unFollowTeam}
