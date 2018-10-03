@@ -46,19 +46,36 @@
             border-bottom-left-radius: 4px;
             border-bottom-right-radius: 4px;
             z-index: 2;
-            left: 16px;
+            left: 29px;
+            max-height: 200px;
+            overflow: auto;
 
         }
 
         .KambiWidget-outcome, .KambiWidget-primary-background-color {
             background: #dd5516 !important;
         }
+        .gps_ring {
+            border: 3px solid #fa6200;
+            border-radius: 5px;
+            display: block;
+            color: white;
+            box-shadow: 0 0 17px black;
+        }
+
+        .gps_ring.in{
+            animation: pulsate 2s ease-out infinite;
+        }
+        @-webkit-keyframes pulsate {
+            0%   { box-shadow: 0 0 0 black; }
+            50%  { box-shadow: 0 0 17px black; }
+            100% { box-shadow: 0 0 0 black; }
+        }
 
 
     </style>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
-    <!--<link rel="stylesheet" href="./styles.css">-->
+    <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
 <div id="root" class="flex-container"></div>

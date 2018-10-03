@@ -28,8 +28,16 @@ class MatchOverviewWidget extends Component {
         this.items = [];
         this.state = {
             selected: 0,
-            userEvents: []
+            userEvents: [],
+            userTeams: [],
+            isUserTeamsArrived: false,
+            isPulse: true
+
         };
+
+        setTimeout(() => {
+            this.state.isPulse=false;
+        }, 5000);
 
 
     }
@@ -79,6 +87,9 @@ class MatchOverviewWidget extends Component {
         this.props.userTeams.then((res) => {
 
             let userEvents = [];
+
+            this.state.userTeams = res;
+            this.state.isUserTeamsArrived = true;
             var userTeams = res;
 
 
@@ -101,34 +112,20 @@ class MatchOverviewWidget extends Component {
         //}
     }
 
-    onEventsBinded = function () {
-
-
-    }
-
-    matchConainesUserTeam = function (event) {
-
-        var isContain = false;
-        // return this.props.userTeams.then((res) => {
-        //     res.forEach((ut) => {
-        //         if (event.homeName == ut.englishName || event.awayName == ut.englishName) {
-        //             isContain = true;
-        //         }
-        //     });
-        //
-        //     return isContain;
-        // });
-
-    }
-
-
     /**
      * Renders component.
      * @returns {XML}
      */
     render() {
         let flex = {'display': 'flex'};
-        var notFoundStyle = {"textAlign":"center","alignSelf":"center","display":"flex","flexDirection":"column","alignItems":"center","marginTop":"100px"};
+        var notFoundStyle = {
+            "textAlign": "center",
+            "alignSelf": "center",
+            "display": "flex",
+            "flexDirection": "column",
+            "alignItems": "center",
+            "marginTop": "100px"
+        };
         let notFoundTitle = {
             "fontSize": "22px",
             "fontWeight": "100",
@@ -136,8 +133,20 @@ class MatchOverviewWidget extends Component {
             "color": "#47494E",
             "marginBottom": "8px"
         };
+
+        let smallTextarrow =
+            {"margin": "0px  10px", "color": "#408fec"};
+
+        let smallText = {
+            "WebkitMarginAfter": "0px",
+            "WebkitMarginBefore": "0px",
+            "fontSize": "15px",
+            "color": "#7F828B",
+            "lineHeight": "21px",
+            "marginBottom": "4px"
+        };
         return (
-            <div className={[styles.widget, styles.gps_ring].join(' ')}>
+            <div className={styles.widget+' gps_ring' + ( this.state.isPulse ? ' in' : '')}>
 
                 {/*<header className={styles.header + ' animated bounceInUp '}>*/}
                 {/*<span>My Favorite</span>*/}
@@ -147,8 +156,9 @@ class MatchOverviewWidget extends Component {
                 {/*<BlendedBackground/>*/}
                 <Search onFollowHandler={this.props.onFollowHandler}/>
                 {/*<TournamentLogo logoName={this.props.tournamentLogo}/>*/}
+
                 {this.state.userEvents
-                    .filter(event => event.betOffers.length > 0)
+                    .filter(event => (event.betOffers && event.betOffers.length > 0))
                     .map(event => {
                         // return <div className="flex-container">
                         //     <div className="row">
@@ -156,7 +166,7 @@ class MatchOverviewWidget extends Component {
                         //
                         //     </div>
                         // </div>
-                        if (this.state.userEvents.length > 2) {
+                        if (this.state.userEvents.length > 0) {
                             return (  <Event
                                     key={event.event.id}
                                     event={event.event}
@@ -164,20 +174,39 @@ class MatchOverviewWidget extends Component {
                                     outcomes={event.betOffers[0].outcomes}
                                 />
                             )
-                        } else {
-                            return (
-                                <div style={notFoundStyle}>
-                                    <svg width="49" height="51" xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M3.9468 10.0288L20.5548.995c2.4433-1.3267 5.45-1.3267 7.8936 0l16.6078 9.0338C47.4966 11.3585 49 13.8102 49 16.4666V34.534c0 2.6537-1.5034 5.1082-3.9438 6.438l-16.6078 9.0307c-2.4435 1.3297-5.4503 1.3297-7.8937 0L3.9467 40.972C1.5035 39.642 0 37.1876 0 34.534V16.4667c0-2.6564 1.5034-5.108 3.9468-6.4378z"
-                                            class="app-icon" fill-rule="evenodd"></path>
-                                    </svg>
-                                    <div style={notFoundTitle}>Favorite events not found </div>
-                                </div>)
                         }
-
-
                     })}
+                {(this.state.userEvents.length == 0 && this.state.userTeams.length > 0) &&
+                (
+                    <div style={notFoundStyle}>
+                        <svg width="49" height="51" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M3.9468 10.0288L20.5548.995c2.4433-1.3267 5.45-1.3267 7.8936 0l16.6078 9.0338C47.4966 11.3585 49 13.8102 49 16.4666V34.534c0 2.6537-1.5034 5.1082-3.9438 6.438l-16.6078 9.0307c-2.4435 1.3297-5.4503 1.3297-7.8937 0L3.9467 40.972C1.5035 39.642 0 37.1876 0 34.534V16.4667c0-2.6564 1.5034-5.108 3.9468-6.4378z"
+                                className="app-icon" fillRule="evenodd"></path>
+                        </svg>
+                        <div style={notFoundTitle}>Favorite events not found</div>
+                    </div>)
+
+                }
+                {(this.state.isUserTeamsArrived && this.state.userTeams.length == 0) &&
+                (
+                    <div style={notFoundStyle}>
+                        <svg width="49" height="51" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M3.9468 10.0288L20.5548.995c2.4433-1.3267 5.45-1.3267 7.8936 0l16.6078 9.0338C47.4966 11.3585 49 13.8102 49 16.4666V34.534c0 2.6537-1.5034 5.1082-3.9438 6.438l-16.6078 9.0307c-2.4435 1.3297-5.4503 1.3297-7.8937 0L3.9467 40.972C1.5035 39.642 0 37.1876 0 34.534V16.4667c0-2.6564 1.5034-5.108 3.9468-6.4378z"
+                                className="app-icon" fillRule="evenodd"></path>
+                        </svg>
+                        <div style={notFoundTitle}>Please select favorite teams first</div>
+                        <p style={smallText}>
+
+                            1.Search for favorite team or player
+                            <i className="fas fa-arrow-alt-circle-right" style={smallTextarrow}></i>
+                            2.Click on the follow icon
+                            <i className="fas fa-arrow-alt-circle-right" style={smallTextarrow}></i>
+                            3.Your favorite games will start shown
+                        </p>
+                    </div>)
+                }
                 {/*<ScrolledList*/}
                 {/*renderPrevButton={props => <ArrowButton type="left" {...props} />}*/}
                 {/*renderNextButton={props => <ArrowButton type="right" {...props} />}*/}
