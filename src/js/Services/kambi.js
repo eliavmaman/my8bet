@@ -124,6 +124,9 @@ const getEventsProgressively = function (filters) {
  * @param {boolean} combined Whether events should be fetched using single combined query or one filter at the time
  * @returns {Promise.<{events: object[], filter: string}>}
  */
+
+const localUrl='http://localhost:3000';
+const herokuUrl='https://my8bet-server.herokuapp.com'
 const getEvents = function (filters, combined = true) {
     const getEventsFunc = combined ? getEventsCombined : getEventsProgressively
 //const getLiveEvents
@@ -136,14 +139,14 @@ const getTeamsByName = function (name) {
 }
 
 const getUserTeams = function (cid) {
-    return axios.get('http://localhost:3000/api/favorites/' + cid);
+    return axios.get(herokuUrl+'/api/favorites/' + cid);
 }
 
 const followTeam = function (teamId, cid, englishName) {
-    return axios.post('http://localhost:3000/api/favorites', {cid:cid,team: teamId, englishName: englishName})
+    return axios.post(herokuUrl+'/api/favorites', {cid:cid,team: teamId, englishName: englishName})
 }
 const unFollowTeam = function (teamId,) {
-    return axios.delete('http://localhost:3000/api/favorites/' + teamId);
+    return axios.delete(herokuUrl+'/api/favorites/' + teamId);
 }
 
 export default {getHighlightedFilters, getEvents, getTeamsByName, followTeam, getUserTeams, unFollowTeam}

@@ -1,17 +1,14 @@
 .widget {
   color: white;
   display: flex;
-  padding: 12px 0;
-  margin: 10px;
+
   min-height: 400px;
   flex-flow: column;
 }
 
 .header {
   position: relative;
-
   background: none;
-
   line-height: 36px;
   min-height: 36px;
 
