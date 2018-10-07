@@ -16,9 +16,9 @@
     "apiBaseUrl": "https://api.aws.kambicdn.com/offering/api/{apiVersion}/",
     "apiStatisticsBaseUrl": "https://e1-api.kambi.com/statistics/api/",
     "apiBaseUrls": {
-      "v2": "https://e1-api.kambi.com/offering/api/v2/",
-      "v3": "https://e1-api.kambi.com/offering/api/v3/",
-      "v2018": "https://e1-api.kambi.com/offering/v2018/"
+      "v2": "https://api.aws.kambicdn.com/offering/api/v2/",
+      "v3": "https://api.aws.kambicdn.com/offering/api/v3/",
+      "v2018": "https://api.aws.kambicdn.com/offering/v2018/"
     },
     "device": "desktop",
     "auth": false,
