@@ -13,7 +13,7 @@
     "channelId": 1,
     "streamingAllowedForPlayer": true,
     "oddsFormat": "decimal",
-    "apiBaseUrl": "https://api.aws.kambicdn.com/offering/api/{apiVersion}/",
+    "apiBaseUrl": "https://cts-api.kambi.com/offering/api/v3/888/term/search.json",
     "apiStatisticsBaseUrl": "https://e1-api.kambi.com/statistics/api/",
     "apiBaseUrls": {
       "v2": "https://api.aws.kambicdn.com/offering/api/v2/",
