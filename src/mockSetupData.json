@@ -1,0 +1,30 @@
+{
+  "height": 0,
+  "arguments": {},
+  "pageInfo": {
+    "pageType": "home",
+    "pageParam": "",
+    "pageTrackingPath": "/home{layout_wide}"
+  },
+  "clientConfig": {
+    "market": "kambi",
+    "locale": "en_GB",
+    "currency": "EUR",
+    "channelId": 1,
+    "streamingAllowedForPlayer": true,
+    "oddsFormat": "decimal",
+    "apiBaseUrl": "https://api.aws.kambicdn.com/offering/api/{apiVersion}/",
+    "apiStatisticsBaseUrl": "https://e1-api.kambi.com/statistics/api/",
+    "apiBaseUrls": {
+      "v2": "https://e1-api.kambi.com/offering/api/v2/",
+      "v3": "https://e1-api.kambi.com/offering/api/v3/",
+      "v2018": "https://e1-api.kambi.com/offering/v2018/"
+    },
+    "device": "desktop",
+    "auth": false,
+    "routeRoot": "",
+    "offering": "kambi",
+    "customer": "kambi",
+    "test":"1"
+  }
+}
