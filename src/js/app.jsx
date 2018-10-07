@@ -27,6 +27,8 @@ coreLibrary
     eventsRefreshInterval: 5000,
   })
   .then(() => {
+      console.log('----------coreLibrary.args------');
+    console.log(coreLibrary.args);
     coreLibrary.widgetTrackingName = coreLibrary.args.widgetTrackingName
     eventsModule.liveEventPollingInterval = coreLibrary.args.pollingInterval
     return coreLibrary.args.compareAgainstHighlights // set this arg to false to test specific filters
