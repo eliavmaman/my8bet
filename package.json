@@ -31,7 +31,7 @@
     ]
   },
   "devServer": {
-    "https": false
+    "https": true
   },
   "useRealReact": {
     "development": true,
