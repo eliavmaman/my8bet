@@ -15,7 +15,7 @@
   border-bottom: 1px solid rgba(0, 0, 0, .05);
   padding: 0 16px;
   display: flex;
-  justify-content: space-between;
+  //justify-content: space-between;
   align-items: center;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -29,6 +29,26 @@
 .arrow-small-text{
   margin:0px  10px;
   color: #408fec;
+}
+
+//.spin {
+//  width:100px;
+//  height:100px;
+//  background:red;
+//}
+@-webkit-keyframes spin {
+  from {
+    transform:rotate(0deg);
+  }
+  to {
+    transform:rotate(1000deg);
+  }
+}
+.spin.animated {
+  -webkit-animation-name: spin;
+  -webkit-animation-duration: 1000ms;
+  -webkit-animation-iteration-count: 1;
+  -webkit-animation-timing-function: ease;
 }
 //.header {
 //  font-size: 18px;

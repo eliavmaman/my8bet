@@ -204,8 +204,6 @@ class Search extends Component {
                 this.init();
             })
         }
-
-
     };
 
     followClicked = (suggestion) => {

@@ -10,6 +10,9 @@ import TournamentLogo from './TournamentLogo'
 import mobile from '../Services/mobile'
 import Search from './Search'
 import {Typeahead} from 'react-bootstrap-typeahead'
+import _ from 'lodash';
+import kambi from '../Services/kambi';
+import Switch from 'react-bootstrap-switch';
 
 
 /**
@@ -36,7 +39,7 @@ class MatchOverviewWidget extends Component {
         };
 
         setTimeout(() => {
-            this.state.isPulse=false;
+            this.state.isPulse = false;
         }, 5000);
 
 
@@ -112,11 +115,55 @@ class MatchOverviewWidget extends Component {
         //}
     }
 
+    openNav() {
+        document.getElementById("mySidenav").style.width = "100%";
+    }
+
+    /* Set the width of the side navigation to 0 */
+    closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+    }
+
+    getUserTeams() {
+        var listItems = this.state.userTeams.map(function (ut) {
+            return (
+                <li>
+                    <span>{ut.englishName}</span>
+                    <i className="fas fa-thumbs-down" title="Unfollow"
+                       onClick={() => this.unFollowClicked(ut)}/>
+                </li>
+            );
+        });
+
+        return (<ul className="settings-myfav-container">{listItems}</ul>);
+    }
+
+    unFollowClicked = (suggestion) => {
+        var team = _.find(this.state.userTeams, (ut) => {
+            return ut.team == suggestion.fav_id;
+        });
+        if (team) {
+            kambi.unFollowTeam(team._id).then(() => {
+                // swal(suggestion.englishName + ' Was removed from your favorite list.');
+                // if (typeof this.props.onFollowHandler === 'function') {
+                //     this.props.onFollowHandler(suggestion);
+                // }
+                this.init();
+            })
+        }
+    };
+    handleSwitch(elem, state) {
+        console.log('handleSwitch. elem:', elem);
+        console.log('name:', elem.props.name);
+        console.log('new state:', state);
+    }
+
     /**
      * Renders component.
      * @returns {XML}
      */
     render() {
+
         let flex = {'display': 'flex'};
         var notFoundStyle = {
             "textAlign": "center",
@@ -145,68 +192,114 @@ class MatchOverviewWidget extends Component {
             "lineHeight": "21px",
             "marginBottom": "4px"
         };
-        return (
-            <div className={styles.widget+' gps_ring' + ( this.state.isPulse ? ' in' : '')}>
+        var star = {"fontSize": "20px", "color": "orange", "marginRight": "10px"};
 
+        return (
+
+            <div>
+                <div id="mySidenav" className="sidenav">
+                    <div className="padder">
+                        <a href="javascript:void(0)" className="closebtn" onClick={this.closeNav}>&times;</a>
+                        <div className="row">
+
+                            <div className="col-xs-6">
+                                <div className="title">My Favorites</div>
+
+                            </div>
+                            <div className="col-xs-6">
+                                <div className="title">General Settings</div>
+
+                            </div>
+
+                            <div className="col-xs-6">
+
+                                {this.getUserTeams()}
+                            </div>
+                            <div className="col-xs-6 p-t">
+
+                                <section className="settings">
+                                    <strong className="m-r">SMS Notifications</strong><small className="recommended">RECOMMENDED</small>
+                                    <div className="v-padder info">
+                                        you will receive notification for every match
+                                    </div>
+                                    <Switch onChange={(el, state) => this.handleSwitch(el, state)} name='test' />
+                                </section>
+                                <section className="settings">
+                                    <strong className="m-r">Email Notifications</strong><small className="recommended">RECOMMENDED</small>
+                                    <div className="v-padder info">
+                                        you will receive notification for every match
+                                    </div>
+                                    <Switch onChange={(el, state) => this.handleSwitch(el, state)} name='test' />
+                                </section>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <span className="settings-btn fas fa-cog" onClick={this.openNav}></span>
                 {/*<header className={styles.header + ' animated bounceInUp '}>*/}
                 {/*<span>My Favorite</span>*/}
                 {/*</header>*/}
-                <div className={styles.header}>My Favorites</div>
+                <div id="main">
+                    <div className={styles.header}>
+                        <i className={'fas fa-star ' + [styles.spin, styles.animated].join(' ')} style={star}></i>
+                        My Favorites
+                    </div>
 
-                {/*<BlendedBackground/>*/}
-                <Search onFollowHandler={this.props.onFollowHandler}/>
-                {/*<TournamentLogo logoName={this.props.tournamentLogo}/>*/}
+                    {/*<BlendedBackground/>*/}
+                    <Search onFollowHandler={this.props.onFollowHandler}/>
+                    {/*<TournamentLogo logoName={this.props.tournamentLogo}/>*/}
 
-                {this.state.userEvents
-                    .filter(event => (event.betOffers && event.betOffers.length > 0))
-                    .map(event => {
-                        // return <div className="flex-container">
-                        //     <div className="row">
-                        //         <div className="flex-item">1</div>
-                        //
-                        //     </div>
-                        // </div>
-                        if (this.state.userEvents.length > 0) {
-                            return (  <Event
-                                    key={event.event.id}
-                                    event={event.event}
-                                    liveData={event.liveData}
-                                    outcomes={event.betOffers[0].outcomes}
-                                />
-                            )
-                        }
-                    })}
-                {(this.state.userEvents.length == 0 && this.state.userTeams.length > 0) &&
-                (
-                    <div style={notFoundStyle}>
-                        <svg width="49" height="51" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M3.9468 10.0288L20.5548.995c2.4433-1.3267 5.45-1.3267 7.8936 0l16.6078 9.0338C47.4966 11.3585 49 13.8102 49 16.4666V34.534c0 2.6537-1.5034 5.1082-3.9438 6.438l-16.6078 9.0307c-2.4435 1.3297-5.4503 1.3297-7.8937 0L3.9467 40.972C1.5035 39.642 0 37.1876 0 34.534V16.4667c0-2.6564 1.5034-5.108 3.9468-6.4378z"
-                                className="app-icon" fillRule="evenodd"></path>
-                        </svg>
-                        <div style={notFoundTitle}>Favorite events not found</div>
-                    </div>)
+                    {this.state.userEvents
+                        .filter(event => (event.betOffers && event.betOffers.length > 0))
+                        .map(event => {
+                            // return <div className="flex-container">
+                            //     <div className="row">
+                            //         <div className="flex-item">1</div>
+                            //
+                            //     </div>
+                            // </div>
+                            if (this.state.userEvents.length > 0) {
+                                return (  <Event
+                                        key={event.event.id}
+                                        event={event.event}
+                                        liveData={event.liveData}
+                                        outcomes={event.betOffers[0].outcomes}
+                                    />
+                                )
+                            }
+                        })}
+                    {(this.state.userEvents.length == 0 && this.state.userTeams.length > 0) &&
+                    (
+                        <div style={notFoundStyle}>
+                            <svg width="49" height="51" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M3.9468 10.0288L20.5548.995c2.4433-1.3267 5.45-1.3267 7.8936 0l16.6078 9.0338C47.4966 11.3585 49 13.8102 49 16.4666V34.534c0 2.6537-1.5034 5.1082-3.9438 6.438l-16.6078 9.0307c-2.4435 1.3297-5.4503 1.3297-7.8937 0L3.9467 40.972C1.5035 39.642 0 37.1876 0 34.534V16.4667c0-2.6564 1.5034-5.108 3.9468-6.4378z"
+                                    className="app-icon" fillRule="evenodd"></path>
+                            </svg>
+                            <div style={notFoundTitle}>Favorite events not found</div>
+                        </div>)
 
-                }
-                {(this.state.isUserTeamsArrived && this.state.userTeams.length == 0) &&
-                (
-                    <div style={notFoundStyle}>
-                        <svg width="49" height="51" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M3.9468 10.0288L20.5548.995c2.4433-1.3267 5.45-1.3267 7.8936 0l16.6078 9.0338C47.4966 11.3585 49 13.8102 49 16.4666V34.534c0 2.6537-1.5034 5.1082-3.9438 6.438l-16.6078 9.0307c-2.4435 1.3297-5.4503 1.3297-7.8937 0L3.9467 40.972C1.5035 39.642 0 37.1876 0 34.534V16.4667c0-2.6564 1.5034-5.108 3.9468-6.4378z"
-                                className="app-icon" fillRule="evenodd"></path>
-                        </svg>
-                        <div style={notFoundTitle}>Please select favorite teams first</div>
-                        <p style={smallText}>
+                    }
+                    {(this.state.isUserTeamsArrived && this.state.userTeams.length == 0) &&
+                    (
+                        <div style={notFoundStyle}>
+                            <svg width="49" height="51" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M3.9468 10.0288L20.5548.995c2.4433-1.3267 5.45-1.3267 7.8936 0l16.6078 9.0338C47.4966 11.3585 49 13.8102 49 16.4666V34.534c0 2.6537-1.5034 5.1082-3.9438 6.438l-16.6078 9.0307c-2.4435 1.3297-5.4503 1.3297-7.8937 0L3.9467 40.972C1.5035 39.642 0 37.1876 0 34.534V16.4667c0-2.6564 1.5034-5.108 3.9468-6.4378z"
+                                    className="app-icon" fillRule="evenodd"></path>
+                            </svg>
+                            <div style={notFoundTitle}>Please select favorite teams first</div>
+                            <p style={smallText}>
 
-                            1.Search for favorite team or player
-                            <i className="fas fa-arrow-alt-circle-right" style={smallTextarrow}></i>
-                            2.Click on the follow icon
-                            <i className="fas fa-arrow-alt-circle-right" style={smallTextarrow}></i>
-                            3.Your favorite games will start shown
-                        </p>
-                    </div>)
-                }
+                                1.Search for favorite team or player
+                                <i className="fas fa-arrow-alt-circle-right" style={smallTextarrow}></i>
+                                2.Click on the follow icon
+                                <i className="fas fa-arrow-alt-circle-right" style={smallTextarrow}></i>
+                                3.Your favorite games will start shown
+                            </p>
+                        </div>)
+                    }
+                </div>
                 {/*<ScrolledList*/}
                 {/*renderPrevButton={props => <ArrowButton type="left" {...props} />}*/}
                 {/*renderNextButton={props => <ArrowButton type="right" {...props} />}*/}

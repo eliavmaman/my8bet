@@ -1,0 +1,195 @@
+body {
+    background: #ECECEC;
+}
+
+.padder {
+    padding: 15px;
+}
+
+.v-padder {
+    padding: 10px 0px;
+}
+.p-t{
+    padding-top: 10px;
+}
+.m-r {
+    margin-right: 10px;
+}
+
+.recommended {
+    color: #dd5516;
+}
+
+.settings-myfav-container {
+    border-right: 1px solid #ccc;
+    min-height: 350px;
+}
+
+.fas.fa-thumbs-down, .fas.fa-thumbs-up {
+    float: right;
+    margin-top: 5px !important;
+    color: #dd5516 !important;
+    font-size: 20px !important;
+    margin-left: 20px;
+}
+
+#react-autowhatever-1 {
+    display: flex;
+    position: absolute;
+    margin-top: 63px;
+    /*top: 45px !important;*/
+    /*width: 316px !important;*/
+    border: 1px solid rgb(170, 170, 170);
+    background-color: rgb(255, 255, 255);
+    font-family: Helvetica, sans-serif;
+    font-weight: 300;
+    font-size: 16px;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    z-index: 2;
+    left: 29px;
+    max-height: 200px;
+    overflow: auto;
+
+}
+
+.KambiWidget-outcome, .KambiWidget-primary-background-color {
+    background: #dd5516 !important;
+}
+
+.gps_ring {
+    border: 3px solid #fa6200;
+    border-radius: 5px;
+    display: block;
+    color: white;
+    box-shadow: 0 0 17px black;
+}
+
+.gps_ring.in {
+    animation: pulsate 2s ease-out infinite;
+}
+
+@-webkit-keyframes pulsate {
+    0% {
+        box-shadow: 0 0 0 black;
+    }
+    50% {
+        box-shadow: 0 0 17px black;
+    }
+    100% {
+        box-shadow: 0 0 0 black;
+    }
+}
+
+/*sidebar*/
+/* The side navigation menu */
+.sidenav {
+    height: 100%; /* 100% Full-height */
+    width: 0; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 9999; /* Stay on top */
+    top: 0; /* Stay at the top */
+    left: 0;
+    /*background-color: #111; !* Black*!*/
+    background-color: #fff;
+    overflow-x: hidden; /* Disable horizontal scroll */
+    /*padding-top: 60px; !* Place content 60px from the top *!*/
+    /*transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+}
+
+.sidenav small {
+    font-size: 11px !important;
+}
+
+.sidenav div.title {
+    font-size: 18px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed orange;
+}
+
+.sidenav ul {
+    padding: 0;
+    list-style-type: none;
+    margin-top: 10px;
+}
+
+.sidenav ul li {
+    position: relative;
+}
+
+.sidenav ul li span {
+    font-size: 17px;
+}
+
+.sidenav ul li i {
+    /*position: absolute;*/
+    /*right: 20px;*/
+    /*top: 0;*/
+    float: right !important;
+    margin-top: 7px !important;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+/* The navigation menu links */
+.sidenav ul li a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+
+/* Position and style the close button (top right corner) */
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 25px;
+    margin-left: 50px;
+    cursor: pointer;
+    z-index: 9999;
+}
+
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+#main {
+    transition: margin-left .5s;
+
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+    .sidenav {
+        padding-top: 15px;
+    }
+
+    .sidenav a {
+        font-size: 18px;
+    }
+}
+
+section.settings {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 15px;
+}
+section.settings strong{
+    display: block;
+}
+section.settings div.info{
+    opacity: 0.6;
+    font-size: 12px;
+}
+
+.settings-btn{
+    position: absolute;
+    right: 15px;
+    font-size: 25px;
+    top: 5px;
+    z-index: 1;
+}

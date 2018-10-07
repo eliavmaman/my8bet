@@ -126,7 +126,9 @@ const getEventsProgressively = function (filters) {
  */
 
 const localUrl='http://localhost:3000';
-const herokuUrl='https://my8bet-server.herokuapp.com'
+let herokuUrl='https://my8bet-server.herokuapp.com';
+herokuUrl=localUrl;
+
 const getEvents = function (filters, combined = true) {
     const getEventsFunc = combined ? getEventsCombined : getEventsProgressively
 //const getLiveEvents
