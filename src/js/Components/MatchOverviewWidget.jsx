@@ -252,12 +252,7 @@ class MatchOverviewWidget extends Component {
                     {this.state.userEvents
                         .filter(event => (event.betOffers && event.betOffers.length > 0))
                         .map(event => {
-                            // return <div className="flex-container">
-                            //     <div className="row">
-                            //         <div className="flex-item">1</div>
-                            //
-                            //     </div>
-                            // </div>
+
                             if (this.state.userEvents.length > 0) {
                                 return (  <Event
                                         key={event.event.id}

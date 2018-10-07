@@ -136,7 +136,9 @@ const getEvents = function (filters, combined = true) {
 }
 
 const getTeamsByName = function (name) {
-    return axios.get('https://api.aws.kambicdn.com/offering/api/v3/888/term/search.json?lang=en_GB&market=ZZ&client_id=2&channel_id=1&ncid=1529222417846&term=' + name);
+    return axios.get('https://cts-api.kambi.com/offering/api/v3/888/term/search.json?lang=en_GB&market=ZZ&client_id=2&channel_id=1&ncid=1529222417846&term=' + name);
+
+                    //https://api.aws.kambicdn.com/offering/api/v3/888/term/search.json?lang=en_GB&market=ZZ&client_id=2&channel_id=1&ncid=1529222417846&term=' + name);
 
 }
 
