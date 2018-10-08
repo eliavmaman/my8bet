@@ -16,7 +16,8 @@
     "test": "kambi-widgets-cli test",
     "prettier-all": "find ./src -name \"*.jsx\" -o -name \"*.js\" | xargs prettier --write",
     "precommit": "lint-staged",
-    "uploadaws": "aws s3 cp .\\dist s3://notific8/ --recursive"
+    "uploadaws": "aws s3 cp .\\dist s3://notific8/ --recursive",
+    "upload": "npm-run-all -s build uploadaws"
   },
   "prettier": {
     "tabWidth": 2,
