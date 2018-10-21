@@ -1,6 +1,6 @@
 export const supportedFilters = [
-    '/tennis',
-    '/football',
+    //'/tennis',
+    //'/football',
     //'/basketball',
     // '/football/champions_league',
     // '/football/england/premier_league',
@@ -27,4 +27,5 @@ export const supportedFilters = [
     // '/football/mexico/liga_mx',
     // '/football/mexico/copa_mx',
     // '/football/colombia/liga_aguila',
+    '/'
 ]

@@ -6,6 +6,7 @@ docs
 *.map
 bower_components
 /.project
+mockSetupData.json
 /dist/
 /dist-embedded/
 /coverage/

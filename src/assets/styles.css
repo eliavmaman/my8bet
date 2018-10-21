@@ -102,8 +102,9 @@ body {
 }
 
 .sidenav div.title {
-    font-size: 18px;
+    font-size: 15px;
     padding-bottom: 10px;
+    color: dimgray;
     border-bottom: 1px dashed orange;
 }
 
@@ -192,4 +193,9 @@ section.settings div.info{
     font-size: 25px;
     top: 5px;
     z-index: 1;
+}
+.disabled{
+
+    opacity: 0.5;
+
 }
