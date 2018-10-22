@@ -5,7 +5,7 @@ import Autosuggest from 'react-autosuggest'
 import kambi from '../Services/kambi'
 import _ from 'lodash';
 import styles from './Search.scss'
-
+import {getCIDOrDefault} from '../Services/helper'
 const theme = {
     container: {
         display: 'flex'
@@ -151,7 +151,8 @@ class Search extends Component {
     }
 
     init = () => {
-        kambi.getUserTeams(123).then((res) => {
+        let cid = getCIDOrDefault();
+        kambi.getUserTeams(cid).then((res) => {
 
             this.state.userTeams = res.data;
         })

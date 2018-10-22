@@ -4,7 +4,7 @@ import {widgetModule} from 'kambi-widget-core-library'
 import MatchOverviewWidget from '../Components/MatchOverviewWidget'
 import kambi from '../Services/kambi'
 import live from '../Services/live'
-
+import {getCIDOrDefault }from '../Services/helper';
 
 /**
  * Rendered when combined filter is used or there is no current filter.
@@ -54,7 +54,7 @@ const render = function () {
 const refreshEvents = function () {
     return kambi
         .getEvents(this.filters, this.combineFilters)
-        .then(({events, filter}) => {
+        .then(({events, filter}) => {debugger;
             this.events = events
             this.appliedFilter = filter
 
@@ -65,7 +65,7 @@ const refreshEvents = function () {
             }
 
             const liveEvents = this.liveEvents
-
+          //  widgetModule.setWidgetHeight(100 + (liveEvents.length * 30));
             // no live events, schedule refresh
             if (liveEvents.length == 0) {
                 setTimeout(refreshEvents.bind(this), this.eventsRefreshInterval)
@@ -76,13 +76,16 @@ const refreshEvents = function () {
                 liveEvents.map(event => event.event.id),
                 liveEventData => {
                     updateLiveEventData.call(this, liveEventData)
+
                     render.call(this)
                 }, // onUpdate
                 refreshEvents // onDrained
             )
-
+           // widgetModule.adaptWidgetHeight();
             // render fetched events
             render.call(this);
+
+
 
         })
 }
@@ -119,7 +122,7 @@ class Widget {
     }
 
     init() {
-        widgetModule.setWidgetHeight(150)
+     //   widgetModule.setWidgetHeight(150)
         return refreshEvents.call(this)
     }
 
@@ -156,8 +159,9 @@ class Widget {
     }
 
     get userTeams() {
+        let cid = getCIDOrDefault() ;
 
-        return kambi.getUserTeams(123).then((res) => {
+        return kambi.getUserTeams(cid).then((res) => {
 
             return res.data;
         })
