@@ -23,7 +23,7 @@ coreLibrary
     filter: supportedFilters,
     combineFilters: true,
     pollingInterval: 5000,
-    pollingCount: 10,
+    pollingCount: 100,
     eventsRefreshInterval: 5000,
   })
   .then(() => {

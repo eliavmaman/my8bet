@@ -13,7 +13,7 @@ import {Typeahead} from 'react-bootstrap-typeahead'
 import _ from 'lodash';
 import kambi from '../Services/kambi';
 import Switch from 'react-bootstrap-switch';
-
+import {widgetModule} from 'kambi-widget-core-library'
 
 /**
  * How long (in milliseconds) to wait before scrolling league logo out
@@ -90,7 +90,7 @@ class MatchOverviewWidget extends Component {
         this.props.user.then((res) => {
             if (!res) return;
             let userEvents = [];
-
+            let count = 0;
             this.state.user = res;
             this.state.isUserTeamsArrived = true;
 
@@ -102,9 +102,18 @@ class MatchOverviewWidget extends Component {
                     return e.event.homeName == ut.englishName || e.event.awayName == ut.englishName
                 });
                 if (foundedUt) {
-                    userEvents.push(e)
+                    userEvents.push(e);
+                    count++;
+
                 }
             });
+            if(count > 2){
+                widgetModule.setWidgetHeight(100 + (count * 110));
+            }else
+            {
+                widgetModule.setWidgetHeight(450);
+            }
+
 
             this.setState({userEvents: userEvents});// .state.userEvents = userEvents;
             this.state.userEvents.forEach((e) => {
