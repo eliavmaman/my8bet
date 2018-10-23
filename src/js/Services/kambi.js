@@ -3,7 +3,7 @@ import {
     offeringModule,
     widgetModule,
 } from 'kambi-widget-core-library';
-import {getCID }from './helper';
+import {getCID} from './helper';
 //import ss from 'helper'
 import axios from 'axios'
 
@@ -126,9 +126,9 @@ const getEventsProgressively = function (filters) {
  * @returns {Promise.<{events: object[], filter: string}>}
  */
 
-const localUrl='http://localhost:3000';
-let herokuUrl='https://my8bet-server.herokuapp.com';
-//herokuUrl=localUrl;
+const localUrl = 'http://localhost:3000';
+let herokuUrl = 'https://my8bet-server.herokuapp.com';
+// herokuUrl = localUrl;
 
 const getEvents = function (filters, combined = true) {
     const getEventsFunc = combined ? getEventsCombined : getEventsProgressively
@@ -138,11 +138,11 @@ const getEvents = function (filters, combined = true) {
 
 const getTeamsByName = function (name) {
 
-    let cid  = getCID();
+    let cid = getCID();
 
-    if (cid !==  null ){
+    if (cid !== null) {
         return axios.get('https://cts-api.kambi.com/offering/api/v3/888/term/search.json?lang=en_GB&market=ZZ&client_id=2&channel_id=1&ncid=1529222417846&term=' + name);
-    }else{
+    } else {
         return axios.get('https://api.aws.kambicdn.com/offering/api/v3/888/term/search.json?lang=en_GB&market=ZZ&client_id=2&channel_id=1&ncid=1529222417846&term=' + name);
 
     }
@@ -150,14 +150,14 @@ const getTeamsByName = function (name) {
 }
 
 const getUserTeams = function (cid) {
-    return axios.get(herokuUrl+'/api/favorites/' + cid);
+    return axios.get(herokuUrl + '/api/favorites/' + cid);
 }
 
 const followTeam = function (teamId, cid, englishName) {
-    return axios.post(herokuUrl+'/api/favorites', {cid:cid,team: teamId, englishName: englishName})
+    return axios.post(herokuUrl + '/api/favorites', {cid: cid, team: teamId, englishName: englishName})
 }
-const unFollowTeam = function (teamId,) {
-    return axios.delete(herokuUrl+'/api/favorites/' + teamId);
+const unFollowTeam = function (teamId, cid) {
+    return axios.delete(herokuUrl + '/api/favorites/' + teamId + '/user/' + cid);
 }
 
 export default {getHighlightedFilters, getEvents, getTeamsByName, followTeam, getUserTeams, unFollowTeam}

@@ -6,6 +6,7 @@ import kambi from '../Services/kambi'
 import _ from 'lodash';
 import styles from './Search.scss'
 import {getCIDOrDefault} from '../Services/helper'
+
 const theme = {
     container: {
         display: 'flex'
@@ -66,16 +67,7 @@ const theme = {
         backgroundColor: '#ddd'
     }
 };
-const leagues = [
-    // {
-    //     name: 'Liverpool',
-    //     image: 'http://www.tibetanreview.net/wp-content/uploads/2017/10/Liverpool-FC.jpg'
-    // },
-    // {
-    //     name: 'West ham',
-    //     image: 'https://pbs.twimg.com/profile_images/750995345237237762/l2ccfRBd.jpg'
-    // }
-];
+
 
 const url = 'https://cts-api.kambi.com/offering/api/v3/888/term/search.json?lang=en_GB&market=ZZ&client_id=2&channel_id=1&ncid=1528987662096&term=li\\n';//https://api.aws.kambicdn.com/offering/api/v3/888/term/search.json?lang=en_GB&market=ZZ&client_id=2&channel_id=1&ncid=1528987662096&term=li\n';
 // Teach Autosuggest how to calculate suggestions for any given input value.
@@ -137,15 +129,10 @@ class Search extends Component {
     constructor() {
         super();
 
-        // Autosuggest is a controlled component.
-        // This means that you need to provide an input value
-        // and an onChange handler that updates this value (see below).
-        // Suggestions also need to be provided to the Autosuggest,
-        // and they are initially empty because the Autosuggest is closed.
         this.state = {
             value: '',
             suggestions: [],
-            userTeams: []
+            user: {favorites: []}
         };
         this.init();
     }
@@ -153,8 +140,8 @@ class Search extends Component {
     init = () => {
         let cid = getCIDOrDefault();
         kambi.getUserTeams(cid).then((res) => {
-
-            this.state.userTeams = res.data;
+            if (!res.data) return;
+            this.state.user = res.data;
         })
     };
 
@@ -163,13 +150,18 @@ class Search extends Component {
             <span className={styles.filter_name}>{suggestion.englishName}</span><span
             className={styles.category}>{this.getCategoryName(suggestion)}</span>
             {!this.isUserTeam(suggestion.englishName) ?
-                <i className="fas fa-thumbs-up" title="Follow"
-                   onClick={() => this.followClicked(suggestion)}></i> : null}
-
+                <a className="btn btn-success btn-sm f-u-btn" onClick={() => this.followClicked(suggestion)}>Follow</a>
+                : null}
+            {/*<i className="fas fa-thumbs-up" title="Follow"*/}
+            {/*onClick={() => this.followClicked(suggestion)}></i>*/}
 
             {this.isUserTeam(suggestion.englishName) ?
-                <i className="fas fa-thumbs-down" title="Unfollow"
-                   onClick={() => this.unFollowClicked(suggestion)}></i> : null}
+                <a className="btn btn-danger btn-sm f-u-btn"
+                   onClick={() => this.unFollowClicked(suggestion)}>Unfollow</a>
+
+                : null}
+            {/*<i className="fas fa-thumbs-down" title="Unfollow"*/}
+            {/*onClick={() => this.unFollowClicked(suggestion)}></i>*/}
         </div>
     );
 
@@ -185,7 +177,8 @@ class Search extends Component {
     }
 
     isUserTeam(team) {
-        var exist = _.find(this.state.userTeams, (ut) => {
+
+        var exist = _.find(this.state.user.favorites, (ut) => {
             return ut.englishName == team;
         });
         return exist;
@@ -193,11 +186,11 @@ class Search extends Component {
     }
 
     unFollowClicked = (suggestion) => {
-        var team = _.find(this.state.userTeams, (ut) => {
-            return ut.team == suggestion.fav_id;
+        var team = _.find(this.state.user.favorites, (ut) => {
+            return ut.team == suggestion.id;
         });
         if (team) {
-            kambi.unFollowTeam(team._id).then(() => {
+            kambi.unFollowTeam(team._id,this.state.user.cid).then(() => {
                 // swal(suggestion.englishName + ' Was removed from your favorite list.');
                 // if (typeof this.props.onFollowHandler === 'function') {
                 //     this.props.onFollowHandler(suggestion);
@@ -209,7 +202,7 @@ class Search extends Component {
 
     followClicked = (suggestion) => {
 
-        kambi.followTeam(suggestion.fav_id, 123, suggestion.englishName).then(() => {
+        kambi.followTeam(suggestion.id, 123, suggestion.englishName).then(() => {
             // swal(suggestion.englishName + ' Was added to your favorite list.');
             // if (typeof this.props.onFollowHandler === 'function') {
             //     this.props.onFollowHandler(suggestion);
@@ -282,16 +275,16 @@ class Search extends Component {
         // Finally, render it!
         return (
 
-                <Autosuggest
-                    suggestions={suggestions}
-                    onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-                    onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-                    onSuggestionSelected={this.onSuggestionSelected}
-                    getSuggestionValue={getSuggestionValue}
-                    renderSuggestion={this.renderSuggestion}
-                    inputProps={inputProps}
-                    theme={theme}
-                />
+            <Autosuggest
+                suggestions={suggestions}
+                onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+                onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+                onSuggestionSelected={this.onSuggestionSelected}
+                getSuggestionValue={getSuggestionValue}
+                renderSuggestion={this.renderSuggestion}
+                inputProps={inputProps}
+                theme={theme}
+            />
 
         );
     }

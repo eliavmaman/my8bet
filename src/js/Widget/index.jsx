@@ -39,7 +39,7 @@ const render = function () {
     ReactDOM.render(
         <MatchOverviewWidget
             events={this.events}
-            userTeams={this.userTeams}
+            user={this.user}
             tournamentLogo={this.tournamentLogo}
             onFollowHandler={onFollowHandler}
         />,
@@ -54,7 +54,7 @@ const render = function () {
 const refreshEvents = function () {
     return kambi
         .getEvents(this.filters, this.combineFilters)
-        .then(({events, filter}) => {debugger;
+        .then(({events, filter}) => {
             this.events = events
             this.appliedFilter = filter
 
@@ -122,7 +122,9 @@ class Widget {
     }
 
     init() {
-     //   widgetModule.setWidgetHeight(150)
+
+        //widgetModule.setWidgetHeight(150)
+
         return refreshEvents.call(this)
     }
 
@@ -158,7 +160,7 @@ class Widget {
             : DEFAULT_TOURNAMENT_LOGO
     }
 
-    get userTeams() {
+    get user() {
         let cid = getCIDOrDefault() ;
 
         return kambi.getUserTeams(cid).then((res) => {

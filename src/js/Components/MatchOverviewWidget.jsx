@@ -32,15 +32,15 @@ class MatchOverviewWidget extends Component {
         this.state = {
             selected: 0,
             userEvents: [],
-            userTeams: [],
+            user: {favorites: []},
             isUserTeamsArrived: false,
             isPulse: true
 
         };
 
-        setTimeout(() => {
-            this.state.isPulse = false;
-        }, 5000);
+        // setTimeout(() => {
+        //     this.state.isPulse = false;
+        // }, 5000);
 
 
     }
@@ -87,17 +87,18 @@ class MatchOverviewWidget extends Component {
 
     componentWillReceiveProps(nextProps) {
         //if(nextProps.events!==this.props.events){
-        this.props.userTeams.then((res) => {
-
+        this.props.user.then((res) => {
+            if (!res) return;
             let userEvents = [];
 
-            this.state.userTeams = res;
+            this.state.user = res;
             this.state.isUserTeamsArrived = true;
-            var userTeams = res;
+
+            var user = res;
 
 
             this.props.events.forEach((e) => {
-                let foundedUt = _.find(userTeams, (ut) => {
+                let foundedUt = _.find(user.favorites, (ut) => {
                     return e.event.homeName == ut.englishName || e.event.awayName == ut.englishName
                 });
                 if (foundedUt) {
@@ -125,12 +126,12 @@ class MatchOverviewWidget extends Component {
     }
 
     getUserTeams() {
-        var listItems = this.state.userTeams.map(function (ut) {
+        var listItems = this.state.user.favorites.map((ut) => {
             return (
                 <li>
-                    <span>{ut.englishName}</span>
-                    <i className="fas fa-thumbs-down" title="Unfollow"
-                       onClick={() => this.unFollowClicked(ut)}/>
+                    <span className="team-name">{ut.englishName}</span>
+                    <a onClick={() => this.unFollowClicked(ut)} className="unfollow-link">Remove</a>
+
                 </li>
             );
         });
@@ -139,19 +140,11 @@ class MatchOverviewWidget extends Component {
     }
 
     unFollowClicked = (suggestion) => {
-        var team = _.find(this.state.userTeams, (ut) => {
-            return ut.team == suggestion.fav_id;
+        kambi.unFollowTeam(suggestion._id, this.state.user.cid).then(() => {
+            this.refs.search.init();
         });
-        if (team) {
-            kambi.unFollowTeam(team._id).then(() => {
-                // swal(suggestion.englishName + ' Was removed from your favorite list.');
-                // if (typeof this.props.onFollowHandler === 'function') {
-                //     this.props.onFollowHandler(suggestion);
-                // }
-                this.init();
-            })
-        }
     };
+
     handleSwitch(elem, state) {
         console.log('handleSwitch. elem:', elem);
         console.log('name:', elem.props.name);
@@ -219,18 +212,20 @@ class MatchOverviewWidget extends Component {
                             <div className="col-xs-6 p-t">
 
                                 <section className="settings">
-                                    <strong className="m-r">Push Notifications</strong><small className="recommended">RECOMMENDED</small>
+                                    <strong className="m-r">Push Notifications</strong>
+                                    <small className="recommended">RECOMMENDED</small>
                                     <div className="v-padder info">
                                         you will receive push notification for your favorites coming events
                                     </div>
-                                    <Switch onChange={(el, state) => this.handleSwitch(el, state)} name='test' />
+                                    <Switch onChange={(el, state) => this.handleSwitch(el, state)} name='test'/>
                                 </section>
                                 <section className="settings disabled">
-                                    <strong className="m-r">Auto Games Suggestion </strong><small className="recommended">RECOMMENDED</small>
+                                    <strong className="m-r">Auto Games Suggestion </strong>
+                                    <small className="recommended">RECOMMENDED</small>
                                     <div className="v-padder info">
                                         you will get recommend games
                                     </div>
-                                    <Switch onChange={(el, state) => this.handleSwitch(el, state)} name='test' />
+                                    <Switch onChange={(el, state) => this.handleSwitch(el, state)} name='test'/>
                                 </section>
                             </div>
                         </div>
@@ -247,7 +242,7 @@ class MatchOverviewWidget extends Component {
                     </div>
 
                     {/*<BlendedBackground/>*/}
-                    <Search onFollowHandler={this.props.onFollowHandler}/>
+                    <Search ref="search" onFollowHandler={this.props.onFollowHandler}/>
                     {/*<TournamentLogo logoName={this.props.tournamentLogo}/>*/}
 
                     {this.state.userEvents
@@ -264,7 +259,7 @@ class MatchOverviewWidget extends Component {
                                 )
                             }
                         })}
-                    {(this.state.userEvents.length == 0 && this.state.userTeams.length > 0) &&
+                    {(this.state.userEvents.length == 0 && this.state.user.favorites.length > 0) &&
                     (
                         <div style={notFoundStyle}>
                             <svg width="49" height="51" xmlns="http://www.w3.org/2000/svg">
@@ -277,7 +272,7 @@ class MatchOverviewWidget extends Component {
                     )
 
                     }
-                    {(this.state.isUserTeamsArrived && this.state.userTeams.length == 0) &&
+                    {(this.state.isUserTeamsArrived && this.state.user.favorites.length == 0) &&
                     (
 
                         <div style={notFoundStyle}>
@@ -305,11 +300,7 @@ class MatchOverviewWidget extends Component {
                         </div>
 
 
-                    )
-
-
-
-                    }
+                    )}
                 </div>
                 {/*<ScrolledList*/}
                 {/*renderPrevButton={props => <ArrowButton type="left" {...props} />}*/}
