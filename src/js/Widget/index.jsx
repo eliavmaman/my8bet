@@ -39,6 +39,7 @@ const render = function () {
     ReactDOM.render(
         <MatchOverviewWidget
             events={this.events}
+            cid={this.cid}
             user={this.user}
             tournamentLogo={this.tournamentLogo}
             onFollowHandler={onFollowHandler}
@@ -157,6 +158,10 @@ class Widget {
         return this.appliedFilter
             ? this.appliedFilter.substring(1).replace(/\//g, '-')
             : DEFAULT_TOURNAMENT_LOGO
+    }
+
+    get cid() {
+        return getCIDOrDefault();
     }
 
     get user() {

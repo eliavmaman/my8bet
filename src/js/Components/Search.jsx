@@ -132,7 +132,9 @@ class Search extends Component {
         this.state = {
             value: '',
             suggestions: [],
-            user: {favorites: []}
+            user: {favorites: []},
+            cid:''
+
         };
         this.init();
     }
@@ -190,7 +192,7 @@ class Search extends Component {
             return ut.team == suggestion.id;
         });
         if (team) {
-            kambi.unFollowTeam(team._id,this.state.user.cid).then(() => {
+            kambi.unFollowTeam(team._id,this.state.cid).then(() => {
                 // swal(suggestion.englishName + ' Was removed from your favorite list.');
                 // if (typeof this.props.onFollowHandler === 'function') {
                 //     this.props.onFollowHandler(suggestion);
@@ -201,8 +203,8 @@ class Search extends Component {
     };
 
     followClicked = (suggestion) => {
-alert('from search '+this.state.user.cid+ " get selec")
-        kambi.followTeam(suggestion.id, this.state.user.cid, suggestion.englishName).then(() => {
+alert('from search '+this.state.cid)
+        kambi.followTeam(suggestion.id, this.state.cid, suggestion.englishName).then(() => {
             // swal(suggestion.englishName + ' Was added to your favorite list.');
             // if (typeof this.props.onFollowHandler === 'function') {
             //     this.props.onFollowHandler(suggestion);
