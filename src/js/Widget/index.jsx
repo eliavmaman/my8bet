@@ -165,8 +165,8 @@ class Widget {
     }
 
     get user() {
+        let cid = getCIDOrDefault();
 
-        alert('get selected cid ' + cid);
         return kambi.getUserTeams(cid).then((res) => {
 
             return res.data;
