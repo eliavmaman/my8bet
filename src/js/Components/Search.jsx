@@ -202,7 +202,7 @@ class Search extends Component {
 
     followClicked = (suggestion) => {
 
-        kambi.followTeam(suggestion.id, 123, suggestion.englishName).then(() => {
+        kambi.followTeam(suggestion.id, this.state.user.cid, suggestion.englishName).then(() => {
             // swal(suggestion.englishName + ' Was added to your favorite list.');
             // if (typeof this.props.onFollowHandler === 'function') {
             //     this.props.onFollowHandler(suggestion);
