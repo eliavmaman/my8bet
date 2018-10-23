@@ -133,15 +133,14 @@ class Search extends Component {
             value: '',
             suggestions: [],
             user: {favorites: []},
-            cid:''
-
+            cid: ''
         };
         this.init();
     }
 
     init = () => {
-        let cid = getCIDOrDefault();
-        kambi.getUserTeams(cid).then((res) => {
+        this.state.cid = getCIDOrDefault();
+        kambi.getUserTeams(this.state.cid).then((res) => {
             if (!res.data) return;
             this.state.user = res.data;
         })
@@ -192,7 +191,7 @@ class Search extends Component {
             return ut.team == suggestion.id;
         });
         if (team) {
-            kambi.unFollowTeam(team._id,this.state.cid).then(() => {
+            kambi.unFollowTeam(team._id, getCIDOrDefault()).then(() => {
                 // swal(suggestion.englishName + ' Was removed from your favorite list.');
                 // if (typeof this.props.onFollowHandler === 'function') {
                 //     this.props.onFollowHandler(suggestion);
@@ -203,8 +202,9 @@ class Search extends Component {
     };
 
     followClicked = (suggestion) => {
-alert('from search '+this.state.cid)
-        kambi.followTeam(suggestion.id, this.state.cid, suggestion.englishName).then(() => {
+// alert('from search '+this.state.cid)
+        let cid = getCIDOrDefault();
+        kambi.followTeam(suggestion.id, cid, suggestion.englishName).then(() => {
             // swal(suggestion.englishName + ' Was added to your favorite list.');
             // if (typeof this.props.onFollowHandler === 'function') {
             //     this.props.onFollowHandler(suggestion);

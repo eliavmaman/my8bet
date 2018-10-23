@@ -110,6 +110,8 @@ class Widget {
                         throw e
                     },
                 }) {
+        // let d = JSON.stringify({named_user_id: 3333});
+        // localStorage.setItem(JSON.stringify('a', d));
         this.filters = filters
         this.rootEl = rootEl
         this.combineFilters = combineFilters
