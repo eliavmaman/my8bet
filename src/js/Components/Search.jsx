@@ -201,7 +201,7 @@ class Search extends Component {
     };
 
     followClicked = (suggestion) => {
-
+alert('from search '+this.state.user.cid+ " get selec")
         kambi.followTeam(suggestion.id, this.state.user.cid, suggestion.englishName).then(() => {
             // swal(suggestion.englishName + ' Was added to your favorite list.');
             // if (typeof this.props.onFollowHandler === 'function') {

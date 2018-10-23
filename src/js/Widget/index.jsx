@@ -4,7 +4,7 @@ import {widgetModule} from 'kambi-widget-core-library'
 import MatchOverviewWidget from '../Components/MatchOverviewWidget'
 import kambi from '../Services/kambi'
 import live from '../Services/live'
-import {getCIDOrDefault }from '../Services/helper';
+import {getCIDOrDefault} from '../Services/helper';
 
 /**
  * Rendered when combined filter is used or there is no current filter.
@@ -65,7 +65,7 @@ const refreshEvents = function () {
             }
 
             const liveEvents = this.liveEvents
-          //  widgetModule.setWidgetHeight(100 + (liveEvents.length * 30));
+            //  widgetModule.setWidgetHeight(100 + (liveEvents.length * 30));
             // no live events, schedule refresh
             if (liveEvents.length == 0) {
                 setTimeout(refreshEvents.bind(this), this.eventsRefreshInterval)
@@ -81,10 +81,9 @@ const refreshEvents = function () {
                 }, // onUpdate
                 refreshEvents // onDrained
             )
-           // widgetModule.adaptWidgetHeight();
+            // widgetModule.adaptWidgetHeight();
             // render fetched events
             render.call(this);
-
 
 
         })
@@ -161,8 +160,8 @@ class Widget {
     }
 
     get user() {
-        let cid = getCIDOrDefault() ;
-
+        let cid = getCIDOrDefault();
+        alert('get selected cid ' + cid);
         return kambi.getUserTeams(cid).then((res) => {
 
             return res.data;

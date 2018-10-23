@@ -154,6 +154,7 @@ const getUserTeams = function (cid) {
 }
 
 const followTeam = function (teamId, cid, englishName) {
+    alert('cid is ' + cid);
     return axios.post(herokuUrl + '/api/favorites', {cid: cid, team: teamId, englishName: englishName})
 }
 const unFollowTeam = function (teamId, cid) {
