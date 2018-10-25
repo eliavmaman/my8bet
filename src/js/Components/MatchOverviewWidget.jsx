@@ -13,7 +13,8 @@ import {Typeahead} from 'react-bootstrap-typeahead'
 import _ from 'lodash';
 import kambi from '../Services/kambi';
 import Switch from 'react-bootstrap-switch';
-import {widgetModule} from 'kambi-widget-core-library'
+import {widgetModule} from 'kambi-widget-core-library';
+
 
 /**
  * How long (in milliseconds) to wait before scrolling league logo out
