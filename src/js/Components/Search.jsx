@@ -193,10 +193,7 @@ class Search extends Component {
         });
         if (team) {
             kambi.unFollowTeam(team._id, getCIDOrDefault()).then(() => {
-                // swal(suggestion.englishName + ' Was removed from your favorite list.');
-                // if (typeof this.props.onFollowHandler === 'function') {
-                //     this.props.onFollowHandler(suggestion);
-                // }
+                toastr.success('Unollowed successfully ', 'UnFollow team', {displayDuration:3000,positionClass: 'toast-top'});
                 this.init();
             })
         }

@@ -14,6 +14,7 @@ import _ from 'lodash';
 import kambi from '../Services/kambi';
 import Switch from 'react-bootstrap-switch';
 import {widgetModule} from 'kambi-widget-core-library';
+import toastr from 'reactjs-toastr';
 
 
 /**
@@ -152,6 +153,7 @@ class MatchOverviewWidget extends Component {
     unFollowClicked = (suggestion) => {
         kambi.unFollowTeam(suggestion._id, this.state.user.cid).then(() => {
             this.refs.search.init();
+            toastr.success('Unollowed successfully ', 'UnFollow team', {displayDuration:3000,positionClass: 'toast-top'});
         });
     };
 
