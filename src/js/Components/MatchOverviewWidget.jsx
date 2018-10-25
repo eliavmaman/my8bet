@@ -15,6 +15,7 @@ import kambi from '../Services/kambi';
 import Switch from 'react-bootstrap-switch';
 import {widgetModule} from 'kambi-widget-core-library';
 import toastr from 'reactjs-toastr';
+import {getCIDOrDefault} from "../Services/helper";
 
 
 /**
@@ -161,6 +162,8 @@ class MatchOverviewWidget extends Component {
         console.log('handleSwitch. elem:', elem);
         console.log('name:', elem.props.name);
         console.log('new state:', state);
+        let cid=getCIDOrDefault();
+        kambi.setNotification(cid,state);
     }
 
     /**
