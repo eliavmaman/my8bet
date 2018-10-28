@@ -188,15 +188,15 @@ class Search extends Component {
         });
         if (team) {
             kambi.unFollowTeam(team._id, getCIDOrDefault()).then(() => {
-
+                toastr.success('Unollowed successfully ', 'UnFollow team', {
+                    displayDuration: 3000,
+                    positionClass: 'toast-bottom'
+                });
                 kambi.getUserTeams(getCIDOrDefault(),true).then((res) => {
                     saveUserToLocalStorage(res.data);
 
                 });
-                toastr.success('Unollowed successfully ', 'UnFollow team', {
-                    displayDuration: 3000,
-                    positionClass: 'toast-top'
-                });
+
                 //this.init();
             })
         }
@@ -206,15 +206,15 @@ class Search extends Component {
 // alert('from search '+this.state.cid)
         let cid = getCIDOrDefault();
         kambi.followTeam(suggestion.id, cid, suggestion.englishName).then(() => {
-
+            toastr.success('Followed successfully ', 'Follow team', {
+                displayDuration: 3000,
+                positionClass: 'toast-bottom'
+            });
             kambi.getUserTeams(cid,true).then((res) => {
                 saveUserToLocalStorage(res.data);
                 this.onFollowHandler();
             });
-            toastr.success('Followed successfully ', 'Follow team', {
-                displayDuration: 3000,
-                positionClass: 'toast-top'
-            });
+
 
            // this.init();
         })

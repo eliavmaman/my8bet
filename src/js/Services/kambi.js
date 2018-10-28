@@ -152,7 +152,7 @@ const getTeamsByName = function (name) {
 
 const getUserTeams = function (cid, fromServer) {
     if (!fromServer) {
-        return  Promise.resolve(getUserFromLocalStorage());
+        return Promise.resolve(getUserFromLocalStorage());
     }
     return axios.get(herokuUrl + '/api/favorites/' + cid);
 }
