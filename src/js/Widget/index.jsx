@@ -170,11 +170,8 @@ class Widget {
         let cid = getCIDOrDefault();
 
         return kambi.getUserTeams(cid).then((res) => {
-            if (!res) {
-                return {favorites: []}
-            }
-            ;
-            return res.data;
+
+            return res;
         })
     }
 }

@@ -136,14 +136,14 @@ class Search extends Component {
     componentWillReceiveProps(nextProps) {
         this.state.cid = getCIDOrDefault();
         kambi.getUserTeams(this.state.cid).then((res) => {
-            if (!res) return;
+            if (!res) res={favorites:[]};
             this.state.user = res;
         })
     }
     init = () => {
         this.state.cid = getCIDOrDefault();
         kambi.getUserTeams(this.state.cid).then((res) => {
-            if (!res) return;
+            if (!res) res={favorites:[]};
             this.state.user = res;
         })
     };
