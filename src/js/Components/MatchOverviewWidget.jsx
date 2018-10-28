@@ -85,20 +85,17 @@ class MatchOverviewWidget extends Component {
         //     })
         //
         // });
-
-
     }
 
     componentWillReceiveProps(nextProps) {
         //if(nextProps.events!==this.props.events){
 
-        kambi.getUserTeams().then((res)=>{
+        kambi.getUserTeams().then((res) => {
             this.state.isUserTeamsArrived = true;
             if (!res) return;
             let userEvents = [];
             let count = 0;
             this.state.user = res;
-
 
             this.props.events.forEach((e) => {
                 let foundedUt = _.find(this.state.user.favorites, (ut) => {
@@ -111,10 +108,9 @@ class MatchOverviewWidget extends Component {
                 }
             });
 
-            if(count > 2){
+            if (count > 2) {
                 widgetModule.setWidgetHeight(100 + (count * 110));
-            }else
-            {
+            } else {
                 widgetModule.setWidgetHeight(450);
             }
 
@@ -151,20 +147,56 @@ class MatchOverviewWidget extends Component {
 
     unFollowClicked = (suggestion) => {
         kambi.unFollowTeam(suggestion._id, this.state.user.cid).then(() => {
-            kambi.getUserTeams(getCIDOrDefault(),true).then((res) => {
+            kambi.getUserTeams(getCIDOrDefault(), true).then((res) => {
                 saveUserToLocalStorage(res.data);
             });
             this.refs.search.init();
-            toastr.success('UnFollowed successfully ', 'UnFollow team', {displayDuration:3000,positionClass: 'toast-top'});
+            toastr.success('UnFollowed successfully ', 'UnFollow team', {
+                displayDuration: 3000,
+                positionClass: 'toast-top'
+            });
         });
     };
 
     handleSwitch(elem, state) {
         console.log('handleSwitch. elem:', elem);
-        console.log('name:', elem.props.name);
+        let name = elem.props.name;
         console.log('new state:', state);
-        let cid=getCIDOrDefault();
-        kambi.setNotification(cid,state);
+        let cid = getCIDOrDefault();
+        switch (name) {
+            case 'comingSoon':
+                kambi.setComingSoon(cid, state).then((res) => {
+                    kambi.getUserTeams(getCIDOrDefault(), true).then((res) => {
+                        saveUserToLocalStorage(res.data);
+                        this.forceUpdate();
+                    });
+                });
+                break;
+            case 'endGame':
+                kambi.setEndGame(cid, state).then((res) => {
+                    kambi.getUserTeams(getCIDOrDefault(), true).then((res) => {
+                        saveUserToLocalStorage(res.data);
+                        this.forceUpdate();
+                    });
+                });
+                break;
+
+        }
+
+    }
+
+    getComingsoon() {
+        if (this.state.user && this.state.user.settings) {
+            return this.state.user.settings.comingSoon;
+        }
+        return false;
+    }
+
+    getEndGame() {
+        if (this.state.user && this.state.user.settings) {
+            return this.state.user.settings.endGame;
+        }
+        return false;
     }
 
     /**
@@ -229,20 +261,22 @@ class MatchOverviewWidget extends Component {
                             <div className="col-xs-6 p-t">
 
                                 <section className="settings">
-                                    <strong className="m-r">Push Notifications</strong>
+                                    <strong className="m-r">Coming soon alert</strong>
                                     <small className="recommended">RECOMMENDED</small>
                                     <div className="v-padder info">
                                         you will receive push notification for your favorites coming events
                                     </div>
-                                    <Switch onChange={(el, state) => this.handleSwitch(el, state)} name='test'/>
+                                    <Switch value={this.getComingsoon()}
+                                            onChange={(el, state) => this.handleSwitch(el, state)} name='comingSoon'/>
                                 </section>
                                 <section className="settings disabled">
-                                    <strong className="m-r">Auto Games Suggestion </strong>
+                                    <strong className="m-r">End games result </strong>
                                     <small className="recommended">RECOMMENDED</small>
                                     <div className="v-padder info">
-                                        you will get recommend games
+                                        Get results of selected bets
                                     </div>
-                                    <Switch onChange={(el, state) => this.handleSwitch(el, state)} name='test'/>
+                                    <Switch value={this.getEndGame()}
+                                            onChange={(el, state) => this.handleSwitch(el, state)} name='endGame'/>
                                 </section>
                             </div>
                         </div>

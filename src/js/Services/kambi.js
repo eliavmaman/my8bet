@@ -164,8 +164,11 @@ const followTeam = function (teamId, cid, englishName) {
 const unFollowTeam = function (teamId, cid) {
     return axios.delete(herokuUrl + '/api/favorites/' + teamId + '/user/' + cid);
 }
-const setNotification = (cid, state) => {
-    return axios.post(herokuUrl + '/api/user/' + cid + '/notification', {notified: state});
+const setComingSoon = (cid, state) => {
+    return axios.post(herokuUrl + '/api/user/' + cid + '/comingsoon', {notified: state});
+}
+const setEndGame = (cid, state) => {
+    return axios.post(herokuUrl + '/api/user/' + cid + '/endgame', {notified: state});
 }
 
 export default {
@@ -175,5 +178,6 @@ export default {
     followTeam,
     getUserTeams,
     unFollowTeam,
-    setNotification
+    setComingSoon,
+    setEndGame
 }

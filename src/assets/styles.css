@@ -63,9 +63,9 @@ body {
 
 }
 
-.KambiWidget-outcome, .KambiWidget-primary-background-color {
-    background: #dd5516 !important;
-}
+/*.KambiWidget-outcome, .KambiWidget-primary-background-color {*/
+    /*background: #dd5516 !important;*/
+/*}*/
 
 .gps_ring {
     border: 3px solid #fa6200;
