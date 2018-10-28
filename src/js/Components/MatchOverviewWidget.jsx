@@ -93,11 +93,12 @@ class MatchOverviewWidget extends Component {
         //if(nextProps.events!==this.props.events){
 
         kambi.getUserTeams().then((res)=>{
+            this.state.isUserTeamsArrived = true;
             if (!res) return;
             let userEvents = [];
             let count = 0;
             this.state.user = res;
-            this.state.isUserTeamsArrived = true;
+
 
             this.props.events.forEach((e) => {
                 let foundedUt = _.find(this.state.user.favorites, (ut) => {
@@ -152,10 +153,9 @@ class MatchOverviewWidget extends Component {
         kambi.unFollowTeam(suggestion._id, this.state.user.cid).then(() => {
             kambi.getUserTeams(getCIDOrDefault(),true).then((res) => {
                 saveUserToLocalStorage(res.data);
-
             });
             this.refs.search.init();
-            toastr.success('Unollowed successfully ', 'UnFollow team', {displayDuration:3000,positionClass: 'toast-top'});
+            toastr.success('UnFollowed successfully ', 'UnFollow team', {displayDuration:3000,positionClass: 'toast-top'});
         });
     };
 
