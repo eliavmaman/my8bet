@@ -212,9 +212,7 @@ section.settings div.info {
 }
 
 .disabled {
-
     opacity: 0.5;
-
 }
 
 .unfollow-link {
@@ -222,5 +220,6 @@ section.settings div.info {
     float: right !important;
     font-size: 12px !important;
     padding: 0 !important;
+    cursor: pointer;
 
 }

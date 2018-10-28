@@ -128,7 +128,7 @@ const getEventsProgressively = function (filters) {
 
 const localUrl = 'http://localhost:3000';
 let herokuUrl = 'https://my8bet-server.herokuapp.com';
-// herokuUrl = localUrl;
+ //herokuUrl = localUrl;
 
 const getEvents = function (filters, combined = true) {
     const getEventsFunc = combined ? getEventsCombined : getEventsProgressively
@@ -160,5 +160,8 @@ const followTeam = function (teamId, cid, englishName) {
 const unFollowTeam = function (teamId, cid) {
     return axios.delete(herokuUrl + '/api/favorites/' + teamId + '/user/' + cid);
 }
+const setNotification=(cid,state)=>{
+    return axios.post(herokuUrl + '/api/user/' + cid+'/notification',{notified:state});
+}
 
-export default {getHighlightedFilters, getEvents, getTeamsByName, followTeam, getUserTeams, unFollowTeam}
+export default {getHighlightedFilters, getEvents, getTeamsByName, followTeam, getUserTeams, unFollowTeam,setNotification}

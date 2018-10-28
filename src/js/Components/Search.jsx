@@ -6,7 +6,8 @@ import kambi from '../Services/kambi'
 import _ from 'lodash';
 import styles from './Search.scss'
 import {getCIDOrDefault} from '../Services/helper'
-
+import toastr from 'reactjs-toastr';
+import 'reactjs-toastr/lib/toast.css';
 const theme = {
     container: {
         display: 'flex'
@@ -192,10 +193,7 @@ class Search extends Component {
         });
         if (team) {
             kambi.unFollowTeam(team._id, getCIDOrDefault()).then(() => {
-                // swal(suggestion.englishName + ' Was removed from your favorite list.');
-                // if (typeof this.props.onFollowHandler === 'function') {
-                //     this.props.onFollowHandler(suggestion);
-                // }
+                toastr.success('Unollowed successfully ', 'UnFollow team', {displayDuration:3000,positionClass: 'toast-top'});
                 this.init();
             })
         }
@@ -209,6 +207,9 @@ class Search extends Component {
             // if (typeof this.props.onFollowHandler === 'function') {
             //     this.props.onFollowHandler(suggestion);
             // }
+
+            toastr.success('Followed successfully ', 'Follow team', {displayDuration:3000,positionClass: 'toast-top'});
+
             this.init();
         })
         console.log('follow ' + suggestion);

@@ -13,7 +13,10 @@ import {Typeahead} from 'react-bootstrap-typeahead'
 import _ from 'lodash';
 import kambi from '../Services/kambi';
 import Switch from 'react-bootstrap-switch';
-import {widgetModule} from 'kambi-widget-core-library'
+import {widgetModule} from 'kambi-widget-core-library';
+import toastr from 'reactjs-toastr';
+import {getCIDOrDefault} from "../Services/helper";
+
 
 /**
  * How long (in milliseconds) to wait before scrolling league logo out
@@ -151,6 +154,7 @@ class MatchOverviewWidget extends Component {
     unFollowClicked = (suggestion) => {
         kambi.unFollowTeam(suggestion._id, this.state.user.cid).then(() => {
             this.refs.search.init();
+            toastr.success('Unollowed successfully ', 'UnFollow team', {displayDuration:3000,positionClass: 'toast-top'});
         });
     };
 
@@ -158,6 +162,8 @@ class MatchOverviewWidget extends Component {
         console.log('handleSwitch. elem:', elem);
         console.log('name:', elem.props.name);
         console.log('new state:', state);
+        let cid=getCIDOrDefault();
+        kambi.setNotification(cid,state);
     }
 
     /**
