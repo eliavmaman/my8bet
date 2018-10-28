@@ -62,7 +62,9 @@ body {
     overflow: auto;
 
 }
-
+.clear-both{
+    clear: both;
+}
 /*.KambiWidget-outcome, .KambiWidget-primary-background-color {*/
     /*background: #dd5516 !important;*/
 /*}*/

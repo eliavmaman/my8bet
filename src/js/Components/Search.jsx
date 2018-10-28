@@ -128,30 +128,32 @@ class Search extends Component {
         this.state = {
             value: '',
             suggestions: [],
-           // user: {favorites: []},
+            // user: {favorites: []},
             cid: ''
         };
         this.init();
     }
+
     componentWillReceiveProps(nextProps) {
         this.state.cid = getCIDOrDefault();
         kambi.getUserTeams(this.state.cid).then((res) => {
-            if (!res) res={favorites:[]};
+            if (!res) res = {favorites: []};
             this.state.user = res;
         })
     }
+
     init = () => {
         this.state.cid = getCIDOrDefault();
         kambi.getUserTeams(this.state.cid).then((res) => {
-            if (!res) res={favorites:[]};
+            if (!res) res = {favorites: []};
             this.state.user = res;
         })
     };
 
     renderSuggestion = suggestion => (
         <div>
-            <span className={styles.filter_name}>{suggestion.englishName}</span><span
-            className={styles.category}>{this.getCategoryName(suggestion)}</span>
+            <div title={suggestion.englishName} className={styles.filter_name}>{suggestion.englishName}</div>
+            <div className={styles.category}>{this.getCategoryName(suggestion)}</div>
             {!this.isUserTeam(suggestion.englishName) ?
                 <a className="btn btn-success btn-sm f-u-btn" onClick={() => this.followClicked(suggestion)}>Follow</a>
                 : null}
@@ -159,6 +161,7 @@ class Search extends Component {
                 <a className="btn btn-danger btn-sm f-u-btn"
                    onClick={() => this.unFollowClicked(suggestion)}>Unfollow</a>
                 : null}
+            <div className="clear-both"></div>
         </div>
     );
 
@@ -169,7 +172,7 @@ class Search extends Component {
         } else if (arr[1] && arr[1].indexOf('_') > -1) {
             arr[1] = arr[1].replace('_', ' ');
         }
-        return arr[1];
+        return '(' + arr[1] + ')';
 
     }
 
@@ -192,7 +195,7 @@ class Search extends Component {
                     displayDuration: 3000,
                     positionClass: 'toast-bottom'
                 });
-                kambi.getUserTeams(getCIDOrDefault(),true).then((res) => {
+                kambi.getUserTeams(getCIDOrDefault(), true).then((res) => {
                     saveUserToLocalStorage(res.data);
 
                 });
@@ -210,13 +213,13 @@ class Search extends Component {
                 displayDuration: 3000,
                 positionClass: 'toast-bottom'
             });
-            kambi.getUserTeams(cid,true).then((res) => {
+            kambi.getUserTeams(cid, true).then((res) => {
                 saveUserToLocalStorage(res.data);
                 this.onFollowHandler();
             });
 
 
-           // this.init();
+            // this.init();
         })
         console.log('follow ' + suggestion);
     };

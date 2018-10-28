@@ -1,15 +1,17 @@
 .category{
   font-size: 12px;
-  padding-left: 8px;
+  margin-top: 5px;
   color: rgba(0,0,0,.38);
+  float: left;
+  margin-left: 10px;
 }
 
 .filter_name{
-  //width: 60%;
-  //display: inline-block;
-  text-overflow: ellipsis;
-  white-space: nowrap;
   overflow: hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  width:150px;
+  float: left;
 }
 
 div ul li
