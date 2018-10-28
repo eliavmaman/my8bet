@@ -204,6 +204,7 @@ class MatchOverviewWidget extends Component {
         };
         var star = {"fontSize": "20px", "color": "orange", "marginRight": "10px"};
         var starBig = {"fontSize": "60px", "color": "gray", "marginRight": "10px"};
+        var starBigOrange = {"fontSize": "60px", "color": "orange", "marginRight": "10px"};
         return (
 
             <div>
@@ -278,11 +279,7 @@ class MatchOverviewWidget extends Component {
                     {(this.state.userEvents.length == 0 && this.state.user.favorites.length > 0) &&
                     (
                         <div style={notFoundStyle}>
-                            <svg width="49" height="51" xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M3.9468 10.0288L20.5548.995c2.4433-1.3267 5.45-1.3267 7.8936 0l16.6078 9.0338C47.4966 11.3585 49 13.8102 49 16.4666V34.534c0 2.6537-1.5034 5.1082-3.9438 6.438l-16.6078 9.0307c-2.4435 1.3297-5.4503 1.3297-7.8937 0L3.9467 40.972C1.5035 39.642 0 37.1876 0 34.534V16.4667c0-2.6564 1.5034-5.108 3.9468-6.4378z"
-                                    className="app-icon" fillRule="evenodd"/>
-                            </svg>
+                            <i className="fas fa-star" style={starBigOrange}></i>
                             <div style={notFoundTitle}>Favorites events not found</div>
                         </div>
                     )
