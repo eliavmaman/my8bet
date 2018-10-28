@@ -5,9 +5,11 @@ import Autosuggest from 'react-autosuggest'
 import kambi from '../Services/kambi'
 import _ from 'lodash';
 import styles from './Search.scss'
-import {getCIDOrDefault} from '../Services/helper'
+import {getCIDOrDefault} from '../Services/helper';
 import toastr from 'reactjs-toastr';
 import 'reactjs-toastr/lib/toast.css';
+import {saveUserToLocalStorage} from '../Services/helper';
+
 const theme = {
     container: {
         display: 'flex'
@@ -101,7 +103,7 @@ const getTeamsByNameTerm = (teamName) => {
         return res.length === 0 ? [] : leagues;
 
     })
-}
+};
 // When suggestion is clicked, Autosuggest needs to populate the input
 // based on the clicked suggestion. Teach Autosuggest how to calculate the
 // input value for every given suggestion.
@@ -112,14 +114,7 @@ var imageStyle = {
     height: 'auto',
     width: '100%'
 }
-// Use your imagination to render suggestions.
-// const renderSuggestion = suggestion => (
-//     <div>
-//         <span>{suggestion.englishName}</span>
-//         <a className="btn btn-primary btn-xs pull-right" style={{background: '#dd5516'}}
-//            onclick={this.followClicked(event,suggestion)}>Follow </a>
-//     </div>
-// );
+
 
 class Search extends Component {
 
@@ -127,23 +122,29 @@ class Search extends Component {
      * Constructs.
      * @param {object} props Component properties
      */
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.state = {
             value: '',
             suggestions: [],
-            user: {favorites: []},
+           // user: {favorites: []},
             cid: ''
         };
         this.init();
     }
-
+    componentWillReceiveProps(nextProps) {
+        this.state.cid = getCIDOrDefault();
+        kambi.getUserTeams(this.state.cid).then((res) => {
+            if (!res) return;
+            this.state.user = res;
+        })
+    }
     init = () => {
         this.state.cid = getCIDOrDefault();
         kambi.getUserTeams(this.state.cid).then((res) => {
-            if (!res.data) return;
-            this.state.user = res.data;
+            if (!res) return;
+            this.state.user = res;
         })
     };
 
@@ -154,16 +155,10 @@ class Search extends Component {
             {!this.isUserTeam(suggestion.englishName) ?
                 <a className="btn btn-success btn-sm f-u-btn" onClick={() => this.followClicked(suggestion)}>Follow</a>
                 : null}
-            {/*<i className="fas fa-thumbs-up" title="Follow"*/}
-            {/*onClick={() => this.followClicked(suggestion)}></i>*/}
-
             {this.isUserTeam(suggestion.englishName) ?
                 <a className="btn btn-danger btn-sm f-u-btn"
                    onClick={() => this.unFollowClicked(suggestion)}>Unfollow</a>
-
                 : null}
-            {/*<i className="fas fa-thumbs-down" title="Unfollow"*/}
-            {/*onClick={() => this.unFollowClicked(suggestion)}></i>*/}
         </div>
     );
 
@@ -193,8 +188,16 @@ class Search extends Component {
         });
         if (team) {
             kambi.unFollowTeam(team._id, getCIDOrDefault()).then(() => {
-                toastr.success('Unollowed successfully ', 'UnFollow team', {displayDuration:3000,positionClass: 'toast-top'});
-                this.init();
+
+                kambi.getUserTeams(getCIDOrDefault(),true).then((res) => {
+                    saveUserToLocalStorage(res.data);
+
+                });
+                toastr.success('Unollowed successfully ', 'UnFollow team', {
+                    displayDuration: 3000,
+                    positionClass: 'toast-top'
+                });
+                //this.init();
             })
         }
     };
@@ -203,14 +206,17 @@ class Search extends Component {
 // alert('from search '+this.state.cid)
         let cid = getCIDOrDefault();
         kambi.followTeam(suggestion.id, cid, suggestion.englishName).then(() => {
-            // swal(suggestion.englishName + ' Was added to your favorite list.');
-            // if (typeof this.props.onFollowHandler === 'function') {
-            //     this.props.onFollowHandler(suggestion);
-            // }
 
-            toastr.success('Followed successfully ', 'Follow team', {displayDuration:3000,positionClass: 'toast-top'});
+            kambi.getUserTeams(cid,true).then((res) => {
+                saveUserToLocalStorage(res.data);
+                this.onFollowHandler();
+            });
+            toastr.success('Followed successfully ', 'Follow team', {
+                displayDuration: 3000,
+                positionClass: 'toast-top'
+            });
 
-            this.init();
+           // this.init();
         })
         console.log('follow ' + suggestion);
     };

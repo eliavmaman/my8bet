@@ -4,6 +4,8 @@ import {
     widgetModule,
 } from 'kambi-widget-core-library';
 import {getCID} from './helper';
+
+import {getUserFromLocalStorage} from './helper';
 //import ss from 'helper'
 import axios from 'axios'
 
@@ -128,7 +130,7 @@ const getEventsProgressively = function (filters) {
 
 const localUrl = 'http://localhost:3000';
 let herokuUrl = 'https://my8bet-server.herokuapp.com';
- //herokuUrl = localUrl;
+herokuUrl = localUrl;
 
 const getEvents = function (filters, combined = true) {
     const getEventsFunc = combined ? getEventsCombined : getEventsProgressively
@@ -144,12 +146,14 @@ const getTeamsByName = function (name) {
         return axios.get('https://cts-api.kambi.com/offering/api/v3/888/term/search.json?lang=en_GB&market=ZZ&client_id=2&channel_id=1&ncid=1529222417846&term=' + name);
     } else {
         return axios.get('https://api.aws.kambicdn.com/offering/api/v3/888/term/search.json?lang=en_GB&market=ZZ&client_id=2&channel_id=1&ncid=1529222417846&term=' + name);
-
     }
 
 }
 
-const getUserTeams = function (cid) {
+const getUserTeams = function (cid, fromServer) {
+    if (!fromServer) {
+        return  Promise.resolve(getUserFromLocalStorage());
+    }
     return axios.get(herokuUrl + '/api/favorites/' + cid);
 }
 
@@ -160,8 +164,16 @@ const followTeam = function (teamId, cid, englishName) {
 const unFollowTeam = function (teamId, cid) {
     return axios.delete(herokuUrl + '/api/favorites/' + teamId + '/user/' + cid);
 }
-const setNotification=(cid,state)=>{
-    return axios.post(herokuUrl + '/api/user/' + cid+'/notification',{notified:state});
+const setNotification = (cid, state) => {
+    return axios.post(herokuUrl + '/api/user/' + cid + '/notification', {notified: state});
 }
 
-export default {getHighlightedFilters, getEvents, getTeamsByName, followTeam, getUserTeams, unFollowTeam,setNotification}
+export default {
+    getHighlightedFilters,
+    getEvents,
+    getTeamsByName,
+    followTeam,
+    getUserTeams,
+    unFollowTeam,
+    setNotification
+}

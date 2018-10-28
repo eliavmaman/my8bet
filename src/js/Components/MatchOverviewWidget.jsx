@@ -16,6 +16,7 @@ import Switch from 'react-bootstrap-switch';
 import {widgetModule} from 'kambi-widget-core-library';
 import toastr from 'reactjs-toastr';
 import {getCIDOrDefault} from "../Services/helper";
+import {saveUserToLocalStorage} from '../Services/helper';
 
 
 /**
@@ -90,18 +91,16 @@ class MatchOverviewWidget extends Component {
 
     componentWillReceiveProps(nextProps) {
         //if(nextProps.events!==this.props.events){
-        this.props.user.then((res) => {
+
+        kambi.getUserTeams().then((res)=>{
             if (!res) return;
             let userEvents = [];
             let count = 0;
             this.state.user = res;
             this.state.isUserTeamsArrived = true;
 
-            var user = res;
-
-
             this.props.events.forEach((e) => {
-                let foundedUt = _.find(user.favorites, (ut) => {
+                let foundedUt = _.find(this.state.user.favorites, (ut) => {
                     return e.event.homeName == ut.englishName || e.event.awayName == ut.englishName
                 });
                 if (foundedUt) {
@@ -110,6 +109,7 @@ class MatchOverviewWidget extends Component {
 
                 }
             });
+
             if(count > 2){
                 widgetModule.setWidgetHeight(100 + (count * 110));
             }else
@@ -117,15 +117,12 @@ class MatchOverviewWidget extends Component {
                 widgetModule.setWidgetHeight(450);
             }
 
-
             this.setState({userEvents: userEvents});// .state.userEvents = userEvents;
             this.state.userEvents.forEach((e) => {
                 this.items.push(e.event.englishName);
             })
+        })
 
-        });
-
-        //}
     }
 
     openNav() {
@@ -153,6 +150,10 @@ class MatchOverviewWidget extends Component {
 
     unFollowClicked = (suggestion) => {
         kambi.unFollowTeam(suggestion._id, this.state.user.cid).then(() => {
+            kambi.getUserTeams(getCIDOrDefault(),true).then((res) => {
+                saveUserToLocalStorage(res.data);
+
+            });
             this.refs.search.init();
             toastr.success('Unollowed successfully ', 'UnFollow team', {displayDuration:3000,positionClass: 'toast-top'});
         });
@@ -353,6 +354,7 @@ MatchOverviewWidget.propTypes = {
      * Tournament logo class name.
      */
     tournamentLogo: PropTypes.string,
+    onFollowHandler: PropTypes.func
 }
 
 MatchOverviewWidget.defaultProps = {
