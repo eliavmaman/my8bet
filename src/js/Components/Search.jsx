@@ -6,10 +6,11 @@ import kambi from '../Services/kambi'
 import _ from 'lodash';
 import styles from './Search.scss'
 import {getCIDOrDefault} from '../Services/helper';
-import toastr from 'reactjs-toastr';
-import 'reactjs-toastr/lib/toast.css';
+// import toastr from 'reactjs-toastr';
+// import 'reactjs-toastr/lib/toast.css';
 import {saveUserToLocalStorage} from '../Services/helper';
 
+import toastr from 'toastr';
 const theme = {
     container: {
         display: 'flex'
@@ -191,10 +192,10 @@ class Search extends Component {
         });
         if (team) {
             kambi.unFollowTeam(team._id, getCIDOrDefault()).then(() => {
-                toastr.success('Unollowed successfully ', 'UnFollow team', {
-                    displayDuration: 3000,
-                    positionClass: 'toast-bottom'
-                });
+
+
+
+                toastr.success('Unfollowed ' + team.englishName + ' successfully.', 'UnFollow');
                 kambi.getUserTeams(getCIDOrDefault(), true).then((res) => {
                     saveUserToLocalStorage(res.data);
 
@@ -209,10 +210,10 @@ class Search extends Component {
 // alert('from search '+this.state.cid)
         let cid = getCIDOrDefault();
         kambi.followTeam(suggestion.id, cid, suggestion.englishName).then(() => {
-            toastr.success('Followed successfully ', 'Follow team', {
-                displayDuration: 3000,
-                positionClass: 'toast-bottom'
-            });
+
+
+            toastr.success('Followed ' + suggestion.englishName + ' successfully.', 'Follow');
+
             kambi.getUserTeams(cid, true).then((res) => {
                 saveUserToLocalStorage(res.data);
                 this.onFollowHandler();
@@ -271,6 +272,9 @@ class Search extends Component {
         //Here you do whatever you want with the values
         console.log(suggestionValue)
         //alert(suggestionValue); //For example alert the selected value
+        this.setState({
+            value: ''
+        });
     };
 
     render() {
@@ -284,9 +288,7 @@ class Search extends Component {
             className: 'form-control',
         };
 
-        // Finally, render it!
         return (
-
             <Autosuggest
                 suggestions={suggestions}
                 onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
@@ -297,7 +299,6 @@ class Search extends Component {
                 inputProps={inputProps}
                 theme={theme}
             />
-
         );
     }
 }

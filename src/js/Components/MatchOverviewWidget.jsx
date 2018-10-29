@@ -14,10 +14,10 @@ import _ from 'lodash';
 import kambi from '../Services/kambi';
 import Switch from 'react-bootstrap-switch';
 import {widgetModule} from 'kambi-widget-core-library';
-import toastr from 'reactjs-toastr';
 import {getCIDOrDefault} from "../Services/helper";
 import {saveUserToLocalStorage} from '../Services/helper';
 
+import toastr from 'toastr';
 
 /**
  * How long (in milliseconds) to wait before scrolling league logo out
@@ -151,10 +151,7 @@ class MatchOverviewWidget extends Component {
                 saveUserToLocalStorage(res.data);
             });
             this.refs.search.init();
-            toastr.success('UnFollowed successfully ', 'UnFollow team', {
-                displayDuration: 3000,
-                positionClass: 'toast-top'
-            });
+            toastr.success('Unfollowed ' + suggestion.englishName + ' successfully.', 'UnFollow');
         });
     };
 
@@ -167,6 +164,7 @@ class MatchOverviewWidget extends Component {
             case 'comingSoon':
                 kambi.setComingSoon(cid, state).then((res) => {
                     kambi.getUserTeams(getCIDOrDefault(), true).then((res) => {
+                        this.state.user = res.data;
                         saveUserToLocalStorage(res.data);
                         this.forceUpdate();
                     });
@@ -175,6 +173,7 @@ class MatchOverviewWidget extends Component {
             case 'endGame':
                 kambi.setEndGame(cid, state).then((res) => {
                     kambi.getUserTeams(getCIDOrDefault(), true).then((res) => {
+                        this.state.user = res.data;
                         saveUserToLocalStorage(res.data);
                         this.forceUpdate();
                     });
@@ -370,6 +369,7 @@ class MatchOverviewWidget extends Component {
                 {/*)*/}
                 {/*})}*/}
                 {/*</ScrolledList>*/}
+
             </div>
         )
     }

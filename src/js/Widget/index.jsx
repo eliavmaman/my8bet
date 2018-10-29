@@ -6,6 +6,7 @@ import kambi from '../Services/kambi'
 import live from '../Services/live'
 import {getCIDOrDefault} from '../Services/helper';
 
+
 /**
  * Rendered when combined filter is used or there is no current filter.
  * @type {string}
