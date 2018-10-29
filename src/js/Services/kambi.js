@@ -4,9 +4,8 @@ import {
     widgetModule,
 } from 'kambi-widget-core-library';
 import {getCID} from './helper';
-
 import {getUserFromLocalStorage} from './helper';
-//import ss from 'helper'
+
 import axios from 'axios'
 
 /**
@@ -130,7 +129,7 @@ const getEventsProgressively = function (filters) {
 
 const localUrl = 'http://localhost:3000';
 let herokuUrl = 'https://my8bet-server.herokuapp.com';
-//herokuUrl = localUrl;
+herokuUrl = localUrl;
 
 const getEvents = function (filters, combined = true) {
     const getEventsFunc = combined ? getEventsCombined : getEventsProgressively
