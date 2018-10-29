@@ -156,10 +156,10 @@ class Search extends Component {
             <div title={suggestion.englishName} className={styles.filter_name}>{suggestion.englishName}</div>
             <div className={styles.category}>{this.getCategoryName(suggestion)}</div>
             {!this.isUserTeam(suggestion.englishName) ?
-                <a className="btn btn-success btn-sm f-u-btn" onClick={() => this.followClicked(suggestion)}>Follow</a>
+                <a className="btn btn-success btn-xs f-u-btn" onClick={() => this.followClicked(suggestion)}>Follow</a>
                 : null}
             {this.isUserTeam(suggestion.englishName) ?
-                <a className="btn btn-danger btn-sm f-u-btn"
+                <a className="btn btn-danger btn-xs f-u-btn"
                    onClick={() => this.unFollowClicked(suggestion)}>Unfollow</a>
                 : null}
             <div className="clear-both"></div>

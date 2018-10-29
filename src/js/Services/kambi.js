@@ -169,6 +169,10 @@ const setComingSoon = (cid, state) => {
 const setEndGame = (cid, state) => {
     return axios.post(herokuUrl + '/api/user/' + cid + '/endgame', {notified: state});
 }
+const setLiveEvents = (cid, state) => {
+    return axios.post(herokuUrl + '/api/user/' + cid + '/liveevents', {notified: state});
+}
+
 
 export default {
     getHighlightedFilters,
@@ -178,5 +182,6 @@ export default {
     getUserTeams,
     unFollowTeam,
     setComingSoon,
-    setEndGame
+    setEndGame,
+    setLiveEvents
 }

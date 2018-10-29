@@ -179,6 +179,16 @@ class MatchOverviewWidget extends Component {
                     });
                 });
                 break;
+            case 'liveEvents':
+                kambi.setLiveEvents(cid, state).then((res) => {
+                    kambi.getUserTeams(getCIDOrDefault(), true).then((res) => {
+                        this.state.user = res.data;
+                        saveUserToLocalStorage(res.data);
+                        this.forceUpdate();
+                    });
+                });
+                break;
+
 
         }
 
@@ -194,6 +204,13 @@ class MatchOverviewWidget extends Component {
     getEndGame() {
         if (this.state.user && this.state.user.settings) {
             return this.state.user.settings.endGame;
+        }
+        return false;
+    }
+
+    getLiveEvents() {
+        if (this.state.user && this.state.user.settings) {
+            return this.state.user.settings.liveEvents;
         }
         return false;
     }
@@ -246,7 +263,10 @@ class MatchOverviewWidget extends Component {
 
                             <div className="col-xs-6">
                                 <div className="title">My Favorites</div>
-
+                                <div className="live-events">
+                                    <Switch offText={'live'} onText={'Live'} value={this.getLiveEvents()}
+                                            onChange={(el, state) => this.handleSwitch(el, state)} name='liveEvents'/>
+                                </div>
                             </div>
                             <div className="col-xs-6">
                                 <div className="title">General Settings</div>
@@ -268,15 +288,16 @@ class MatchOverviewWidget extends Component {
                                     <Switch value={this.getComingsoon()}
                                             onChange={(el, state) => this.handleSwitch(el, state)} name='comingSoon'/>
                                 </section>
-                                <section className="settings disabled">
-                                    <strong className="m-r">End games result </strong>
-                                    <small className="recommended">RECOMMENDED</small>
+                                <section className="settings">
+                                    <strong className="m-r">End games alert </strong>
+                                    {/*<small className="recommended">RECOMMENDED</small>*/}
                                     <div className="v-padder info">
                                         Get results of selected bets
                                     </div>
                                     <Switch value={this.getEndGame()}
                                             onChange={(el, state) => this.handleSwitch(el, state)} name='endGame'/>
                                 </section>
+
                             </div>
                         </div>
                     </div>

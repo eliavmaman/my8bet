@@ -20,6 +20,7 @@ body {
 
 .recommended {
     color: #dd5516;
+    display: block;
 }
 
 .settings-myfav-container {
@@ -38,7 +39,7 @@ body {
 .f-u-btn {
     float: right;
     /*margin-top: 5px !important;*/
-    margin-left: 20px;
+    margin-left: 5px;
     min-width: 70px;
 }
 
@@ -226,4 +227,9 @@ section.settings div.info {
     padding: 0 !important;
     cursor: pointer;
 
+}
+
+.live-events{
+    float: right;
+    margin-top: -38px;
 }
