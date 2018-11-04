@@ -216,7 +216,6 @@ class Search extends Component {
 
             kambi.getUserTeams(cid, true).then((res) => {
                 saveUserToLocalStorage(res.data);
-                this.onFollowHandler();
             });
 
 

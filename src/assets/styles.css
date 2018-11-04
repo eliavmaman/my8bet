@@ -25,7 +25,10 @@ body {
 
 .settings-myfav-container {
     border-right: 1px solid #ccc;
-    min-height: 350px;
+    height: 150px;
+    overflow-y: auto;
+
+
 }
 
 .fas.fa-thumbs-down, .fas.fa-thumbs-up {

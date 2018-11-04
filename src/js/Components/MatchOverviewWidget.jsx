@@ -261,24 +261,17 @@ class MatchOverviewWidget extends Component {
                         <a href="javascript:void(0)" className="closebtn" onClick={this.closeNav}>&times;</a>
                         <div className="row">
 
-                            <div className="col-xs-6">
+                            <div className="col-xs-12">
                                 <div className="title">My Favorites</div>
                                 <div className="live-events">
-                                    <Switch offText={'live'} onText={'Live'} value={this.getLiveEvents()}
-                                            onChange={(el, state) => this.handleSwitch(el, state)} name='liveEvents'/>
+
+                                </div>
+                                <div className="p-t">
+                                    {this.getUserTeams()}
                                 </div>
                             </div>
-                            <div className="col-xs-6">
+                            <div className="col-xs-12">
                                 <div className="title">General Settings</div>
-
-                            </div>
-
-                            <div className="col-xs-6">
-
-                                {this.getUserTeams()}
-                            </div>
-                            <div className="col-xs-6 p-t">
-
                                 <section className="settings">
                                     <strong className="m-r">Coming soon alert</strong>
                                     <small className="recommended">RECOMMENDED</small>
@@ -297,8 +290,26 @@ class MatchOverviewWidget extends Component {
                                     <Switch value={this.getEndGame()}
                                             onChange={(el, state) => this.handleSwitch(el, state)} name='endGame'/>
                                 </section>
+                                <section className="settings">
+                                    <strong className="m-r">Live event alert</strong>
+
+                                    <div className="v-padder info">
+                                        Display live events on bet list
+                                    </div>
+                                    <Switch offText={'live'} onText={'Live'} value={this.getLiveEvents()}
+                                            onChange={(el, state) => this.handleSwitch(el, state)} name='liveEvents'/>
+                                </section>
+
+
 
                             </div>
+
+
+                            {/*<div className="col-xs-6 p-t">*/}
+
+                              {/**/}
+
+                            {/*</div>*/}
                         </div>
                     </div>
                 </div>
