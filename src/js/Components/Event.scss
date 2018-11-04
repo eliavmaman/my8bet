@@ -15,8 +15,8 @@
    color: #222;
 
    @media (max-width: $screen-xss) {
-      max-width: round($screen-xss / 1.2);
-      width: round($screen-xss / 1.2);
+      max-width: round(378px/ 1.2);
+      width: round(378px / 1.2);
       flex: 1 0 round($screen-xss / 1.2);
    }
 
