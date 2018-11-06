@@ -22,12 +22,12 @@ body {
     color: #dd5516;
     display: block;
 }
-
-.settings-myfav-container {
+.bb-gray{
     border-right: 1px solid #ccc;
-    height: 150px;
+}
+.settings-myfav-container {
+    height: 350px;
     overflow-y: auto;
-
 
 }
 
@@ -202,11 +202,12 @@ body {
 
 section.settings {
     border-bottom: 1px solid #ccc;
-    padding-bottom: 15px;
+    padding: 5px 0;
+    font-size: 12px;
 }
 
 section.settings strong {
-    display: block;
+    /*display: block;*/
 }
 
 section.settings div.info {
@@ -235,7 +236,21 @@ section.settings div.info {
 
 }
 
-.live-events{
+.live-events {
     float: right;
-    margin-top: -38px;
+    margin-top: -32px;
+}
+
+.rsbc-switch-button label {
+    font-size: 12px;
+}
+
+
+.rsbc-switch-button.rsbc-switch-button-flat-round input[type=checkbox]:checked + label ,.rsbc-switch-button.rsbc-switch-button-flat-round input[type=checkbox] + label{
+    background-color: #fa6200 !important;
+}
+
+.rsbc-switch-button.rsbc-switch-button-flat-round input[type=checkbox]:checked + label:after {
+    margin-left: 24px;
+    background-color: limegreen !important;
 }

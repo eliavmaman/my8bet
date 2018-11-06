@@ -12,10 +12,13 @@ import Search from './Search'
 import {Typeahead} from 'react-bootstrap-typeahead'
 import _ from 'lodash';
 import kambi from '../Services/kambi';
-import Switch from 'react-bootstrap-switch';
+// import Switch from 'react-bootstrap-switch';
+import Toggle from "react-toggle-component"
+import "react-toggle-component/styles.css"
 import {widgetModule} from 'kambi-widget-core-library';
 import {getCIDOrDefault} from "../Services/helper";
 import {saveUserToLocalStorage} from '../Services/helper';
+
 
 import toastr from 'toastr';
 
@@ -41,6 +44,8 @@ class MatchOverviewWidget extends Component {
             isPulse: true
 
         };
+
+        this.handleSwitch = this.handleSwitch.bind(this);
 
         // setTimeout(() => {
         //     this.state.isPulse = false;
@@ -155,12 +160,12 @@ class MatchOverviewWidget extends Component {
         });
     };
 
-    handleSwitch(elem, state) {
-        console.log('handleSwitch. elem:', elem);
-        let name = elem.props.name;
+    handleSwitch(state, el) {
+        console.log('handleSwitch. elem:', el.target.id);
+        let id = el.target.id;
         console.log('new state:', state);
         let cid = getCIDOrDefault();
-        switch (name) {
+        switch (id) {
             case 'comingSoon':
                 kambi.setComingSoon(cid, state).then((res) => {
                     kambi.getUserTeams(getCIDOrDefault(), true).then((res) => {
@@ -261,55 +266,49 @@ class MatchOverviewWidget extends Component {
                         <a href="javascript:void(0)" className="closebtn" onClick={this.closeNav}>&times;</a>
                         <div className="row">
 
-                            <div className="col-xs-12">
+                            <div className="col-xs-6 bb-gray">
                                 <div className="title">My Favorites</div>
                                 <div className="live-events">
 
-                                </div>
-                                <div className="p-t">
-                                    {this.getUserTeams()}
+                                    <Toggle id="liveEvents"
+                                            label="Live"
+                                            checked={this.getLiveEvents()}
+                                            onToggle={(value, el) => this.handleSwitch(value, el)}/>
+
                                 </div>
                             </div>
-                            <div className="col-xs-12">
+                            <div className="col-xs-6 ">
                                 <div className="title">General Settings</div>
+
+                            </div>
+
+                            <div className="col-xs-6 bb-gray">
+
+                                {this.getUserTeams()}
+                            </div>
+                            <div className="col-xs-6 p-t ">
+
                                 <section className="settings">
                                     <strong className="m-r">Coming soon alert</strong>
-                                    <small className="recommended">RECOMMENDED</small>
-                                    <div className="v-padder info">
-                                        you will receive push notification for your favorites coming events
+                                    <div className="pull-right">
+                                        <Toggle id="comingSoon"
+                                                checked={this.getComingsoon()}
+                                                onToggle={(value, el) => this.handleSwitch(value, el)}/>
                                     </div>
-                                    <Switch value={this.getComingsoon()}
-                                            onChange={(el, state) => this.handleSwitch(el, state)} name='comingSoon'/>
+                                    <div className="clear-both"></div>
+
                                 </section>
                                 <section className="settings">
                                     <strong className="m-r">End games alert </strong>
-                                    {/*<small className="recommended">RECOMMENDED</small>*/}
-                                    <div className="v-padder info">
-                                        Get results of selected bets
+                                    <div className="pull-right">
+                                        <Toggle id="endGame"
+                                                checked={this.getEndGame()}
+                                                onToggle={(value, el) => this.handleSwitch(value, el)}/>
                                     </div>
-                                    <Switch value={this.getEndGame()}
-                                            onChange={(el, state) => this.handleSwitch(el, state)} name='endGame'/>
+                                    <div className="clear-both"></div>
                                 </section>
-                                <section className="settings">
-                                    <strong className="m-r">Live event alert</strong>
-
-                                    <div className="v-padder info">
-                                        Display live events on bet list
-                                    </div>
-                                    <Switch offText={'live'} onText={'Live'} value={this.getLiveEvents()}
-                                            onChange={(el, state) => this.handleSwitch(el, state)} name='liveEvents'/>
-                                </section>
-
-
 
                             </div>
-
-
-                            {/*<div className="col-xs-6 p-t">*/}
-
-                              {/**/}
-
-                            {/*</div>*/}
                         </div>
                     </div>
                 </div>
