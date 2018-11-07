@@ -34,3 +34,10 @@ export function getUserFromLocalStorage() {
 
     return JSON.parse(localStorage.getItem('8bet-user'));
 }
+
+export function isUserSubscribeToLiveEvents() {
+    let cid = getCIDOrDefault();
+    let user = getUserFromLocalStorage(cid);
+
+    return user ? user.settings.liveEvents : false;
+}

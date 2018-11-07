@@ -5,7 +5,7 @@ import MatchOverviewWidget from '../Components/MatchOverviewWidget'
 import kambi from '../Services/kambi'
 import live from '../Services/live'
 import {getCIDOrDefault} from '../Services/helper';
-import {getUserFromLocalStorage} from '../Services/helper';
+import {isUserSubscribeToLiveEvents} from '../Services/helper';
 
 
 /**
@@ -54,14 +54,11 @@ const render = function () {
  * Fetches events based on current filters and sets polling on the live ones.
  * @returns {Promise}
  */
-const isUserSubscribeToLiveEvents = () => {
-    let cid = getCIDOrDefault();
-    let user = getUserFromLocalStorage(cid);
 
-    return user ? user.settings.liveEvents : false;
-}
+
 const refreshEvents = function () {
-    let getLiveData = isUserSubscribeToLiveEvents();
+    // let myTimeOut;
+    // let getLiveData = isUserSubscribeToLiveEvents();
     return kambi
         .getEvents(this.filters, this.combineFilters)
         .then(({events, filter}) => {
@@ -78,19 +75,18 @@ const refreshEvents = function () {
             //  widgetModule.setWidgetHeight(100 + (liveEvents.length * 30));
             // no live events, schedule refresh
             if (liveEvents.length == 0) {
-                setTimeout(refreshEvents.bind(this), this.eventsRefreshInterval)
+             setTimeout(refreshEvents.bind(this), this.eventsRefreshInterval)
             }
-            if (getLiveData) {
-                live.subscribeToEvents(
-                    liveEvents.map(event => event.event.id),
-                    liveEventData => {
+            // if (getLiveData) {
+            live.subscribeToEvents(
+                liveEvents.map(event => event.event.id),
+                liveEventData => {
                         updateLiveEventData.call(this, liveEventData)
-
                         render.call(this)
-                    }, // onUpdate
-                    refreshEvents // onDrained
-                )
-            }
+                }, // onUpdate
+                refreshEvents // onDrained
+            )
+            //}
             // subscribe to notifications on live events
 
             // widgetModule.adaptWidgetHeight();
