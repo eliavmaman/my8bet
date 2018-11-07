@@ -18,6 +18,8 @@ import "react-toggle-component/styles.css"
 import {widgetModule} from 'kambi-widget-core-library';
 import {getCIDOrDefault} from "../Services/helper";
 import {saveUserToLocalStorage} from '../Services/helper';
+import {isUserSubscribeToLiveEvents} from '../Services/helper';
+import live from '../Services/live'
 
 
 import toastr from 'toastr';
@@ -94,7 +96,7 @@ class MatchOverviewWidget extends Component {
 
     componentWillReceiveProps(nextProps) {
         //if(nextProps.events!==this.props.events){
-
+        let isSubscribeLiveEvent = isUserSubscribeToLiveEvents();
         kambi.getUserTeams().then((res) => {
             this.state.isUserTeamsArrived = true;
             if (!res) return;
@@ -107,9 +109,10 @@ class MatchOverviewWidget extends Component {
                     return e.event.homeName == ut.englishName || e.event.awayName == ut.englishName
                 });
                 if (foundedUt) {
-                    userEvents.push(e);
-                    count++;
-
+                    if (!(e.liveData && !isSubscribeLiveEvent)) {
+                        userEvents.push(e);
+                        count++;
+                    }
                 }
             });
 
@@ -118,6 +121,7 @@ class MatchOverviewWidget extends Component {
             } else {
                 widgetModule.setWidgetHeight(450);
             }
+
 
             this.setState({userEvents: userEvents});// .state.userEvents = userEvents;
             this.state.userEvents.forEach((e) => {
