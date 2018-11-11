@@ -157,6 +157,7 @@ class MatchOverviewWidget extends Component {
     unFollowClicked = (suggestion) => {
         kambi.unFollowTeam(suggestion._id, this.state.user.cid).then(() => {
             kambi.getUserTeams(getCIDOrDefault(), true).then((res) => {
+                this.setState({user: res.data})
                 saveUserToLocalStorage(res.data);
             });
             this.refs.search.init();
@@ -335,7 +336,7 @@ class MatchOverviewWidget extends Component {
                         .map(event => {
 
                             if (this.state.userEvents.length > 0) {
-                                return (  <Event
+                                return (<Event
                                         key={event.event.id}
                                         event={event.event}
                                         liveData={event.liveData}

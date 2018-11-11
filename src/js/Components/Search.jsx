@@ -11,6 +11,7 @@ import {getCIDOrDefault} from '../Services/helper';
 import {saveUserToLocalStorage} from '../Services/helper';
 
 import toastr from 'toastr';
+
 const theme = {
     container: {
         display: 'flex'
@@ -147,7 +148,7 @@ class Search extends Component {
         this.state.cid = getCIDOrDefault();
         kambi.getUserTeams(this.state.cid).then((res) => {
             if (!res) res = {favorites: []};
-            this.state.user = res;
+            this.setState({user: res});
         })
     };
 
@@ -194,9 +195,9 @@ class Search extends Component {
             kambi.unFollowTeam(team._id, getCIDOrDefault()).then(() => {
 
 
-
                 toastr.success('Unfollowed ' + team.englishName + ' successfully.', 'UnFollow');
                 kambi.getUserTeams(getCIDOrDefault(), true).then((res) => {
+                    this.setState({user:res.data});
                     saveUserToLocalStorage(res.data);
 
                 });
@@ -215,6 +216,7 @@ class Search extends Component {
             toastr.success('Followed ' + suggestion.englishName + ' successfully.', 'Follow');
 
             kambi.getUserTeams(cid, true).then((res) => {
+                this.setState({user:res.data});
                 saveUserToLocalStorage(res.data);
             });
 
