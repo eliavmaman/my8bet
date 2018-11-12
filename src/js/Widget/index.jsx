@@ -75,14 +75,16 @@ const refreshEvents = function () {
             //  widgetModule.setWidgetHeight(100 + (liveEvents.length * 30));
             // no live events, schedule refresh
             if (liveEvents.length == 0) {
-             setTimeout(refreshEvents.bind(this), this.eventsRefreshInterval)
+                setTimeout(refreshEvents.bind(this), this.eventsRefreshInterval)
             }
             // if (getLiveData) {
             live.subscribeToEvents(
                 liveEvents.map(event => event.event.id),
                 liveEventData => {
-                        updateLiveEventData.call(this, liveEventData)
-                        render.call(this)
+                    updateLiveEventData.call(this, liveEventData);
+                    render.call(this);
+                    if (this.forceUpdate && {}.toString.call(this.forceUpdate) === '[object Function]')
+                        this.forceUpdate();
                 }, // onUpdate
                 refreshEvents // onDrained
             )
