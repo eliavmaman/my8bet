@@ -51,7 +51,7 @@ coreLibrary
         const widget = new Widget(filters, {
             combineFilters: coreLibrary.args.combineFilters,
             eventsRefreshInterval: coreLibrary.args.eventsRefreshInterval,
-            pollingCount: coreLibrary.args.pollingCount,
+            pollingCount: 100,//coreLibrary.args.pollingCount,
             onFatal,
         })
 

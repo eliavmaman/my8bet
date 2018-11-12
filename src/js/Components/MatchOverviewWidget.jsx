@@ -109,7 +109,8 @@ class MatchOverviewWidget extends Component {
                     return e.event.homeName == ut.englishName || e.event.awayName == ut.englishName
                 });
                 if (foundedUt) {
-                    if (!(e.liveData && !isSubscribeLiveEvent)) {
+                    if (!(e.liveData && !isSubscribeLiveEvent) && e.betOffers.length> 0) {
+
                         userEvents.push(e);
                         count++;
                     }
