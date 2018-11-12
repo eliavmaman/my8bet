@@ -146,7 +146,8 @@ class MatchOverviewWidget extends Component {
             return (
                 <li>
                     <span className="team-name">{ut.englishName}</span>
-                    <a onClick={() => this.unFollowClicked(ut)} className="unfollow-link">Remove</a>
+                    <i onClick={() => this.unFollowClicked(ut)} className="far fa-times-circle unfollow-link"></i>
+                    {/*<a  className=" unfollow-link">Remove</a>*/}
 
                 </li>
             );

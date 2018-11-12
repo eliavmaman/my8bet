@@ -230,7 +230,7 @@ section.settings div.info {
 .unfollow-link {
     color: red !important;
     float: right !important;
-    font-size: 12px !important;
+    font-size: 16px !important;
     padding: 0 !important;
     cursor: pointer;
 
