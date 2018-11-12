@@ -48,6 +48,7 @@ const render = function () {
         />,
         this.rootEl
     )
+
 }
 
 /**
@@ -83,8 +84,9 @@ const refreshEvents = function () {
                 liveEventData => {
                     updateLiveEventData.call(this, liveEventData);
                     render.call(this);
-                    if (this.forceUpdate && {}.toString.call(this.forceUpdate) === '[object Function]')
+                    if (window.location.href.indexOf('888') > -1)
                         this.forceUpdate();
+
                 }, // onUpdate
                 refreshEvents // onDrained
             )

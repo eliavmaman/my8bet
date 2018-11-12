@@ -7,30 +7,32 @@
 .general {
    border-right: 1px dotted rgba(255, 255, 255, 0.4);
    margin-top: 6px;
-   max-width: 350px;
-   width: 350px;
+   //max-width: 350px;
+   //width: 350px;
+   max-width: 100%;
+   width: 100%;
    height: 120px;
 
 
    color: #222;
 
-   @media (max-width: $screen-xss) {
-      max-width: round(378px/ 1.2);
-      width: round(378px / 1.2);
-      flex: 1 0 round($screen-xss / 1.2);
-   }
-
-   @media (min-width: $screen-xss + 1) and (max-width: $screen-xs) {
-      max-width: round($screen-xs / 1.6);
-      width: round($screen-xs / 1.6);
-      flex: 1 0 round($screen-xs / 1.6);
-   }
-
-   @media (min-width: $screen-xs + 1) and (max-width: $screen-ss) {
-      max-width: round($screen-ss / 1.7);
-      width: round($screen-ss / 1.7);
-      flex: 1 0 round($screen-ss / 1.7);
-   }
+   //@media (max-width: $screen-xss) {
+   //   max-width: round(378px/ 1.2);
+   //   width: round(378px / 1.2);
+   //   flex: 1 0 round($screen-xss / 1.2);
+   //}
+   //
+   //@media (min-width: $screen-xss + 1) and (max-width: $screen-xs) {
+   //   max-width: round($screen-xs / 1.6);
+   //   width: round($screen-xs / 1.6);
+   //   flex: 1 0 round($screen-xs / 1.6);
+   //}
+   //
+   //@media (min-width: $screen-xs + 1) and (max-width: $screen-ss) {
+   //   max-width: round($screen-ss / 1.7);
+   //   width: round($screen-ss / 1.7);
+   //   flex: 1 0 round($screen-ss / 1.7);
+   //}
 }
 
 .header {

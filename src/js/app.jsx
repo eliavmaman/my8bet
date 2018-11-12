@@ -32,7 +32,7 @@ coreLibrary
         toastr.options.showEasing = 'swing';
         toastr.options.hideEasing = 'linear';
         toastr.options.closeEasing = 'linear';
-        toastr.options.positionClass = 'toast-bottom-right';
+        toastr.options.positionClass = 'toast-bottom-right-full-width';
         console.log('----------coreLibrary.args------');
         console.log(coreLibrary.args);
 
