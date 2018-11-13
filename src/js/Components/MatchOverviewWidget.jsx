@@ -118,7 +118,7 @@ class MatchOverviewWidget extends Component {
             });
 
             if (count > 2) {
-                widgetModule.setWidgetHeight(100 + (count * 110));
+                widgetModule.setWidgetHeight(100 + (count * 120));
             } else {
                 widgetModule.setWidgetHeight(450);
             }

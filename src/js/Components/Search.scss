@@ -1,27 +1,31 @@
-.category{
+.category {
   font-size: 12px;
   margin-top: 5px;
-  color: rgba(0,0,0,.38);
+  color: rgba(0, 0, 0, .38);
   float: left;
   margin-left: 5px;
 }
 
-.filter_name{
+.filter_name {
   overflow: hidden;
-  white-space:nowrap;
-  text-overflow:ellipsis;
-  width:130px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 130px;
   float: left;
-  font-size:14px;
+  font-size: 14px;
 }
 
-div ul li
-{
+@media (min-width: 320px) and (max-width: 480px) {
+  .filter_name {
+    width: 115px;
+  }
+}
+
+div ul li {
   margin: 5px;
 }
 
-div ul li i
-{
-  float:right ; /* | top | bottom */
+div ul li i {
+  float: right; /* | top | bottom */
 
 }

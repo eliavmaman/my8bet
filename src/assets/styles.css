@@ -146,7 +146,17 @@ body {
     overflow: hidden;
     white-space: nowrap;
     display: inline-block;
+}
 
+@media (min-width: 320px) and (max-width: 480px) {
+    .sidenav ul li span.team-name {
+        font-size: 14px;
+        width: 115px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        display: inline-block;
+    }
 }
 
 .sidenav ul li i {
