@@ -109,7 +109,7 @@ class MatchOverviewWidget extends Component {
                     return e.event.homeName == ut.englishName || e.event.awayName == ut.englishName
                 });
                 if (foundedUt) {
-                    if (!(e.liveData && !isSubscribeLiveEvent) && e.betOffers.length> 0) {
+                    if (!(e.liveData && !isSubscribeLiveEvent) && e.betOffers.length > 0) {
 
                         userEvents.push(e);
                         count++;
@@ -275,14 +275,14 @@ class MatchOverviewWidget extends Component {
 
                             <div className="col-xs-6 bb-gray">
                                 <div className="title">My Favorites</div>
-                                <div className="live-events">
+                                {/*<div className="live-events">*/}
 
-                                    <Toggle id="liveEvents"
-                                            label="Live"
-                                            checked={this.getLiveEvents()}
-                                            onToggle={(value, el) => this.handleSwitch(value, el)}/>
+                                {/*<Toggle id="liveEvents"*/}
+                                {/*label="Live"*/}
+                                {/*checked={this.getLiveEvents()}*/}
+                                {/*onToggle={(value, el) => this.handleSwitch(value, el)}/>*/}
 
-                                </div>
+                                {/*</div>*/}
                             </div>
                             <div className="col-xs-6 ">
                                 <div className="title">General Settings</div>
@@ -297,7 +297,8 @@ class MatchOverviewWidget extends Component {
 
                                 <section className="settings">
                                     <strong className="m-r">Coming soon alert</strong>
-                                    <div className="pull-right">
+                                    <small className="recommended">RECOMMENDED</small>
+                                    <div className="">
                                         <Toggle id="comingSoon"
                                                 checked={this.getComingsoon()}
                                                 onToggle={(value, el) => this.handleSwitch(value, el)}/>
@@ -307,12 +308,21 @@ class MatchOverviewWidget extends Component {
                                 </section>
                                 <section className="settings">
                                     <strong className="m-r">End games alert </strong>
-                                    <div className="pull-right">
+                                    <div className="">
                                         <Toggle id="endGame"
                                                 checked={this.getEndGame()}
                                                 onToggle={(value, el) => this.handleSwitch(value, el)}/>
                                     </div>
                                     <div className="clear-both"></div>
+                                </section>
+                                <section className="settings">
+                                    <strong className="m-r">Live events </strong>
+                                    <small className="recommended">RECOMMENDED</small>
+                                    <div>
+                                        <Toggle id="liveEvents"
+                                                checked={this.getLiveEvents()}
+                                                onToggle={(value, el) => this.handleSwitch(value, el)}/>
+                                    </div>
                                 </section>
 
                             </div>

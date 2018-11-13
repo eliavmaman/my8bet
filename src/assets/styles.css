@@ -21,6 +21,7 @@ body {
 .recommended {
     color: #dd5516;
     display: block;
+    margin: 5px 0;
 }
 .bb-gray{
     border-right: 1px solid #ccc;
@@ -151,7 +152,7 @@ body {
 .sidenav ul li i {
 
     float: right !important;
-    margin-top: 5px !important;
+    margin-top: 3px !important;
     cursor: pointer;
 
 }
