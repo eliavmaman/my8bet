@@ -23,9 +23,11 @@ body {
     display: block;
     margin: 5px 0;
 }
-.bb-gray{
+
+.bb-gray {
     border-right: 1px solid #ccc;
 }
+
 .settings-myfav-container {
     height: 350px;
     overflow-y: auto;
@@ -233,6 +235,20 @@ section.settings div.info {
     z-index: 1;
 }
 
+.help-btn{
+    position: absolute;
+    right: 45px;
+    font-size: 25px;
+    top: 5px;
+    z-index: 1;
+    color: #5cb85c;
+    text-decoration: none;
+}
+.help-btn:hover{
+    color: #51A351;
+    text-decoration: none;
+}
+
 .disabled {
     opacity: 0.5;
 }
@@ -255,8 +271,7 @@ section.settings div.info {
     font-size: 12px;
 }
 
-
-.rsbc-switch-button.rsbc-switch-button-flat-round input[type=checkbox]:checked + label ,.rsbc-switch-button.rsbc-switch-button-flat-round input[type=checkbox] + label{
+.rsbc-switch-button.rsbc-switch-button-flat-round input[type=checkbox]:checked + label, .rsbc-switch-button.rsbc-switch-button-flat-round input[type=checkbox] + label {
     background-color: #fa6200 !important;
 }
 
@@ -264,7 +279,22 @@ section.settings div.info {
     margin-left: 24px;
     background-color: limegreen !important;
 }
-.rsbc-switch-button>label:first-child {
+
+.rsbc-switch-button > label:first-child {
 
     margin-right: 2px !important;
+}
+
+#overlay {
+    position: fixed; /* Sit on top of the page content */
+    display: none; /* Hidden by default */
+    width: 100%; /* Full width (cover the whole page) */
+    height: 100%; /* Full height (cover the whole page) */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+    z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+    cursor: pointer; /* Add a pointer on hover */
 }

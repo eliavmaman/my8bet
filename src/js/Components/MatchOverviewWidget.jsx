@@ -268,6 +268,7 @@ class MatchOverviewWidget extends Component {
         return (
 
             <div>
+
                 <div id="mySidenav" className="sidenav">
                     <div className="padder">
                         <a href="javascript:void(0)" className="closebtn" onClick={this.closeNav}>&times;</a>
@@ -330,12 +331,15 @@ class MatchOverviewWidget extends Component {
                     </div>
                 </div>
                 <span className="settings-btn fas fa-cog" onClick={this.openNav}></span>
+
+                <a className="help-btn fas fa-question-circle" target={'_blank'} href={'https://moshesagee.fleeq.io/l/fvbqcsjlf4-ovb6vobnhq'}></a>
                 {/*<header className={styles.header + ' animated bounceInUp '}>*/}
                 {/*<span>My Favorite</span>*/}
                 {/*</header>*/}
                 <div id="main">
                     <div className={styles.header}>
                         <i className={'fas fa-star ' + [styles.spin, styles.animated].join(' ')} style={star}></i>
+
                         My Favorites
                     </div>
 
