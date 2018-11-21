@@ -4,6 +4,10 @@
   color: rgba(0, 0, 0, .38);
   float: left;
   margin-left: 5px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 40px;
 }
 
 .filter_name {
@@ -17,7 +21,12 @@
 
 @media (min-width: 320px) and (max-width: 480px) {
   .filter_name {
-    width: 115px;
+    width: 105px;
+    font-size: 12px;
+  }
+  .category {
+    margin-top: 2px;
+    font-size: 10px;
   }
 }
 
