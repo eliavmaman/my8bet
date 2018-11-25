@@ -298,7 +298,11 @@ class MatchOverviewWidget extends Component {
 
                                 <section className="settings">
                                     <strong className="m-r">Coming soon alert</strong>
+
                                     <small className="recommended">RECOMMENDED</small>
+                                    <div className=" info">
+                                         Notified before match begin.
+                                    </div>
                                     <div className="">
                                         <Toggle id="comingSoon"
                                                 checked={this.getComingsoon()}
@@ -309,6 +313,9 @@ class MatchOverviewWidget extends Component {
                                 </section>
                                 <section className="settings">
                                     <strong className="m-r">End games alert </strong>
+                                    <div className="info">
+                                        Notified for end game result.
+                                    </div>
                                     <div className="">
                                         <Toggle id="endGame"
                                                 checked={this.getEndGame()}
@@ -325,6 +332,17 @@ class MatchOverviewWidget extends Component {
                                                 onToggle={(value, el) => this.handleSwitch(value, el)}/>
                                     </div>
                                 </section>
+                                <section className="settings disabled">
+                                    <strong className="m-r">Smart suggestions</strong>
+                                    <div className="info">
+                                        Coming soon..
+                                    </div>
+                                    <div>
+                                        <Toggle disabled id="smart-suggestions"
+                                                checked={false}
+                                                onToggle={(value, el) => {}}/>
+                                    </div>
+                                </section>
 
                             </div>
                         </div>
@@ -332,7 +350,8 @@ class MatchOverviewWidget extends Component {
                 </div>
                 <span className="settings-btn fas fa-cog" onClick={this.openNav}></span>
 
-                <a className="help-btn fas fa-question-circle" target={'_blank'} href={'https://moshesagee.fleeq.io/l/fvbqcsjlf4-ovb6vobnhq'}></a>
+                <a className="help-btn fas fa-question-circle" target={'_blank'}
+                   href={'https://moshesagee.fleeq.io/l/fvbqcsjlf4-ovb6vobnhq'}></a>
                 {/*<header className={styles.header + ' animated bounceInUp '}>*/}
                 {/*<span>My Favorite</span>*/}
                 {/*</header>*/}

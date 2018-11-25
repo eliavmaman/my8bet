@@ -283,7 +283,7 @@ class Search extends Component {
 
         // Autosuggest will pass through all these props to the input.
         const inputProps = {
-            placeholder: 'Type a team or league name',
+            placeholder: 'Type a team or player name',
             value,
             onChange: this.onChange,
             className: 'form-control',
