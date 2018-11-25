@@ -1,7 +1,8 @@
 export function getCID() {
 
     for (var i = 0; i < localStorage.length; i++) {
-
+        if(!isJson(localStorage.key(i)))
+            continue;
         var key = JSON.parse(localStorage.getItem(localStorage.key(i)));
 
         if (typeof key.named_user_id !== "undefined")
@@ -15,7 +16,8 @@ export function getCID() {
 export function getCIDOrDefault() {
 
     for (var i = 0; i < localStorage.length; i++) {
-
+        if(!isJson(localStorage.key(i)))
+            continue;
         var key = JSON.parse(localStorage.getItem(localStorage.key(i)));
 
         if (typeof key.named_user_id !== "undefined")
@@ -40,4 +42,10 @@ export function isUserSubscribeToLiveEvents() {
     let user = getUserFromLocalStorage(cid);
 
     return user ? user.settings.liveEvents : false;
+}
+function isJson(content){
+    return  (/^[\],:{}\s]*$/.test(content.replace(/\\["\\\/bfnrtu]/g, '@').
+    replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']').
+    replace(/(?:^|:|,)(?:\s*\[)+/g, '')))
+
 }
