@@ -275,7 +275,7 @@ class MatchOverviewWidget extends Component {
                         <div className="row">
 
                             <div className="col-xs-6 bb-gray">
-                                <div className="title">My Favorites</div>
+                                <div className="title">My Favourites</div>
                                 {/*<div className="live-events">*/}
 
                                 {/*<Toggle id="liveEvents"*/}
@@ -333,9 +333,9 @@ class MatchOverviewWidget extends Component {
                                     </div>
                                 </section>
                                 <section className="settings disabled">
-                                    <strong className="m-r">888 Recommendations</strong>
+                                    <strong className="m-r">Recommendations</strong>
                                     <div className="info">
-                                       Personalized  Recommendations
+                                       custom  Recommendations
                                     </div>
                                     <div>
                                         <Toggle disabled id="smart-suggestions"
