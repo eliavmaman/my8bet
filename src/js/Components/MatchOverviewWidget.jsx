@@ -152,6 +152,7 @@ class MatchOverviewWidget extends Component {
         this.state.userEvents.forEach((e) => {
             this.items.push(e.event.englishName);
         })
+
     }
 
     openNav() {
@@ -336,11 +337,11 @@ class MatchOverviewWidget extends Component {
                             <div className="col-xs-6 p-t ">
 
                                 <section className="settings">
-                                    <strong className="m-r">Coming soon alert</strong>
+                                    <strong className="m-r">Coming Soon Alerts</strong>
 
                                     <small className="recommended">RECOMMENDED</small>
                                     <div className=" info">
-                                        Notified before match begin.
+                                         Notified me before a match begin.
                                     </div>
                                     <div className="">
                                         <Toggle id="comingSoon"
@@ -351,9 +352,9 @@ class MatchOverviewWidget extends Component {
 
                                 </section>
                                 <section className="settings">
-                                    <strong className="m-r">End games alert </strong>
+                                    <strong className="m-r">End of Games Alerts </strong>
                                     <div className="info">
-                                        Notified for end game result.
+                                        Notified me with the final results.
                                     </div>
                                     <div className="">
                                         <Toggle id="endGame"
@@ -372,9 +373,9 @@ class MatchOverviewWidget extends Component {
                                     </div>
                                 </section>
                                 <section className="settings">
-                                    <strong className="m-r">Smart suggestions</strong>
+                                    <strong className="m-r">Recommendations</strong>
                                     <div className="info">
-                                        Coming soon..
+                                       custom  Recommendations
                                     </div>
                                     <div>
                                         <Toggle id="smart-suggestions"
