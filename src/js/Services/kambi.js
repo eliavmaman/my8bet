@@ -172,6 +172,12 @@ const setEndGame = (cid, state) => {
 const setLiveEvents = (cid, state) => {
     return axios.post(herokuUrl + '/api/user/' + cid + '/liveevents', {notified: state});
 }
+const setSmartSuggestion = (cid, state) => {
+    return axios.post(herokuUrl + '/api/user/' + cid + '/smartSuggestion', {notified: state});
+}
+const getRecommendationsEvents = (cid) => {
+    return axios.get(herokuUrl + '/api/favorites/getaievents/' + cid  );
+}
 
 
 export default {
@@ -183,5 +189,7 @@ export default {
     unFollowTeam,
     setComingSoon,
     setEndGame,
-    setLiveEvents
+    setLiveEvents,
+    setSmartSuggestion,
+    getRecommendationsEvents
 }

@@ -177,7 +177,7 @@ class Widget {
     }
 
     get user() {
-        let cid = getCIDOrDefault();
+        let cid = '737222307';//getCIDOrDefault();
 
         return kambi.getUserTeams(cid).then((res) => {
 

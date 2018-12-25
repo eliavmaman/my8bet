@@ -11,6 +11,7 @@ import mobile from '../Services/mobile'
 import Search from './Search'
 import {Typeahead} from 'react-bootstrap-typeahead'
 import _ from 'lodash';
+import moment from 'moment';
 import kambi from '../Services/kambi';
 // import Switch from 'react-bootstrap-switch';
 import Toggle from "react-toggle-component"
@@ -43,7 +44,9 @@ class MatchOverviewWidget extends Component {
             userEvents: [],
             user: {favorites: []},
             isUserTeamsArrived: false,
-            isPulse: true
+            isPulse: true,
+            recommendationsLast: moment(),
+            isRecomendationsUpdateOnStart: false
 
         };
 
@@ -67,69 +70,88 @@ class MatchOverviewWidget extends Component {
             )
         }
 
-
-        // this.props.events.forEach((e) => {
-        //     this.items.push(e.event.englishName);
-        // })
-        // return this.props.userTeams.then((res) => {
-        //
-        //     let userEvents = [];
-        //     var userTeams = res;
-        //
-        //
-        //     this.props.events.forEach((e) => {
-        //         let foundedUt = _.find(userTeams, (ut) => {
-        //             return e.event.homeName == ut.englishName || e.event.awayName == ut.englishName
-        //         });
-        //         if (foundedUt) {
-        //             userEvents.push(e)
-        //         }
-        //     });
-        //
-        //     this.setState({userEvents: userEvents});// .state.userEvents = userEvents;
-        //     this.state.userEvents.forEach((e) => {
-        //         this.items.push(e.event.englishName);
-        //     })
-        //
-        // });
     }
+
 
     componentWillReceiveProps(nextProps) {
         //if(nextProps.events!==this.props.events){
         let isSubscribeLiveEvent = isUserSubscribeToLiveEvents();
         kambi.getUserTeams().then((res) => {
+
             this.state.isUserTeamsArrived = true;
             if (!res) return;
-            let userEvents = [];
-            let count = 0;
+
+
             this.state.user = res;
+            //&& this.shouldRecomdationUpdate()
+            if (this.state.user.settings.aiEvents ) {
+                kambi.getRecommendationsEvents(getCIDOrDefault()).then((res) => {
 
-            this.props.events.forEach((e) => {
-                let foundedUt = _.find(this.state.user.favorites, (ut) => {
-                    return e.event.homeName == ut.englishName || e.event.awayName == ut.englishName
-                });
-                if (foundedUt) {
-                    if (!(e.liveData && !isSubscribeLiveEvent) && e.betOffers.length > 0) {
+                    const recommendedEventIds = res.data;
 
-                        userEvents.push(e);
-                        count++;
-                    }
-                }
-            });
-
-            if (count > 2) {
-                widgetModule.setWidgetHeight(100 + (count * 130));
+                    this.apllyUserEvents(isSubscribeLiveEvent, recommendedEventIds);
+                })
             } else {
-                widgetModule.setWidgetHeight(450);
+                this.apllyUserEvents(isSubscribeLiveEvent);
             }
 
-
-            this.setState({userEvents: userEvents});// .state.userEvents = userEvents;
-            this.state.userEvents.forEach((e) => {
-                this.items.push(e.event.englishName);
-            })
         })
 
+    }
+
+    shouldRecomdationUpdate() {
+        if (!this.state.isRecomendationsUpdateOnStart) {
+            this.state.isRecomendationsUpdateOnStart = true;
+            return true;
+        } // load recommendation one widget loaded
+        const startTime = this.state.recommendationsLast;
+        const endTime = moment();
+        const duration = moment.duration(endTime.diff(startTime));
+        const minutes = parseInt(duration.asMinutes()) % 60;
+
+        return minutes >= 10;
+    }
+
+    apllyUserEvents(isSubscribeLiveEvent, recommendedEventIds) {
+        let userEvents = [];
+        let count = 0;
+
+        this.props.events.forEach((e) => {
+            if (recommendedEventIds) {
+                let foundedRecomandedEvent = _.find(recommendedEventIds, (rec) => {
+                    return rec.toString() == e.event.id.toString();
+                });
+                if (foundedRecomandedEvent) {
+                    e.event.isRecomanded = true;
+                    userEvents.push(e);
+                    count++;
+                }
+            }
+
+            let foundedUt = _.find(this.state.user.favorites, (ut) => {
+                return e.event.homeName == ut.englishName || e.event.awayName == ut.englishName
+            });
+
+            if (foundedUt) {
+                if (!(e.liveData && !isSubscribeLiveEvent) && e.betOffers.length > 0) {
+
+                    userEvents.push(e);
+                    count++;
+                }
+            }
+        });
+
+        if (count > 2) {
+            widgetModule.setWidgetHeight(100 + (count * 130));
+        } else {
+            widgetModule.setWidgetHeight(450);
+        }
+
+
+        this.setState({userEvents: userEvents});// .state.userEvents = userEvents;
+        this.state.userEvents.forEach((e) => {
+            this.items.push(e.event.englishName);
+        })
     }
 
     openNav() {
@@ -201,6 +223,16 @@ class MatchOverviewWidget extends Component {
                 });
                 break;
 
+            case 'smart-suggestions':
+                kambi.setSmartSuggestion(cid, state).then((res) => {
+                    kambi.getUserTeams(getCIDOrDefault(), true).then((res) => {
+                        this.state.user = res.data;
+                        saveUserToLocalStorage(res.data);
+                        this.forceUpdate();
+                    });
+                });
+                break;
+
 
         }
 
@@ -223,6 +255,13 @@ class MatchOverviewWidget extends Component {
     getLiveEvents() {
         if (this.state.user && this.state.user.settings) {
             return this.state.user.settings.liveEvents;
+        }
+        return false;
+    }
+
+    getAiEvents() {
+        if (this.state.user && this.state.user.settings) {
+            return this.state.user.settings.aiEvents;
         }
         return false;
     }
@@ -301,7 +340,7 @@ class MatchOverviewWidget extends Component {
 
                                     <small className="recommended">RECOMMENDED</small>
                                     <div className=" info">
-                                         Notified before match begin.
+                                        Notified before match begin.
                                     </div>
                                     <div className="">
                                         <Toggle id="comingSoon"
@@ -332,15 +371,15 @@ class MatchOverviewWidget extends Component {
                                                 onToggle={(value, el) => this.handleSwitch(value, el)}/>
                                     </div>
                                 </section>
-                                <section className="settings disabled">
+                                <section className="settings">
                                     <strong className="m-r">Smart suggestions</strong>
                                     <div className="info">
                                         Coming soon..
                                     </div>
                                     <div>
-                                        <Toggle disabled id="smart-suggestions"
-                                                checked={false}
-                                                onToggle={(value, el) => {}}/>
+                                        <Toggle id="smart-suggestions"
+                                                checked={this.getAiEvents()}
+                                                onToggle={(value, el) => this.handleSwitch(value, el)}/>
                                     </div>
                                 </section>
 

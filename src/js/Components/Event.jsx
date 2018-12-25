@@ -85,7 +85,7 @@ class Event extends Component {
    */
   render() {
     return (
-      <div className={styles.general}>
+      <div className={[styles.general,  (this.props.event.isRecomanded ?  styles.recommended: '')].join(' ')}>
         <div className={styles.header} onClick={this.onClick}>
           <div className={styles.group}>{this.props.event.group}</div>
           <div className={styles.start}>{this.startDate}&nbsp;</div>
