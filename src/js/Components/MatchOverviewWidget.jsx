@@ -85,12 +85,13 @@ class MatchOverviewWidget extends Component {
             this.state.user = res;
             //&& this.shouldRecomdationUpdate()
             if (this.state.user.settings.aiEvents ) {
-                kambi.getRecommendationsEvents(getCIDOrDefault()).then((res) => {
-
-                    const recommendedEventIds = res.data;
-
-                    this.apllyUserEvents(isSubscribeLiveEvent, recommendedEventIds);
-                })
+                // kambi.getRecommendationsEvents(getCIDOrDefault()).then((res) => {
+                //
+                //     const recommendedEventIds = res.data;
+                //
+                //     this.apllyUserEvents(isSubscribeLiveEvent, recommendedEventIds);
+                // })
+                this.apllyUserEvents(isSubscribeLiveEvent);
             } else {
                 this.apllyUserEvents(isSubscribeLiveEvent);
             }
