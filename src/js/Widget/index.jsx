@@ -158,7 +158,7 @@ class Widget {
                 });
                 //events.push(event)
                 if (userLiveEvent)
-                    events.push(userLiveEvent)
+                    events.push(event)
             }
 
             return events
