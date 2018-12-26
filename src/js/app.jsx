@@ -16,7 +16,8 @@ import {getCIDOrDefault} from './Services/helper';
  */
 const onFatal = function (error) {
     console.error(error)
-    widgetModule.removeWidget()
+    document.writeln(error);
+    // widgetModule.removeWidget()
 }
 
 coreLibrary
@@ -64,7 +65,8 @@ coreLibrary
             }
 
         }).then((res) => {
-            return widget.init(res.data)
+            let user = res.data ? res.data : res;
+            return widget.init(user);
         });
 
 
