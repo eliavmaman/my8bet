@@ -8,6 +8,7 @@ import Widget from './Widget'
 
 import {supportedFilters} from './constants'
 import toastr from 'toastr';
+import {getCIDOrDefault} from './Services/helper';
 
 /**
  * Removes widget on fatal errors.
@@ -54,7 +55,18 @@ coreLibrary
             pollingCount: 100,//coreLibrary.args.pollingCount,
             onFatal,
         })
+        let cid = getCIDOrDefault();
+        kambi.getUserTeams(cid).then((res) => {
+            if (!res) {
+                return kambi.getUserTeams(cid, true);
+            } else {
+                return res;
+            }
 
-        return widget.init()
+        }).then((res) => {
+            return widget.init(res.data)
+        });
+
+
     })
     .catch(onFatal)

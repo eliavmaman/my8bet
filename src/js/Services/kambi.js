@@ -143,13 +143,13 @@ const getTeamsByName = function (name) {
 
     if (cid !== null) {
         return axios.get(`https://cts-api.kambi.com/offering/api/v3/888/term/search.json?lang=en_GB&market=${config.market}&client_id=${config.client_id}&chnnael_id=${config.channelId}&ncid=1545580760169&term=${name}`);
-        // return axios.get('https://cts-api.kambi.com/offering/api/v3/888/term/search.json?lang=en_GB&market=GB&client_id=2&chnnael_id=1&ncid=1545580760169&term=' + name);
-                         // https://cts-api.kambi.com/offering/api/v3/888/term/search.json?lang=en_GB&market=GB&client_id=2&channel_id=1&ncid=1545580760169&term=REG
-    } else {
-         return axios.get(`https://cts-api.kambi.com/offering/api/v3/888/term/search.json?lang=en_GB&market=${config.market}&client_id=${config.client_id}&chnnael_id=${config.channelId}&ncid=1545580760169&term=${name}`);
-    }
 
-}
+        //return axios.get(`https://cts-api.kambi.com/offering/api/v3/888/term/search.json?lang=en_GB&market=zz&client_id=${config.client_id}&chnnael_id=${config.channelId}&ncid=1545580760169&term=${name}`);
+    } else {
+        // return axios.get(`https://cts-api.kambi.com/offering/api/v3/888/term/search.json?lang=en_GB&market=${config.market}&client_id=${config.client_id}&chnnael_id=${config.channelId}&ncid=1545580760169&term=${name}`);
+        return axios.get('https://cts-api.kambi.com/offering/api/v3/888/term/search.json?lang=en_GB&market=ZZ&client_id=2&chnnael_id=1&ncid=1545580760169&term=' + name);
+    }
+};
 
 const getUserTeams = function (cid, fromServer) {
     if (!fromServer) {
@@ -160,9 +160,14 @@ const getUserTeams = function (cid, fromServer) {
 
 const followTeam = function (teamId, cid, englishName) {
 
-
-
-    return axios.post(herokuUrl + '/api/favorites', {cid: cid, team: teamId, englishName: englishName,market: config.market,channelId: config.channelId,clientId:config.client_id})
+    return axios.post(herokuUrl + '/api/favorites', {
+        cid: cid,
+        team: teamId,
+        englishName: englishName,
+        market: config.market,
+        channelId: config.channelId,
+        clientId: config.client_id
+    })
 }
 const unFollowTeam = function (teamId, cid) {
     return axios.delete(herokuUrl + '/api/favorites/' + teamId + '/user/' + cid);
@@ -180,7 +185,7 @@ const setSmartSuggestion = (cid, state) => {
     return axios.post(herokuUrl + '/api/user/' + cid + '/smartSuggestion', {notified: state});
 }
 const getRecommendationsEvents = (cid) => {
-    return axios.get(herokuUrl + '/api/favorites/getaievents/' + cid  );
+    return axios.get(herokuUrl + '/api/favorites/getaievents/' + cid);
 }
 
 

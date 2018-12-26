@@ -316,14 +316,6 @@ class MatchOverviewWidget extends Component {
 
                             <div className="col-xs-6 bb-gray">
                                 <div className="title">My Favorites</div>
-                                {/*<div className="live-events">*/}
-
-                                {/*<Toggle id="liveEvents"*/}
-                                {/*label="Live"*/}
-                                {/*checked={this.getLiveEvents()}*/}
-                                {/*onToggle={(value, el) => this.handleSwitch(value, el)}/>*/}
-
-                                {/*</div>*/}
                             </div>
                             <div className="col-xs-6 ">
                                 <div className="title">General Settings</div>

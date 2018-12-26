@@ -6,6 +6,7 @@ import kambi from '../Services/kambi'
 import live from '../Services/live'
 import {getCIDOrDefault} from '../Services/helper';
 import {isUserSubscribeToLiveEvents} from '../Services/helper';
+import _ from "lodash";
 
 
 /**
@@ -38,10 +39,11 @@ const onFollowHandler = function (value) {
  * Renders widget within previously defined container (rootEl).
  */
 const render = function () {
+    // cid={this.cid}
+    // user={this.user}
     ReactDOM.render(
         <MatchOverviewWidget
             events={this.events}
-            cid={this.cid}
             user={this.user}
             tournamentLogo={this.tournamentLogo}
             onFollowHandler={onFollowHandler}
@@ -134,9 +136,9 @@ class Widget {
         this.appliedFilter = null
     }
 
-    init() {
+    init(userData) {
         //widgetModule.setWidgetHeight(150)
-
+        this.user = userData;
         return refreshEvents.call(this)
     }
 
@@ -151,7 +153,12 @@ class Widget {
             }
 
             if (event.event.openForLiveBetting === true) {
-                events.push(event)
+                let userLiveEvent = _.find(this.user.favorites, (ut) => {
+                    return event.homeName == ut.englishName || event.awayName == ut.englishName
+                });
+                //events.push(event)
+                if (userLiveEvent)
+                    events.push(userLiveEvent)
             }
 
             return events
@@ -172,18 +179,22 @@ class Widget {
             : DEFAULT_TOURNAMENT_LOGO
     }
 
-    get cid() {
-        return getCIDOrDefault();
-    }
-
-    get user() {
-        let cid = '737222307';//getCIDOrDefault();
-
-        return kambi.getUserTeams(cid).then((res) => {
-
-            return res;
-        })
-    }
+    // get cid() {
+    //     return getCIDOrDefault();
+    // }
+    //
+    // get user() {
+    //     let cid = '737222307';//getCIDOrDefault();
+    //
+    //     return kambi.getUserTeams(cid).then((res) => {
+    //         if (!res) {
+    //             return kambi.getUserTeams(cid, true);
+    //         } else {
+    //             return res;
+    //         }
+    //
+    //     })
+    // }
 }
 
 export default Widget
