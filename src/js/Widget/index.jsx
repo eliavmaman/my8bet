@@ -154,7 +154,7 @@ class Widget {
 
             if (event.event.openForLiveBetting === true) {
                 let userLiveEvent = _.find(this.user.favorites, (ut) => {
-                    return event.homeName == ut.englishName || event.awayName == ut.englishName
+                    return event.event.homeName == ut.englishName || event.event.awayName == ut.englishName
                 });
                 //events.push(event)
                 if (userLiveEvent)
