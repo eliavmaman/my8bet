@@ -147,7 +147,7 @@ const getTeamsByName = function (name) {
         //return axios.get(`https://cts-api.kambi.com/offering/api/v3/888/term/search.json?lang=en_GB&market=zz&client_id=${config.client_id}&chnnael_id=${config.channelId}&ncid=1545580760169&term=${name}`);
     } else {
         // return axios.get(`https://cts-api.kambi.com/offering/api/v3/888/term/search.json?lang=en_GB&market=${config.market}&client_id=${config.client_id}&chnnael_id=${config.channelId}&ncid=1545580760169&term=${name}`);
-        return axios.get('https://cts-api.kambi.com/offering/api/v3/888/term/search.json?lang=en_GB&market=ZZ&client_id=2&chnnael_id=1&ncid=1545580760169&term=' + name);
+        return axios.get('https://cts-api.kambi.com/offering/api/v3/888/term/search.json?lang=en_GB&market=GB&client_id=2&chnnael_id=1&ncid=1545580760169&term=' + name);
     }
 };
 
