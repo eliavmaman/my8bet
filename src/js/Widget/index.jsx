@@ -6,6 +6,8 @@ import kambi from '../Services/kambi'
 import live from '../Services/live'
 import {getCIDOrDefault} from '../Services/helper';
 import {isUserSubscribeToLiveEvents} from '../Services/helper';
+import {saveUserToLocalStorage} from '../Services/helper';
+
 import _ from "lodash";
 
 
@@ -65,8 +67,8 @@ const refreshEvents = function () {
     return kambi
         .getEvents(this.filters, this.combineFilters)
         .then(({events, filter}) => {
-            this.events = events
-            this.appliedFilter = filter
+            this.events = events;
+            this.appliedFilter = filter;
 
             // give up when there is no events
             if (this.events.length == 0) {
@@ -139,6 +141,7 @@ class Widget {
     init(userData) {
         //widgetModule.setWidgetHeight(150)
         this.user = userData;
+        saveUserToLocalStorage(this.user);
         return refreshEvents.call(this)
     }
 
@@ -156,7 +159,7 @@ class Widget {
                 let userLiveEvent = _.find(this.user.favorites, (ut) => {
                     return event.event.homeName == ut.englishName || event.event.awayName == ut.englishName
                 });
-                //events.push(event)
+
                 if (userLiveEvent)
                     events.push(event)
             }
