@@ -93,11 +93,7 @@ class Event extends Component {
                         </div>
                     </div>
                 )}
-                <div className={styles.recommendedContainer}>
-                    <div className={styles.recommendedText}>
-                        RECOMMENDED
-                    </div>
-                </div>
+
                 <div className={styles.header} onClick={this.onClick}>
                     <div className={styles.group}>{this.props.event.group}</div>
                     <div className={styles.start}>{this.startDate}&nbsp;</div>
