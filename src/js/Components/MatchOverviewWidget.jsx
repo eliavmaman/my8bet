@@ -46,7 +46,8 @@ class MatchOverviewWidget extends Component {
             isUserTeamsArrived: false,
             isPulse: true,
             recommendationsLast: moment(),
-            isRecomendationsUpdateOnStart: false
+            isRecomendationsUpdateOnStart: false,
+            isLoading:true
 
         };
 
@@ -116,7 +117,7 @@ class MatchOverviewWidget extends Component {
     apllyUserEvents(isSubscribeLiveEvent, recommendedEventIds) {
         let userEvents = [];
         let count = 0;
-
+        this.state.isLoading = false;
         this.props.events.forEach((e) => {
             if (recommendedEventIds) {
                 let foundedRecomandedEvent = _.find(recommendedEventIds, (rec) => {
@@ -397,6 +398,13 @@ class MatchOverviewWidget extends Component {
 
                     {/*<BlendedBackground/>*/}
                     <Search ref="search" onFollowHandler={this.props.onFollowHandler}/>
+                    {this.state.isLoading === true &&
+                        <div style={notFoundStyle}>
+
+                        <div style={notFoundTitle}>Loading....</div>
+                        </div>
+                    }
+
                     {/*<TournamentLogo logoName={this.props.tournamentLogo}/>*/}
 
                     {this.state.userEvents
@@ -413,7 +421,7 @@ class MatchOverviewWidget extends Component {
                                 )
                             }
                         })}
-                    {(this.state.userEvents.length == 0 && this.state.user.favorites.length > 0) &&
+                    {(this.state.userEvents.length == 0 && this.state.user.favorites.length > 0 && this.state.isLoading === false) &&
                     (
                         <div style={notFoundStyle}>
                             <i className="fas fa-star" style={starBigOrange}></i>
@@ -422,7 +430,7 @@ class MatchOverviewWidget extends Component {
                     )
 
                     }
-                    {(this.state.isUserTeamsArrived && this.state.user.favorites.length == 0) &&
+                    {(this.state.isUserTeamsArrived && this.state.user.favorites.length == 0 && this.state.isLoading === false) &&
                     (
 
                         <div style={notFoundStyle}>
