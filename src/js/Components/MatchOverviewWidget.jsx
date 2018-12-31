@@ -75,6 +75,8 @@ class MatchOverviewWidget extends Component {
 
 
     componentWillReceiveProps(nextProps) {
+
+
         //if(nextProps.events!==this.props.events){
         let isSubscribeLiveEvent = isUserSubscribeToLiveEvents();
         kambi.getUserTeams().then((res) => {
@@ -170,7 +172,7 @@ class MatchOverviewWidget extends Component {
         var listItems = this.state.user.favorites.map((ut) => {
             return (
                 <li>
-                    <span className="team-name">{ut.englishName}</span>
+                    <span title={ut.englishName}  className="team-name">{ut.englishName}</span>
                     <i onClick={() => this.unFollowClicked(ut)} className="far fa-times-circle unfollow-link"></i>
                     {/*<a  className=" unfollow-link">Remove</a>*/}
 

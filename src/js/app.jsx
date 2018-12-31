@@ -26,9 +26,9 @@ coreLibrary
         compareAgainstHighlights: false,
         filter: supportedFilters,
         combineFilters: true,
-        pollingInterval: 5000,
+        pollingInterval: 2000,
         pollingCount: 100,
-        eventsRefreshInterval: 5000,
+        eventsRefreshInterval: 2000,
     })
     .then(() => {
         toastr.options.showEasing = 'swing';
