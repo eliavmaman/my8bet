@@ -55,11 +55,6 @@ class MatchOverviewWidget extends Component {
 
         this.handleSwitch = this.handleSwitch.bind(this);
 
-        // setTimeout(() => {
-        //     this.state.isPulse = false;
-        // }, 5000);
-
-
     }
 
     /**
@@ -79,7 +74,7 @@ class MatchOverviewWidget extends Component {
     componentWillReceiveProps(nextProps) {
 
 
-        //if(nextProps.events!==this.props.events){
+
         let isSubscribeLiveEvent = isUserSubscribeToLiveEvents();
         kambi.getUserTeams().then((res) => {
 
@@ -390,11 +385,7 @@ class MatchOverviewWidget extends Component {
                 </div>
                 <span className="settings-btn fas fa-cog" onClick={this.openNav}></span>
 
-                <a className="help-btn fas fa-question-circle" target={'_blank'}
-                   href={'https://moshesagee.fleeq.io/l/fvbqcsjlf4-ovb6vobnhq'}></a>
-                {/*<header className={styles.header + ' animated bounceInUp '}>*/}
-                {/*<span>My Favorite</span>*/}
-                {/*</header>*/}
+
                 <div id="main">
                     <div className={styles.header}>
                         <i className={'fas fa-star ' + [styles.spin, styles.animated].join(' ')} style={star}></i>
