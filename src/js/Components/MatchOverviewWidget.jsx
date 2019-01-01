@@ -39,6 +39,8 @@ class MatchOverviewWidget extends Component {
     constructor(props) {
         super(props)
         this.items = [];
+        this.aiRecommendation = [] ;
+
         this.state = {
             selected: 0,
             userEvents: [],
@@ -88,11 +90,13 @@ class MatchOverviewWidget extends Component {
             this.state.user = res;
             //&& this.shouldRecomdationUpdate()
             if (this.state.user.settings.aiEvents ) {
+                if(this.aiRecommendation.length > 0)
+                    return  this.aiRecommendation;
+
                 kambi.getRecommendationsEvents(getCIDOrDefault()).then((res) => {
 
-                    const recommendedEventIds = res.data;
-
-                    this.apllyUserEvents(isSubscribeLiveEvent, recommendedEventIds);
+                    this.aiRecommendation = res.data;
+                    this.apllyUserEvents(isSubscribeLiveEvent, this.aiRecommendation);
                 })
                 //this.apllyUserEvents(isSubscribeLiveEvent);
             } else {
