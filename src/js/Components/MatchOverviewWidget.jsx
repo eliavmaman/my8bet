@@ -39,7 +39,7 @@ class MatchOverviewWidget extends Component {
     constructor(props) {
         super(props)
         this.items = [];
-        this.aiRecommendation = [] ;
+        this.aiRecommendation = [];
 
         this.state = {
             selected: 0,
@@ -49,12 +49,9 @@ class MatchOverviewWidget extends Component {
             isPulse: true,
             recommendationsLast: moment(),
             isRecomendationsUpdateOnStart: false,
-            isLoading:true
+            isLoading: true
 
         };
-
-        this.handleSwitch = this.handleSwitch.bind(this);
-
     }
 
     /**
@@ -70,10 +67,7 @@ class MatchOverviewWidget extends Component {
 
     }
 
-
     componentWillReceiveProps(nextProps) {
-
-
 
         let isSubscribeLiveEvent = isUserSubscribeToLiveEvents();
         kambi.getUserTeams().then((res) => {
@@ -81,13 +75,13 @@ class MatchOverviewWidget extends Component {
             this.state.isUserTeamsArrived = true;
             if (!res) return;
 
-
             this.state.user = res;
             //&& this.shouldRecomdationUpdate()
-            if (this.state.user.settings.aiEvents ) {
-                if(this.aiRecommendation.length > 0)
-                    return  this.aiRecommendation;
-
+            if (this.state.user.settings.aiEvents) {
+                if (this.aiRecommendation.length > 0) {
+                    this.apllyUserEvents(isSubscribeLiveEvent, this.aiRecommendation);
+                    return;
+                }
                 kambi.getRecommendationsEvents(getCIDOrDefault()).then((res) => {
 
                     this.aiRecommendation = res.data;
@@ -102,17 +96,8 @@ class MatchOverviewWidget extends Component {
 
     }
 
-    shouldRecomdationUpdate() {
-        if (!this.state.isRecomendationsUpdateOnStart) {
-            this.state.isRecomendationsUpdateOnStart = true;
-            return true;
-        } // load recommendation one widget loaded
-        const startTime = this.state.recommendationsLast;
-        const endTime = moment();
-        const duration = moment.duration(endTime.diff(startTime));
-        const minutes = parseInt(duration.asMinutes()) % 60;
-
-        return minutes >= 10;
+    onUnfollowFromSettings() {
+        this.refs.search.init();
     }
 
     apllyUserEvents(isSubscribeLiveEvent, recommendedEventIds) {
@@ -158,252 +143,28 @@ class MatchOverviewWidget extends Component {
 
     }
 
-    openNav() {
-        document.getElementById("mySidenav").style.width = "100%";
-    }
-
-    /* Set the width of the side navigation to 0 */
-    closeNav() {
-        document.getElementById("mySidenav").style.width = "0";
-    }
-
-    getUserTeams() {
-        var listItems = this.state.user.favorites.map((ut) => {
-            return (
-                <li>
-                    <span title={ut.englishName}  className="team-name">{ut.englishName}</span>
-                    <i onClick={() => this.unFollowClicked(ut)} className="far fa-times-circle unfollow-link"></i>
-                    {/*<a  className=" unfollow-link">Remove</a>*/}
-
-                </li>
-            );
-        });
-
-        return (<ul className="settings-myfav-container">{listItems}</ul>);
-    }
-
-    unFollowClicked = (suggestion) => {
-        kambi.unFollowTeam(suggestion._id, this.state.user.cid).then(() => {
-            kambi.getUserTeams(getCIDOrDefault(), true).then((res) => {
-                this.setState({user: res.data})
-                saveUserToLocalStorage(res.data);
-            });
-            this.refs.search.init();
-            toastr.success('Unfollowed ' + suggestion.englishName + ' successfully.', 'UnFollow');
-        });
-    };
-
-    handleSwitch(state, el) {
-        console.log('handleSwitch. elem:', el.target.id);
-        let id = el.target.id;
-        console.log('new state:', state);
-        let cid = getCIDOrDefault();
-        switch (id) {
-            case 'comingSoon':
-                kambi.setComingSoon(cid, state).then((res) => {
-                    kambi.getUserTeams(getCIDOrDefault(), true).then((res) => {
-                        this.state.user = res.data;
-                        saveUserToLocalStorage(res.data);
-                        this.forceUpdate();
-                    });
-                });
-                break;
-            case 'endGame':
-                kambi.setEndGame(cid, state).then((res) => {
-                    kambi.getUserTeams(getCIDOrDefault(), true).then((res) => {
-                        this.state.user = res.data;
-                        saveUserToLocalStorage(res.data);
-                        this.forceUpdate();
-                    });
-                });
-                break;
-            case 'liveEvents':
-                kambi.setLiveEvents(cid, state).then((res) => {
-                    kambi.getUserTeams(getCIDOrDefault(), true).then((res) => {
-                        this.state.user = res.data;
-                        saveUserToLocalStorage(res.data);
-                        this.forceUpdate();
-                    });
-                });
-                break;
-
-            case 'smart-suggestions':
-                kambi.setSmartSuggestion(cid, state).then((res) => {
-                    kambi.getUserTeams(getCIDOrDefault(), true).then((res) => {
-                        this.state.user = res.data;
-                        saveUserToLocalStorage(res.data);
-                        this.forceUpdate();
-                    });
-                });
-                break;
-
-
-        }
-
-    }
-
-    getComingsoon() {
-        if (this.state.user && this.state.user.settings) {
-            return this.state.user.settings.comingSoon;
-        }
-        return false;
-    }
-
-    getEndGame() {
-        if (this.state.user && this.state.user.settings) {
-            return this.state.user.settings.endGame;
-        }
-        return false;
-    }
-
-    getLiveEvents() {
-        if (this.state.user && this.state.user.settings) {
-            return this.state.user.settings.liveEvents;
-        }
-        return false;
-    }
-
-    getAiEvents() {
-        if (this.state.user && this.state.user.settings) {
-            return this.state.user.settings.aiEvents;
-        }
-        return false;
-    }
-
     /**
      * Renders component.
      * @returns {XML}
      */
     render() {
 
-        let flex = {'display': 'flex'};
-        var notFoundStyle = {
-            "textAlign": "center",
-            "alignSelf": "center",
-            "display": "flex",
-            "flexDirection": "column",
-            "alignItems": "center",
-            "marginTop": "60px",
-
-        };
-        let notFoundTitle = {
-            "fontSize": "22px",
-            "fontWeight": "100",
-            "marginTop": "15px",
-            "color": "#47494E",
-            "marginBottom": "8px"
-        };
-
-        let smallTextarrow =
-            {"margin": "0px  10px", "color": "#408fec"};
-
-        let smallText = {
-            "WebkitMarginAfter": "0px",
-            "WebkitMarginBefore": "0px",
-            "fontSize": "15px",
-            "color": "#7F828B",
-            "lineHeight": "21px",
-            "marginBottom": "4px"
-        };
-        var star = {"fontSize": "20px", "color": "orange", "marginRight": "10px"};
-        var starBig = {"fontSize": "60px", "color": "gray", "marginRight": "10px"};
-        var starBigOrange = {"fontSize": "60px", "color": "orange", "marginRight": "10px"};
         return (
 
             <div>
-
-                <div id="mySidenav" className="sidenav">
-                    <div className="padder">
-                        <a href="javascript:void(0)" className="closebtn" onClick={this.closeNav}>&times;</a>
-                        <div className="row">
-
-                            <div className="col-xs-6 bb-gray">
-                                <div className="title">My Favorites</div>
-                            </div>
-                            <div className="col-xs-6 ">
-                                <div className="title">General Settings</div>
-
-                            </div>
-
-                            <div className="col-xs-6 bb-gray">
-
-                                {this.getUserTeams()}
-                            </div>
-                            <div className="col-xs-6 p-t ">
-
-                                <section className="settings">
-                                    <strong className="m-r">Coming Soon Alerts</strong>
-
-                                    <small className="recommended">RECOMMENDED</small>
-                                    <div className=" info">
-                                         Notified me before a match begin.
-                                    </div>
-                                    <div className="">
-                                        <Toggle id="comingSoon"
-                                                checked={this.getComingsoon()}
-                                                onToggle={(value, el) => this.handleSwitch(value, el)}/>
-                                    </div>
-                                    <div className="clear-both"></div>
-
-                                </section>
-                                <section className="settings">
-                                    <strong className="m-r">End of Games Alerts </strong>
-                                    <div className="info">
-                                        Notified me with the final results.
-                                    </div>
-                                    <div className="">
-                                        <Toggle id="endGame"
-                                                checked={this.getEndGame()}
-                                                onToggle={(value, el) => this.handleSwitch(value, el)}/>
-                                    </div>
-                                    <div className="clear-both"></div>
-                                </section>
-                                <section className="settings">
-                                    <strong className="m-r">Live events </strong>
-                                    <small className="recommended">RECOMMENDED</small>
-                                    <div>
-                                        <Toggle id="liveEvents"
-                                                checked={this.getLiveEvents()}
-                                                onToggle={(value, el) => this.handleSwitch(value, el)}/>
-                                    </div>
-                                </section>
-                                <section className="settings">
-                                    <strong className="m-r">Recommendations</strong>
-                                    <div className="info">
-                                       custom  Recommendations
-                                    </div>
-                                    <div>
-                                        <Toggle id="smart-suggestions"
-                                                checked={this.getAiEvents()}
-                                                onToggle={(value, el) => this.handleSwitch(value, el)}/>
-                                    </div>
-                                </section>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <span className="settings-btn fas fa-cog" onClick={this.openNav}></span>
-
-
                 <div id="main">
                     <div className={styles.header}>
-                        <i className={'fas fa-star ' + [styles.spin, styles.animated].join(' ')} style={star}></i>
-
+                        <i className={'fas fa-star ' + [styles.spin, styles.animated, styles.star].join(' ')}></i>
                         My Favorites
                     </div>
 
-                    {/*<BlendedBackground/>*/}
-                    <Search ref="search" onFollowHandler={this.props.onFollowHandler}/>
+                    <Search ref="search"
+                            onFollowUnfollowFromSearchHandler={this.props.onFollowUnfollowFromSearchHandler}/>
                     {this.state.isLoading === true &&
-                        <div style={notFoundStyle}>
-
-                        <div style={notFoundTitle}>Loading....</div>
-                        </div>
+                    <div className={styles.notFoundStyle} >
+                        <div className={styles.notFoundTitle} >Loading....</div>
+                    </div>
                     }
-
-                    {/*<TournamentLogo logoName={this.props.tournamentLogo}/>*/}
-
                     {this.state.userEvents
                         .filter(event => (event.betOffers && event.betOffers.length > 0))
                         .map(event => {
@@ -420,31 +181,28 @@ class MatchOverviewWidget extends Component {
                         })}
                     {(this.state.userEvents.length == 0 && this.state.user.favorites.length > 0 && this.state.isLoading === false) &&
                     (
-                        <div style={notFoundStyle}>
-                            <i className="fas fa-star" style={starBigOrange}></i>
-                            <div style={notFoundTitle}>Favorites events not found</div>
+                        <div className={styles.notFoundStyle}>
+                            <i className={'fas fa-star ' + [styles.starBigOrange].join(' ')}/>
+                            <div className={styles.notFoundTitle}>Favorites events not found</div>
                         </div>
-                    )
-
-                    }
+                    )}
                     {(this.state.isUserTeamsArrived && this.state.user.favorites.length == 0 && this.state.isLoading === false) &&
                     (
-
-                        <div style={notFoundStyle}>
-                            <i className="fas fa-star" style={starBig}></i>
-                            <div style={notFoundTitle}>Follow your favorite teams events</div>
-                            <p style={smallText}>
+                        <div className={styles.notFoundStyle}>
+                            <i className={'fas fa-star ' + [styles.starBig].join(' ')}/>
+                            <div className={styles.notFoundTitle}>Follow your favorite teams events</div>
+                            <p className={styles.smallText}>
                                 <div>
                                     Search for favorite team or player.
                                 </div>
                                 <div>
-                                    <i className="fas fa-arrow-alt-circle-down" style={smallTextarrow}></i>
+                                    <i className={'fas fa-arrow-alt-circle-down ' + [styles.smallTextarrow].join(' ')}/>
                                 </div>
                                 <div>
                                     Click on the follow button.
                                 </div>
                                 <div>
-                                    <i className="fas fa-arrow-alt-circle-down" style={smallTextarrow}></i>
+                                    <i className={'fas fa-arrow-alt-circle-down ' + [styles.smallTextarrow].join(' ')}></i>
                                 </div>
                                 <div>
                                     Your favorite games will start shown.
@@ -453,31 +211,9 @@ class MatchOverviewWidget extends Component {
                             </p>
 
                         </div>
-
-
                     )}
                 </div>
-                {/*<ScrolledList*/}
-                {/*renderPrevButton={props => <ArrowButton type="left" {...props} />}*/}
-                {/*renderNextButton={props => <ArrowButton type="right" {...props} />}*/}
-                {/*renderItemContainer={props => <ItemContainer {...props} />}*/}
-                {/*selected={this.state.selected}*/}
-                {/*scrollToItemMode={ScrolledList.SCROLL_TO_ITEM_MODE.TO_LEFT}*/}
-                {/*showControls={!mobile()}>*/}
-                {/*<TournamentLogo logoName={this.props.tournamentLogo}/>*/}
-                {/*{this.props.events*/}
-                {/*.filter(event => event.betOffers.length > 0)*/}
-                {/*.map(event => {*/}
-                {/*return (*/}
-                {/*<Event*/}
-                {/*key={event.event.id}*/}
-                {/*event={event.event}*/}
-                {/*liveData={event.liveData}*/}
-                {/*outcomes={event.betOffers[0].outcomes}*/}
-                {/*/>*/}
-                {/*)*/}
-                {/*})}*/}
-                {/*</ScrolledList>*/}
+
 
             </div>
         )
@@ -489,12 +225,9 @@ MatchOverviewWidget.propTypes = {
      * Events to display
      */
     events: PropTypes.arrayOf(PropTypes.object).isRequired,
-
-    /**
-     * Tournament logo class name.
-     */
     tournamentLogo: PropTypes.string,
-    onFollowHandler: PropTypes.func
+    onFollowHandler: PropTypes.func,
+    onFollowUnfollowFromSearchHandler: PropTypes.func,
 }
 
 MatchOverviewWidget.defaultProps = {

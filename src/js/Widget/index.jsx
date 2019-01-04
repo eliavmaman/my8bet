@@ -1,16 +1,19 @@
-import React from 'react'
+import React, {useRef} from 'react'
 import ReactDOM from 'react-dom'
-import {widgetModule} from 'kambi-widget-core-library'
+
 import MatchOverviewWidget from '../Components/MatchOverviewWidget'
+import UserSettings from '../Components/UserSettings'
 import kambi from '../Services/kambi'
 import live from '../Services/live'
-import {getCIDOrDefault} from '../Services/helper';
-import {isUserSubscribeToLiveEvents} from '../Services/helper';
+
 import {saveUserToLocalStorage} from '../Services/helper';
+import {getUserFromLocalStorage} from '../Services/helper';
+
 
 import _ from "lodash";
 
-
+let matchOverviewWidgetRef;
+let userSettingsWidgetRef;
 /**
  * Rendered when combined filter is used or there is no current filter.
  * @type {string}
@@ -33,27 +36,42 @@ const updateLiveEventData = function (liveEventData) {
 
     event.liveData = liveEventData
 }
-const onFollowHandler = function (value) {
 
 
-};
+const renderSettings = function (user) {
+    ReactDOM.render(
+        <UserSettings
+            onUnFollow={this.onUnFollowHandler}
+            user={user}
+            ref={inst => {
+                userSettingsWidgetRef = inst;
+            }}
+        />,
+        this.settingsEl
+    );
+}
+
+
 /**
  * Renders widget within previously defined container (rootEl).
  */
 const render = function () {
-    // cid={this.cid}
-    // user={this.user}
+
     ReactDOM.render(
         <MatchOverviewWidget
+            onFollowUnfollowFromSearchHandler={this.onFollowUnfollowFromSearchHandler}
             events={this.events}
             user={this.user}
             tournamentLogo={this.tournamentLogo}
-            onFollowHandler={onFollowHandler}
+            ref={inst => {
+                matchOverviewWidgetRef = inst;
+            }}
         />,
         this.rootEl
     )
 
 }
+
 
 /**
  * Fetches events based on current filters and sets polling on the live ones.
@@ -118,6 +136,7 @@ class Widget {
     constructor(filters,
                 {
                     rootEl = document.getElementById('root'),
+                    settingsEl = document.getElementById('settings'),
                     combineFilters = false,
                     eventsRefreshInterval = 120000,
                     pollingCount = 4,
@@ -129,6 +148,7 @@ class Widget {
         // localStorage.setItem(JSON.stringify('a', d));
         this.filters = filters
         this.rootEl = rootEl
+        this.settingsEl = settingsEl
         this.combineFilters = combineFilters
         this.eventsRefreshInterval = eventsRefreshInterval
         this.pollingCount = pollingCount
@@ -138,12 +158,24 @@ class Widget {
         this.appliedFilter = null
     }
 
+    onFollowUnfollowFromSearchHandler() {
+        let updatedUser = getUserFromLocalStorage();
+        userSettingsWidgetRef.updateUserData(updatedUser);
+    };
+
+    onUnFollowHandler(value) {
+        matchOverviewWidgetRef.onUnfollowFromSettings()
+
+    };
+
     init(userData) {
         //widgetModule.setWidgetHeight(150)
         this.user = userData;
         saveUserToLocalStorage(this.user);
+        renderSettings.call(this, userData);
         return refreshEvents.call(this)
     }
+
 
     /**
      * Filters live events out of current events.
@@ -182,22 +214,6 @@ class Widget {
             : DEFAULT_TOURNAMENT_LOGO
     }
 
-    // get cid() {
-    //     return getCIDOrDefault();
-    // }
-    //
-    // get user() {
-    //     let cid = '737222307';//getCIDOrDefault();
-    //
-    //     return kambi.getUserTeams(cid).then((res) => {
-    //         if (!res) {
-    //             return kambi.getUserTeams(cid, true);
-    //         } else {
-    //             return res;
-    //         }
-    //
-    //     })
-    // }
 }
 
 export default Widget

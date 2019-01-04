@@ -1,7 +1,6 @@
 .widget {
   color: white;
   display: flex;
-
   min-height: 400px;
   flex-flow: column;
 }
@@ -25,9 +24,8 @@
   margin-bottom: 20px;
 }
 
-
-.arrow-small-text{
-  margin:0px  10px;
+.arrow-small-text {
+  margin: 0px 10px;
   color: #408fec;
 }
 
@@ -38,18 +36,70 @@
 //}
 @-webkit-keyframes spin {
   from {
-    transform:rotate(0deg);
+    transform: rotate(0deg);
   }
   to {
-    transform:rotate(1000deg);
+    transform: rotate(1000deg);
   }
 }
+
 .spin.animated {
   -webkit-animation-name: spin;
   -webkit-animation-duration: 1000ms;
   -webkit-animation-iteration-count: 1;
   -webkit-animation-timing-function: ease;
 }
+
+.notFoundStyle {
+  text-align: center;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 60px;
+
+}
+
+.notFoundTitle {
+  font-size: 22px;
+  font-weight: 100;
+  margin-top: 15px;
+  color: #47494E;
+  margin-bottom: 8px
+}
+
+.smallTextarrow {
+  margin: 0px 10px;
+  color: #408fec
+}
+
+.smallText {
+  -webkit-margin-after: 0px;
+  -webkit-margin-before: 0px;
+  font-size: 15px;
+  color: #7F828B;
+  line-height: 21px;
+  margin-bottom: 4px
+}
+
+.star {
+  font-size: 20px;
+  color: orange;
+  margin-right: 10px;
+}
+
+.starBig {
+  font-size: 60px;
+  color: gray;
+  margin-right: 10px
+}
+
+.starBigOrange {
+  font-size: 60px;
+  color: orange;
+  margin-right: 10px
+}
+
 //.header {
 //  font-size: 18px;
 //  background: none;

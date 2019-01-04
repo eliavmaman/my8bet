@@ -193,16 +193,15 @@ class Search extends Component {
         });
         if (team) {
             kambi.unFollowTeam(team._id, getCIDOrDefault()).then(() => {
-
-
                 toastr.success('Unfollowed ' + team.englishName + ' successfully.', 'UnFollow');
                 kambi.getUserTeams(getCIDOrDefault(), true).then((res) => {
                     this.setState({user:res.data});
                     saveUserToLocalStorage(res.data);
+                    if (typeof this.props.onFollowUnfollowFromSearchHandler === 'function') {
+                        this.props.onFollowUnfollowFromSearchHandler(suggestion);
+                    }
 
                 });
-
-                //this.init();
             })
         }
     };
@@ -218,6 +217,9 @@ class Search extends Component {
             kambi.getUserTeams(cid, true).then((res) => {
                 this.setState({user:res.data});
                 saveUserToLocalStorage(res.data);
+                if (typeof this.props.onFollowUnfollowFromSearchHandler === 'function') {
+                    this.props.onFollowUnfollowFromSearchHandler(suggestion);
+                }
             });
 
 
@@ -311,7 +313,8 @@ Search.propTypes = {
      * These classes are defined in operator-specific CSS file.
      */
     // logoName: PropTypes.string,
-    onFollowHandler: PropTypes.func
+    onFollowUnfollowFromSearchHandler: PropTypes.func,
+    onUnfollow: PropTypes.func
 };
 
 Search.defaultProps = {
