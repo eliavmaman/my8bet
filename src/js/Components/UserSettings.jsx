@@ -157,7 +157,7 @@ class UserSettings extends Component {
                                     info={'Notified me before a match begin.'}
                                     isChecked={this.getComingsoon.bind(this)}
                                     onSwitchChanged={this.handleSwitch}
-                                    disabled={this.state.isSwitchesDisabled}
+                                    disabled={this.state.switchStates.commingSoon}
                                 />
                                 <SettingSwitch
                                     id={'endGame'}
@@ -165,7 +165,7 @@ class UserSettings extends Component {
                                     info={'Notified me with the final results.'}
                                     isChecked={this.getEndGame.bind(this)}
                                     onSwitchChanged={this.handleSwitch}
-                                    disabled={this.state.isSwitchesDisabled}
+                                    disabled={this.state.switchStates.endGame}
                                 />
                                 <SettingSwitch
                                     id={'liveEvents'}
@@ -174,7 +174,7 @@ class UserSettings extends Component {
                                     info={''}
                                     isChecked={this.getLiveEvents.bind(this)}
                                     onSwitchChanged={this.handleSwitch}
-                                    disabled={this.state.isSwitchesDisabled}
+                                    disabled={this.state.switchStates.live}
                                 />
                                 <SettingSwitch
                                     id={'smart-suggestions'}
@@ -183,7 +183,7 @@ class UserSettings extends Component {
                                     info={'Custom Recommendations'}
                                     isChecked={this.getAiEvents.bind(this)}
                                     onSwitchChanged={this.handleSwitch}
-                                    disabled={this.state.isSwitchesDisabled}
+                                    disabled={this.state.switchStates.aiEvents}
                                 />
 
                             </div>
