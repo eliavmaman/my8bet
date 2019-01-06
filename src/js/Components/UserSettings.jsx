@@ -1,14 +1,11 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import kambi from '../Services/kambi'
-import _ from 'lodash';
-import styles from './UserSettings.scss'
 import {getCIDOrDefault} from '../Services/helper';
 import {saveUserToLocalStorage} from '../Services/helper';
-import toastr from "toastr";
 import Toggle from "react-toggle-component";
 import FavoriteTeams from './FavoriteTeams';
-
+import SettingSwitch from './SettingSwitch';
 
 class UserSettings extends Component {
 
@@ -22,34 +19,20 @@ class UserSettings extends Component {
         this.state = {
             user: {favorites: []},
         };
-        this.init();
         this.handleSwitch = this.handleSwitch.bind(this);
-
     }
 
     componentWillReceiveProps(nextProps) {
         this.setState({user: this.props.user});
-
     }
 
     componentDidMount() {
         this.setState({user: this.props.user});
-
-
-    }
-
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        let user = prevProps;
-
     }
 
     updateUserData(user) {
         this.setState({user: user});
     }
-
-    init = () => {
-
-    };
 
     openNav() {
         document.getElementById("mySidenav").style.width = "100%";
@@ -59,35 +42,6 @@ class UserSettings extends Component {
     closeNav() {
         document.getElementById("mySidenav").style.width = "0";
     }
-
-    getUserTeams() {
-        var listItems = this.state.user.favorites.map((ut) => {
-            return (
-                <li>
-                    <span title={ut.englishName} className="team-name">{ut.englishName}</span>
-                    <i onClick={(e) => this.unFollowClicked(e, ut)} className="far fa-times-circle unfollow-link"></i>
-                    {/*<a  className=" unfollow-link">Remove</a>*/}
-
-                </li>
-            );
-        });
-
-        return (<ul className="settings-myfav-container">{listItems}</ul>);
-    }
-
-    unFollowClicked = (e, suggestion) => {
-        kambi.unFollowTeam(suggestion._id, this.state.user.cid).then(() => {
-            kambi.getUserTeams(getCIDOrDefault(), true).then((res) => {
-                this.setState({user: res.data})
-                saveUserToLocalStorage(res.data);
-            });
-            if (typeof this.props.onUnFollow === 'function') {
-                this.props.onUnFollow(suggestion);
-            }
-            //this.refs.search.init();
-            toastr.success('Unfollowed ' + suggestion.englishName + ' successfully.', 'UnFollow');
-        });
-    };
 
     handleSwitch(state, el) {
         console.log('handleSwitch. elem:', el.target.id);
@@ -149,7 +103,6 @@ class UserSettings extends Component {
         }
         return false;
     }
-
     getLiveEvents() {
         if (this.state.user && this.state.user.settings) {
             return this.state.user.settings.liveEvents;
@@ -178,62 +131,42 @@ class UserSettings extends Component {
                             </div>
                             <div className="col-xs-6 ">
                                 <div className="title">General Settings</div>
-
                             </div>
-
                             <div className="col-xs-6 bb-gray">
                                 <FavoriteTeams user={this.state.user}/>
-                                {/*{this.getUserTeams()}*/}
                             </div>
                             <div className="col-xs-6 p-t ">
-
-                                <section className="settings">
-                                    <strong className="m-r">Coming Soon Alerts</strong>
-
-                                    <small className="recommended">RECOMMENDED</small>
-                                    <div className=" info">
-                                        Notified me before a match begin.
-                                    </div>
-                                    <div className="">
-                                        <Toggle id="comingSoon"
-                                                checked={this.getComingsoon()}
-                                                onToggle={(value, el) => this.handleSwitch(value, el)}/>
-                                    </div>
-                                    <div className="clear-both"></div>
-
-                                </section>
-                                <section className="settings">
-                                    <strong className="m-r">End of Games Alerts </strong>
-                                    <div className="info">
-                                        Notified me with the final results.
-                                    </div>
-                                    <div className="">
-                                        <Toggle id="endGame"
-                                                checked={this.getEndGame()}
-                                                onToggle={(value, el) => this.handleSwitch(value, el)}/>
-                                    </div>
-                                    <div className="clear-both"></div>
-                                </section>
-                                <section className="settings">
-                                    <strong className="m-r">Live events </strong>
-                                    <small className="recommended">RECOMMENDED</small>
-                                    <div>
-                                        <Toggle id="liveEvents"
-                                                checked={this.getLiveEvents()}
-                                                onToggle={(value, el) => this.handleSwitch(value, el)}/>
-                                    </div>
-                                </section>
-                                <section className="settings">
-                                    <strong className="m-r">Recommendations</strong>
-                                    <div className="info">
-                                        custom Recommendations
-                                    </div>
-                                    <div>
-                                        <Toggle id="smart-suggestions"
-                                                checked={this.getAiEvents()}
-                                                onToggle={(value, el) => this.handleSwitch(value, el)}/>
-                                    </div>
-                                </section>
+                                <SettingSwitch
+                                    id={'comingSoon'}
+                                    isRecommanded={true}
+                                    title={'Coming Soon Alerts'}
+                                    info={'Notified me before a match begin.'}
+                                    isChecked={this.getComingsoon.bind(this)}
+                                    onSwitchChanged={this.handleSwitch}
+                                />
+                                <SettingSwitch
+                                    id={'endGame'}
+                                    title={'End of Games Alerts'}
+                                    info={'Notified me with the final results.'}
+                                    isChecked={this.getEndGame.bind(this)}
+                                    onSwitchChanged={this.handleSwitch}
+                                />
+                                <SettingSwitch
+                                    id={'liveEvents'}
+                                    isRecommanded={true}
+                                    title={'Live events'}
+                                    info={''}
+                                    isChecked={this.getLiveEvents.bind(this)}
+                                    onSwitchChanged={this.handleSwitch}
+                                />
+                                <SettingSwitch
+                                    id={'smart-suggestions'}
+                                    isRecommanded={true}
+                                    title={'Recommendations'}
+                                    info={'Custom Recommendations'}
+                                    isChecked={this.getAiEvents.bind(this)}
+                                    onSwitchChanged={this.handleSwitch}
+                                />
 
                             </div>
                         </div>
