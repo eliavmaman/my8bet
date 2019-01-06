@@ -16,7 +16,7 @@ class SettingSwitch extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-
+        let a = nextProps;
     }
 
     render() {
@@ -28,10 +28,12 @@ class SettingSwitch extends Component {
                 <div className="info">
                     {this.props.info}
                 </div>
-                <div className="">
+                <div>
                     <Toggle id={this.props.id}
                             checked={this.props.isChecked()}
-                            onToggle={(value, el) => this.props.onSwitchChanged(value, el)}/>
+                            onToggle={(value, el) => this.props.onSwitchChanged(value, el)}
+                            disabled={this.props.disabled}
+                    />
                 </div>
                 <div className="clear-both"></div>
             </section>
@@ -46,6 +48,7 @@ SettingSwitch.propTypes = {
     onSwitchChanged: PropTypes.func,
     isChecked: PropTypes.boolean,
     isRecommanded: PropTypes.boolean,
+    disabled: PropTypes.boolean,
 };
 
 SettingSwitch.defaultProps = {

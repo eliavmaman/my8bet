@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import kambi from '../Services/kambi'
 import {getCIDOrDefault} from '../Services/helper';
 import {saveUserToLocalStorage} from '../Services/helper';
-import Toggle from "react-toggle-component";
 import FavoriteTeams from './FavoriteTeams';
 import SettingSwitch from './SettingSwitch';
 
@@ -18,6 +17,12 @@ class UserSettings extends Component {
 
         this.state = {
             user: {favorites: []},
+            switchStates:{
+                commingSoon:false,
+                live:false,
+                endGame:false,
+                aiEvents:false
+            },
         };
         this.handleSwitch = this.handleSwitch.bind(this);
     }
@@ -48,40 +53,49 @@ class UserSettings extends Component {
         let id = el.target.id;
         console.log('new state:', state);
         let cid = getCIDOrDefault();
+
         switch (id) {
             case 'comingSoon':
+                this.state.switchStates.commingSoon=true;
                 kambi.setComingSoon(cid, state).then((res) => {
                     kambi.getUserTeams(getCIDOrDefault(), true).then((res) => {
                         this.state.user = res.data;
                         saveUserToLocalStorage(res.data);
+                        this.state.switchStates.commingSoon=false;
                         this.forceUpdate();
                     });
                 });
                 break;
             case 'endGame':
+                this.state.switchStates.endGame=true;
                 kambi.setEndGame(cid, state).then((res) => {
                     kambi.getUserTeams(getCIDOrDefault(), true).then((res) => {
                         this.state.user = res.data;
                         saveUserToLocalStorage(res.data);
+                        this.state.switchStates.endGame=false;
                         this.forceUpdate();
                     });
                 });
                 break;
             case 'liveEvents':
+                this.state.switchStates.live=true;
                 kambi.setLiveEvents(cid, state).then((res) => {
                     kambi.getUserTeams(getCIDOrDefault(), true).then((res) => {
                         this.state.user = res.data;
                         saveUserToLocalStorage(res.data);
+                        this.state.switchStates.live=false;
                         this.forceUpdate();
                     });
                 });
                 break;
 
             case 'smart-suggestions':
+                this.state.switchStates.aiEvents=true;
                 kambi.setSmartSuggestion(cid, state).then((res) => {
                     kambi.getUserTeams(getCIDOrDefault(), true).then((res) => {
                         this.state.user = res.data;
                         saveUserToLocalStorage(res.data);
+                        this.state.switchStates.aiEvents=false;
                         this.forceUpdate();
                     });
                 });
@@ -143,6 +157,7 @@ class UserSettings extends Component {
                                     info={'Notified me before a match begin.'}
                                     isChecked={this.getComingsoon.bind(this)}
                                     onSwitchChanged={this.handleSwitch}
+                                    disabled={this.state.isSwitchesDisabled}
                                 />
                                 <SettingSwitch
                                     id={'endGame'}
@@ -150,6 +165,7 @@ class UserSettings extends Component {
                                     info={'Notified me with the final results.'}
                                     isChecked={this.getEndGame.bind(this)}
                                     onSwitchChanged={this.handleSwitch}
+                                    disabled={this.state.isSwitchesDisabled}
                                 />
                                 <SettingSwitch
                                     id={'liveEvents'}
@@ -158,6 +174,7 @@ class UserSettings extends Component {
                                     info={''}
                                     isChecked={this.getLiveEvents.bind(this)}
                                     onSwitchChanged={this.handleSwitch}
+                                    disabled={this.state.isSwitchesDisabled}
                                 />
                                 <SettingSwitch
                                     id={'smart-suggestions'}
@@ -166,6 +183,7 @@ class UserSettings extends Component {
                                     info={'Custom Recommendations'}
                                     isChecked={this.getAiEvents.bind(this)}
                                     onSwitchChanged={this.handleSwitch}
+                                    disabled={this.state.isSwitchesDisabled}
                                 />
 
                             </div>
