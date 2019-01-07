@@ -62,7 +62,7 @@ class UserSettings extends Component {
                         this.state.user = res.data;
                         saveUserToLocalStorage(res.data);
                         this.state.switchStates.commingSoon=false;
-                        this.forceUpdate();
+                        //this.forceUpdate();
                     });
                 });
                 break;
@@ -73,7 +73,7 @@ class UserSettings extends Component {
                         this.state.user = res.data;
                         saveUserToLocalStorage(res.data);
                         this.state.switchStates.endGame=false;
-                        this.forceUpdate();
+                        //this.forceUpdate();
                     });
                 });
                 break;
@@ -84,7 +84,7 @@ class UserSettings extends Component {
                         this.state.user = res.data;
                         saveUserToLocalStorage(res.data);
                         this.state.switchStates.live=false;
-                        this.forceUpdate();
+                       // this.forceUpdate();
                     });
                 });
                 break;
@@ -96,7 +96,7 @@ class UserSettings extends Component {
                         this.state.user = res.data;
                         saveUserToLocalStorage(res.data);
                         this.state.switchStates.aiEvents=false;
-                        this.forceUpdate();
+                      //  this.forceUpdate();
                     });
                 });
                 break;
