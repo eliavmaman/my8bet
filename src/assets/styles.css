@@ -143,17 +143,17 @@ body {
 
 .sidenav ul li span.team-name {
     font-size: 14px;
-    width: 130px;
+    width: 107px;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
     display: inline-block;
 }
 
-@media (min-width: 320px) and (max-width: 420px) {
+@media (min-width: 320px) and (max-width: 480px) {
     .sidenav ul li span.team-name {
-        font-size: 16px;
-
+        font-size: 13px;
+        width: 107px;
         text-overflow: ellipsis;
         overflow: hidden;
         white-space: nowrap;
@@ -256,7 +256,7 @@ section.settings div.info {
 .unfollow-link {
     color: red !important;
     float: right !important;
-    font-size: 20px !important;
+    font-size: 16px !important;
     padding: 0 !important;
     cursor: hand;
 
